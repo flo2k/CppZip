@@ -39,6 +39,8 @@
 #include <memory>
 #include <string>
 
+namespace cppzip {
+
 //forward declaration
 class Unzip;
 
@@ -134,5 +136,7 @@ private:
 	std::string fileInsideZipJpg;
 	std::string anotherFileName;
 };
+
+} //cppzip
 
 #endif /* UNZIPTEST_H_ */

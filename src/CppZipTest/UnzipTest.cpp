@@ -17,6 +17,8 @@
 #include <boost/lambda/lambda.hpp>
 #include <algorithm>
 
+namespace cppzip {
+
 CPPUNIT_TEST_SUITE_REGISTRATION(UnzipTest);
 
 void UnzipTest::setUp(void){
@@ -359,6 +361,4 @@ void UnzipTest::test_signalBeforeFileExtractedWithChangingFileName(void)
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-
-
-
+} //cppzip

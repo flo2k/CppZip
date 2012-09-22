@@ -14,7 +14,9 @@
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 
-#define UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE 1000
+#define CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE 1000
+
+namespace cppzip {
 
 Unzip::Unzip(void)
 : zipfile_handle(NULL), numFiles(0)
@@ -113,7 +115,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 	}
 
 	//read content
-	unsigned char buffer[UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE];
+	unsigned char buffer[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
 //	for(int i = 0; i < UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE; ++i){
 //		buffer[i] = 9;
 //	}
@@ -121,7 +123,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 	while((len = unzReadCurrentFile(
 			zipfile_handle,
 			buffer,
-			UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE))
+			CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE))
 	){
 		for(unsigned int i = 0; i < len; ++i){
 			fileContent.push_back(buffer[i]);
@@ -271,14 +273,14 @@ void Unzip::retrieveAllFileInfos(void)
 		}
 
 		unz_file_info info;
-		char currentFileName[UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE];
-		char currentExtraField[UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE];
-		char currentComment[UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE];
+		char currentFileName[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
+		char currentExtraField[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
+		char currentComment[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
 
 		unzGetCurrentFileInfo(zipfile_handle, &info,
-				currentFileName, UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE,
-				currentExtraField, UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE,
-				currentComment, UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE);
+				currentFileName, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE,
+				currentExtraField, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE,
+				currentComment, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE);
 
 		InnerZipFileInfo innerFileInfo;
 		innerFileInfo.fileName = currentFileName;
@@ -292,3 +294,5 @@ void Unzip::retrieveAllFileInfos(void)
 
 	} while(UNZ_OK == unzGoToNextFile(zipfile_handle));
 }
+
+} //cppzip

@@ -18,6 +18,8 @@
 #include <boost/lambda/lambda.hpp>
 #include <algorithm>
 
+namespace cppzip {
+
 CPPUNIT_TEST_SUITE_REGISTRATION(ZipTest);
 
 void ZipTest::setUp(void)
@@ -288,3 +290,5 @@ void ZipTest::test_addEmptyFolder_WithSubFolders_WindowsStyle(void)
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
+
+} //cppzip

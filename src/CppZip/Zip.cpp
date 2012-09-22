@@ -21,7 +21,9 @@
 
 #include <time.h>
 
-#define ZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE 1000
+namespace cppzip {
+
+#define CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE 1000
 
 Zip::Zip()
 	: zipfile_handle(NULL), compressionLevel(Z_DEFAULT_COMPRESSION)
@@ -188,11 +190,11 @@ std::vector<unsigned char> Zip::getFileContent(const std::string & fileName)
 //	std::vector<unsigned char> content(begin, end);
 
 	std::vector<unsigned char> content;
-	char buffer[ZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE];
+	char buffer[CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE];
 
 	if(ifs.is_open()){
 		while (ifs.good()) {
-			ifs.read(buffer, ZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE);
+			ifs.read(buffer, CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE);
 			int len = ifs.gcount();
 
 			if(len > 0){
@@ -342,3 +344,4 @@ bool Zip::createDirectoryIfNotExists(const std::string & path)
 	return ok;
 }
 
+} //cppzip

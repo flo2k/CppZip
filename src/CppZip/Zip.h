@@ -40,6 +40,8 @@
 #include <map>
 #include <memory>
 
+namespace cppzip {
+
 /*!
  * \brief Zip allows creating zip files
  *
@@ -274,5 +276,7 @@ private:
 	zipFile zipfile_handle;
 	int compressionLevel;
 };
+
+} //cppzip
 
 #endif /* ZIP_H_ */

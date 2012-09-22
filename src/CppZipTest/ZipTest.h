@@ -39,6 +39,8 @@
 #include <memory>
 #include <string>
 
+namespace cppzip {
+
 //forward declaration
 class Zip;
 
@@ -124,5 +126,7 @@ private:
 	std::string readMeFileName;
 	std::string notExistingFileName;
 };
+
+} //cppzip
 
 #endif /* ZIPTEST_H_ */

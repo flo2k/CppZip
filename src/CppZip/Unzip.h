@@ -40,6 +40,8 @@
 #include <vector>
 #include <boost/signal.hpp>
 
+namespace cppzip {
+
 /*!
  * \brief Unzip allows reading files inside a zip file
  *
@@ -286,5 +288,7 @@ private:
 	typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
 	std::map<std::string, InnerZipFileInfo> fileInfos;
 };
+
+} //cppzip
 
 #endif /* UNZIP_H_ */
