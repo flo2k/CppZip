@@ -91,7 +91,7 @@ public:
 	 * - "folder/subFolder/fileName.txt"
 	 * - "folder\\subFolder\\fileName.txt"
 	 *
-	 * \note At the Moment there are Problems with Umlauts in folderName (ä, ö, ü, ..)
+	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * This is a usage example for addFile():
 	 * \code
@@ -178,7 +178,7 @@ public:
 	 * - "folder/subFolder/subSubFolder"
 	 * - "folder\\subFolder\\subSubFolder"
 	 *
-	 * \note At the Moment there are Problems with Umlauts in folderName (ä, ö, ü, ..)
+	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param folderName is the folder to add inside the zip file.
 	 * \return true if folder could be added, otherwise false.
