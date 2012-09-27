@@ -8,7 +8,6 @@
 #include "Zip.h"
 #include "zip.h"
 #include <algorithm>
-#include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/algorithm/string.hpp>

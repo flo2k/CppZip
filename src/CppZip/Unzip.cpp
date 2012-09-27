@@ -8,7 +8,6 @@
 #include "Unzip.h"
 #include <unzip.h>
 #include <algorithm>
-#include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/algorithm/string.hpp>
@@ -89,8 +88,9 @@ std::list<std::string> Unzip::getFileNames(void)
 {
 	std::list<std::string> fileNames;
 
-	BOOST_FOREACH(FileInfoPair pair, fileInfos){
-		fileNames.push_back(pair.first);
+	for(auto iter = fileInfos.begin(); iter != fileInfos.end(); ++iter){
+		std::string fileName = iter->first;
+		fileNames.push_back(fileName);
 	}
 
 	return fileNames;
@@ -217,8 +217,8 @@ bool Unzip::extractAllTo(const std::string & path)
 	}
 
 	int current = 1;
-	BOOST_FOREACH(FileInfoPair pair, fileInfos){
-		std::string fileName = pair.first;
+	for(auto iter = fileInfos.begin(); iter != fileInfos.end(); ++iter){
+		std::string fileName = iter->first;
 
 		if(isFile(fileName)){
 			bool ok = extractFileTo_Internal(fileName, dest_path + fileName, fileInfos.size(), current++);
