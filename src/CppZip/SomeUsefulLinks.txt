@@ -1,0 +1,8 @@
+Links:
+
+- http://www.zlib.net/
+- minizip: http://www.winimage.com/zLibDll/minizip.html
+
+some others:
+- http://quazip.sourceforge.net/
+- http://code.google.com/p/microzip/source/browse/
