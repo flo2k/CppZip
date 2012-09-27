@@ -43,7 +43,7 @@
 namespace cppzip {
 
 /*!
- * \brief Zip allows creating zip files
+ * \brief Zip allows creating zip files_
  *
  * Zip is a c++ wrapper for zip.h (minizip). It provides a c++ interface for
  * working with zip files.
