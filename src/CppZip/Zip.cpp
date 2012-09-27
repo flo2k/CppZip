@@ -77,8 +77,8 @@ bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> conte
 	info->time_sec = time.tm_sec;
 
 	//file attributes
-	info->internal_fileAttributes = 0x777;
-	info->external_fileAttributes = 0x777;
+	info->internal_fileAttributes = 0x0; //0x777;
+	info->external_fileAttributes = 0x0; //0x777;
 
 	return addFile_internal(info, content);
 }
