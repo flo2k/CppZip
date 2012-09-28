@@ -51,6 +51,8 @@ class ZipTest : public CppUnit::TestFixture {
 	CPPUNIT_TEST(test_openANonExistingZipFile);
 	CPPUNIT_TEST(test_openAExistingZipFile);
 	CPPUNIT_TEST(test_openAExistingWriteProtectedZipFile);
+	CPPUNIT_TEST(test_openAppendToZip);
+	CPPUNIT_TEST(test_openAppendToZipWithFileAlreadyExisting);
 	CPPUNIT_TEST(test_closeAZipFile);
 	CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
 	CPPUNIT_TEST(test_addFile);
@@ -83,6 +85,8 @@ public:
 	void test_openANonExistingZipFile(void);
 	void test_openAExistingZipFile(void);
 	void test_openAExistingWriteProtectedZipFile(void);
+	void test_openAppendToZip(void);
+	void test_openAppendToZipWithFileAlreadyExisting(void);
 
 	void test_closeAZipFile(void);
 	void test_closeWhenNoZipFileIsOpened(void);

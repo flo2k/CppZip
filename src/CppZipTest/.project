@@ -3,7 +3,7 @@
 	<name>CppZipTest</name>
 	<comment></comment>
 	<projects>
-		<project>ZLibCppWrapper</project>
+		<project>CppZip</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

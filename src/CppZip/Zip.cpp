@@ -35,7 +35,7 @@ Zip::~Zip()
 	close();
 }
 
-bool Zip::open(const std::string & fileName)
+bool Zip::open(const std::string & fileName, OpenFlags flag)
 {
 	if(isOpened()){ //if already opened, don't open a file
 		return false;
@@ -48,7 +48,14 @@ bool Zip::open(const std::string & fileName)
 		return false;
 	}
 
-	zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_CREATE);
+	switch (flag) {
+		case APPEND_TO_EXISTING_ZIP:
+			zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_ADDINZIP);
+			break;
+		default:
+			zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_CREATE);
+			break;
+	}
 
 	return isOpened();
 }

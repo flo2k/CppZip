@@ -92,6 +92,52 @@ void ZipTest::test_openAExistingWriteProtectedZipFile(void)
 	CPPUNIT_ASSERT_EQUAL(expected, isOpened);
 }
 
+void ZipTest::test_openAppendToZip(void)
+{
+	bool expected = true;
+
+	//boost::filesystem::copy_file(zipFile, tempFolder + "/" + zipFile);
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	cmd = "cp " + zipFile + " "+ tempFolder + "/" + zipFile;
+	system(cmd.c_str());
+
+	zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	std::string theString("Lorem Ipsum...");
+	std::vector<unsigned char> content;
+	content.insert(content.end(), theString.begin(), theString.end());
+	bool actual = zip->addFile("file1.txt", content);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void)
+{
+	bool expected = true;
+
+	//boost::filesystem::copy_file(zipFile, tempFolder + "/" + zipFile);
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	cmd = "cp " + zipFile + " "+ tempFolder + "/" + zipFile;
+	system(cmd.c_str());
+
+	zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	std::string theString("Lorem Ipsum...");
+	std::vector<unsigned char> content;
+	content.insert(content.end(), theString.begin(), theString.end());
+	zip->close();
+
+	zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	theString = "Lorem Ipsum Number 2...";
+	content.insert(content.end(), theString.begin(), theString.end());
+	bool actual = zip->addFile("file1.txt", content);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+
 void ZipTest::test_closeAZipFile(void)
 {
 	bool expected = true;

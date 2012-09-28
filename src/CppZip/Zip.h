@@ -43,7 +43,7 @@
 namespace cppzip {
 
 /*!
- * \brief Zip allows creating zip files_
+ * \brief Zip allows creating zip files
  *
  * Zip is a c++ wrapper for zip.h (minizip). It provides a c++ interface for
  * working with zip files.
@@ -56,6 +56,8 @@ class Zip {
 public:
 	Zip(void);
 	virtual ~Zip();
+
+	enum OpenFlags {CREATE_AND_OVERWRITE, APPEND_TO_EXISTING_ZIP};
 
 	/*!
 	 * \brief Opens a zip file.
@@ -74,7 +76,7 @@ public:
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */
-	bool open(const std::string & fileName);
+	bool open(const std::string & fileName, OpenFlags flag = CREATE_AND_OVERWRITE);
 
 	bool isOpened(void);
 
