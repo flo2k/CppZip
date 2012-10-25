@@ -47,33 +47,42 @@ class Unzip;
 class UnzipTest : public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(UnzipTest);
-	CPPUNIT_TEST(test_isOpenedWithNonOpenedZipFile);
-	CPPUNIT_TEST(test_openExistingZipFile);
-	CPPUNIT_TEST(test_openZipFileWhileAnotherIsAlreadyOpened);
-	CPPUNIT_TEST(test_openANonExistingZipFile);
-	CPPUNIT_TEST(test_closeAZipFile);
-	CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
-	CPPUNIT_TEST(test_getNumFiles);
-	CPPUNIT_TEST(test_getNumFilesWithNoZipFileIsOpened);
-	CPPUNIT_TEST(test_getNumFilesAfterCloseZipFiled);
-	CPPUNIT_TEST(test_containsFile);
-	CPPUNIT_TEST(test_containsFileWithANonExistingFile);
-	CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
-	CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
-	CPPUNIT_TEST(test_getFileNames);
-	CPPUNIT_TEST(test_getFileNamesWithNoZipFileIsOpened);
-	CPPUNIT_TEST(test_getFileNamesAfterCloseZipFiled);
-	CPPUNIT_TEST(test_getFileContent);
-	CPPUNIT_TEST(test_getFileContentWithNoZipFileIsOpened);
-	CPPUNIT_TEST(test_getFileContentAfterCloseZipFiled);
-	CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
-	CPPUNIT_TEST(test_extractFile);
-	CPPUNIT_TEST(test_extractFile_AJpg);
-	CPPUNIT_TEST(test_extractAllTo);
-	CPPUNIT_TEST(test_extractAllToWithUmlaut);
-	CPPUNIT_TEST(test_signalFileExtracted);
-	CPPUNIT_TEST(test_signalBeforeFileExtracted);
-	CPPUNIT_TEST(test_signalBeforeFileExtractedWithChangingFileName);
+		CPPUNIT_TEST(test_isOpenedWithNonOpenedZipFile);
+
+		CPPUNIT_TEST(test_openExistingZipFile);
+		CPPUNIT_TEST(test_openZipFileWhileAnotherIsAlreadyOpened);
+		CPPUNIT_TEST(test_openANonExistingZipFile);
+
+		CPPUNIT_TEST(test_closeAZipFile);
+		CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
+
+		CPPUNIT_TEST(test_getNumFiles);
+		CPPUNIT_TEST(test_getNumFilesWithNoZipFileIsOpened);
+		CPPUNIT_TEST(test_getNumFilesAfterCloseZipFiled);
+
+		CPPUNIT_TEST(test_containsFile);
+		CPPUNIT_TEST(test_containsFileWithANonExistingFile);
+		CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
+		CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
+
+		CPPUNIT_TEST(test_getFileNames);
+		CPPUNIT_TEST(test_getFileNamesWithNoZipFileIsOpened);
+		CPPUNIT_TEST(test_getFileNamesAfterCloseZipFiled);
+
+		CPPUNIT_TEST(test_getFileContent);
+		CPPUNIT_TEST(test_getFileContentWithNoZipFileIsOpened);
+		CPPUNIT_TEST(test_getFileContentAfterCloseZipFiled);
+		CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
+
+		CPPUNIT_TEST(test_extractFile);
+		CPPUNIT_TEST(test_extractFile_AJpg);
+
+		CPPUNIT_TEST(test_extractAllTo);
+		CPPUNIT_TEST(test_extractAllToWithUmlaut);
+
+		CPPUNIT_TEST(test_signalFileExtracted);
+		CPPUNIT_TEST(test_signalBeforeFileExtracted);
+		CPPUNIT_TEST(test_signalBeforeFileExtractedWithChangingFileName);
 	CPPUNIT_TEST_SUITE_END();
 
 public:

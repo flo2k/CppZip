@@ -47,32 +47,37 @@ class Zip;
 class ZipTest : public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(ZipTest);
-	CPPUNIT_TEST(test_isOpenedWithNonOpenedZipFile);
-	CPPUNIT_TEST(test_openANonExistingZipFile);
-	CPPUNIT_TEST(test_openAExistingZipFile);
-	CPPUNIT_TEST(test_openAExistingWriteProtectedZipFile);
-	CPPUNIT_TEST(test_openAppendToZip);
-	CPPUNIT_TEST(test_openAppendToZipWithFileAlreadyExisting);
-	CPPUNIT_TEST(test_closeAZipFile);
-	CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
-	CPPUNIT_TEST(test_addFile);
-	CPPUNIT_TEST(test_addFile_WhenFileNotExists);
-	CPPUNIT_TEST(test_addFile_WhenFileNameAlreadyExists);
-	CPPUNIT_TEST(test_addFile_WithDestinationFile);
-	CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNotExists);
-	CPPUNIT_TEST(test_addFile_WithDestinationFile_WithFileNameIsEmpty);
-	CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNameAlreadyExists);
-	CPPUNIT_TEST(test_addFile_Content);
-	CPPUNIT_TEST(test_addFile_Content_FromAString);
-	CPPUNIT_TEST(test_addFile_Content_WithEmptyContent);
-	CPPUNIT_TEST(test_addFile_Content_WithSubFoldersFileName);
-	CPPUNIT_TEST(test_addFile_Content_IfZipIsNotOpened);
-	CPPUNIT_TEST(test_addEmptyFolder);
-	CPPUNIT_TEST(test_addEmptyFolder_WithUmlaut);
-	CPPUNIT_TEST(test_addEmptyFolder_WhenFolderAlreadyExists);
-	CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders);
-	CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists);
-	CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WindowsStyle);
+		CPPUNIT_TEST(test_isOpenedWithNonOpenedZipFile);
+
+		CPPUNIT_TEST(test_openANonExistingZipFile);
+		CPPUNIT_TEST(test_openAExistingZipFile);
+		CPPUNIT_TEST(test_openAExistingWriteProtectedZipFile);
+		CPPUNIT_TEST(test_openAppendToZip);
+		CPPUNIT_TEST(test_openAppendToZipWithFileAlreadyExisting);
+
+		CPPUNIT_TEST(test_closeAZipFile);
+		CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
+
+		CPPUNIT_TEST(test_addFile);
+		CPPUNIT_TEST(test_addFile_WhenFileNotExists);
+		CPPUNIT_TEST(test_addFile_WhenFileNameAlreadyExists);
+		CPPUNIT_TEST(test_addFile_WithDestinationFile);
+		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNotExists);
+		CPPUNIT_TEST(test_addFile_WithDestinationFile_WithFileNameIsEmpty);
+		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNameAlreadyExists);
+
+		CPPUNIT_TEST(test_addFile_Content);
+		CPPUNIT_TEST(test_addFile_Content_FromAString);
+		CPPUNIT_TEST(test_addFile_Content_WithEmptyContent);
+		CPPUNIT_TEST(test_addFile_Content_WithSubFoldersFileName);
+		CPPUNIT_TEST(test_addFile_Content_IfZipIsNotOpened);
+
+		CPPUNIT_TEST(test_addEmptyFolder);
+		CPPUNIT_TEST(test_addEmptyFolder_WithUmlaut);
+		CPPUNIT_TEST(test_addEmptyFolder_WhenFolderAlreadyExists);
+		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders);
+		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists);
+		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WindowsStyle);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
