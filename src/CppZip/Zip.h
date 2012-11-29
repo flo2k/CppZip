@@ -60,10 +60,8 @@ public:
 	/*! Open flags */
 	enum OpenFlags {
 		CREATE_AND_OVERWRITE,   //!< Creates an new zip file, if exists overwrites.
-		APPEND_TO_EXISTING_ZIP, /*!< Append new files to the existing zip file.
+		APPEND_TO_EXISTING_ZIP  /*!< Append new files to the existing zip file.
 		                         *   Overwriting files and deleting files are not possible.
-		                         */
-		OVERWRITE_AND_DELETE    /*!< Allows to overwrite and delete files from an existing zip file.
 		                         */
 	};
 
@@ -340,6 +338,7 @@ private:
 			std::shared_ptr<InnerZipFileInfo> info,
 			std::vector<unsigned char> content);
 	bool containsFile(const std::string & fileName);
+	bool containsFileInExistingZipFile(const std::string & zipFileName, const std::string & fileName);
 
 	bool addFolder_internal(const std::string & folderName);
 

@@ -374,10 +374,25 @@ void ZipTest::test_deleteFolder(void)
 
 void ZipTest::test_delete_WhenFileNotExists(void)
 {
+	std::string cmd = "mkdir " + tempFolder;
+    system(cmd.c_str());
 
 	std::string tempFile = tempFolder + "/" + zipFile;
+	//workaround, because boost::filesystem::copy_file don't link
+    //because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, tempFile);
+	cmd = "cp \"" + zipFile + "\" \"" + tempFile + "\"";
+	system(cmd.c_str());
 
-	CPPUNIT_FAIL("needs to be implemented");
+	zip->open(tempFile);
+
+	bool expected = true;
+	bool actual = zip->deleteFile(fileInsideZip);
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+
+	expected = true;
+	actual = zip->close();
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
 void ZipTest::test_delete_WhenTemparyFileCouldntCreated(void){
