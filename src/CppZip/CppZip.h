@@ -1,8 +1,12 @@
 /*!
- * \mainpage CppZip is a c++ zip-framework.
+ * \mainpage CppZip is a c++ zip library.
  *
- * CppZip is based on zlib and minizip. It's implementation focus
- * is on easy to use - a clear and well documented API.
+ * CppZip is a c++ zip library and is based on zlib and minizip. CppZip implemented with C++ standard (C++11)
+ * and some funtions of the boost libraries.
+ *
+ * It's implementation focus is
+ *  - on easy to use - a clear and well documented API
+ *  - and to run on multiple platforms (Windows, Linux, ...).
  *
  * There are two classes in the framework:
  *
