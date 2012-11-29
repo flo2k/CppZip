@@ -1,17 +1,17 @@
 /*!
  * \mainpage CppZip is a c++ zip library.
  *
- * CppZip is a c++ zip library and is based on zlib and minizip. CppZip implemented with C++ standard (C++11)
+ * CppZip is a c++ zip library and is based on zlib and minizip. CppZip is implemented with standard C++ (C++11)
  * and some funtions of the boost libraries.
  *
  * It's implementation focus is
  *  - on easy to use - a clear and well documented API
  *  - and to run on multiple platforms (Windows, Linux, ...).
  *
- * There are two classes in the framework:
+ * There are two classes in the library:
  *
- * - Zip compresses and zips files and directories.
- * - Unzip uncompresses and unzips zip files.
+ * - \ref cppzip::Zip "Zip" compresses and zips files and directories.
+ * - \ref cppzip::Unzip "Unzip" uncompresses and unzips zip files.
  *
  * \author Florian Künzner
  * \version 0.2
