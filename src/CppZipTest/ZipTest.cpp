@@ -363,7 +363,10 @@ void ZipTest::test_delete_WhenFileNotExists(void)
 
 	bool expected = true;
 	bool actual = zip->deleteFile(fileInsideZip);
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
 
+	expected = true;
+	actual = zip->close();
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
