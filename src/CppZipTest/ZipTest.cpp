@@ -352,9 +352,9 @@ void ZipTest::test_deleteFile(void)
 
 
 	std::list<std::string> fileNamesexpected;
-	std::string fileToDelete = "file1.txt";
-	zip->open(tempFolder + "/" + zipFileAndi1);
-	actual = zip->deleteFile(tempFolder + "/" + folderNameAndi1 + "/" + fileToDelete);
+	std::string fileToDelete = folderNameAndi1 + "/file1.txt";
+	zip->open(tempFolder + "/" + zipFileAndi1, Zip::APPEND_TO_EXISTING_ZIP);
+	actual = zip->deleteFile(fileToDelete);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);

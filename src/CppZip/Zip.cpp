@@ -165,7 +165,7 @@ bool Zip::containsFile(const std::string & fileName)
 bool Zip::containsFileInExistingZipFile(const std::string& zipFileName, const std::string& fileName)
 {
 	Unzip unzip;
-	unzip.open(fileName);
+	bool ok = unzip.open(zipFileName);
 	bool fileExistInsideZip = unzip.containsFile(fileName);
 	unzip.close();
 
@@ -339,10 +339,10 @@ bool Zip::deleteFile(const std::string& fileName)
 	}
 
 	//move the current zip to an tempzip
-	std::string tempZipFile(boost::filesystem::unique_path().string() + "." + zipFileName);
+	std::string tempZipFile(zipFileName + "." + boost::filesystem::unique_path().string());
 	boost::filesystem::rename(zipFileName, tempZipFile);
 
-	open(zipFileName, openFlag);
+	open(zipFileName);
 
 	//Copy all files and folders into a new zip file, except the fileName
 	Unzip unzip;
