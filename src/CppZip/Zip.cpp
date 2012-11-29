@@ -162,6 +162,16 @@ bool Zip::containsFile(const std::string & fileName)
 	return files.count(fileName);
 }
 
+bool Zip::containsFileInExistingZipFile(const std::string& zipFileName, const std::string& fileName)
+{
+	Unzip unzip;
+	unzip.open(fileName);
+	bool fileExistInsideZip = unzip.containsFile(fileName);
+	unzip.close();
+
+	return fileExistInsideZip;
+}
+
 bool Zip::addFile(const std::string & fileName, bool preservePath)
 {
 	std::shared_ptr<Zip::InnerZipFileInfo> info;
@@ -319,14 +329,14 @@ bool Zip::deleteFile(const std::string& fileName)
 		return false;
 	}
 
-	//check if a file or a folder with the name of fileName exists
-	// -> if not, exit with return true!
-	if(! containsFile(fileName)){
-		return true;
-	}
-
 	//close the current zip
 	close();
+
+	//check if a file or a folder with the name of fileName exists
+	// -> if not, exit with return true!
+	if(! containsFileInExistingZipFile(zipFileName, fileName)){
+		return true;
+	}
 
 	//move the current zip to an tempzip
 	std::string tempZipFile(boost::filesystem::unique_path().string() + "." + zipFileName);

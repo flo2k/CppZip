@@ -338,6 +338,7 @@ private:
 			std::shared_ptr<InnerZipFileInfo> info,
 			std::vector<unsigned char> content);
 	bool containsFile(const std::string & fileName);
+	bool containsFileInExistingZipFile(const std::string & zipFileName, const std::string & fileName);
 
 	bool addFolder_internal(const std::string & folderName);
 
