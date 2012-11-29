@@ -161,6 +161,16 @@ bool Unzip::containsFile(const std::string & fileName)
 	}
 }
 
+bool Unzip::isFile(const std::string & path)
+{
+	return isDirectory(path) == false;
+}
+
+bool Unzip::isDirectory(const std::string & path)
+{
+	return boost::algorithm::ends_with(path, "/");
+}
+
 bool Unzip::extractFileTo(const std::string & fileName, const std::string & path)
 {
 	return extractFileTo_Internal(fileName, path, 1, 1);
@@ -233,16 +243,6 @@ bool Unzip::extractAllTo(const std::string & path)
 	}
 
 	return extraction_ok;
-}
-
-bool Unzip::isFile(const std::string & path)
-{
-	return isDirectory(path) == false;
-}
-
-bool Unzip::isDirectory(const std::string & path)
-{
-	return boost::algorithm::ends_with(path, "/");
 }
 
 bool Unzip::createDirectoryIfNotExists(const std::string & path)

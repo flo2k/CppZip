@@ -337,4 +337,30 @@ void ZipTest::test_addEmptyFolder_WithSubFolders_WindowsStyle(void)
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
+void ZipTest::test_deleteFile(void)
+{
+	CPPUNIT_FAIL("needs to be implemented");
+}
+
+void ZipTest::test_deleteFolder(void)
+{
+	CPPUNIT_FAIL("needs to be implemented");
+}
+
+void ZipTest::test_delete_WhenFileNotExists(void)
+{
+
+	std::string tempFile = tempFolder + "/" + zipFile;
+
+	CPPUNIT_FAIL("needs to be implemented");
+}
+
+void ZipTest::test_delete_WhenTemparyFileCouldntCreated(void){
+	CPPUNIT_FAIL("needs to be implemented");
+}
+
+void ZipTest::test_delete_WhenTemporaryZipIsCorrupt(void){
+	CPPUNIT_FAIL("needs to be implemented");
+}
+
 } //cppzip

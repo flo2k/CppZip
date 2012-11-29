@@ -7,6 +7,8 @@
 
 #include "Zip.h"
 #include "zip.h"
+#include "Unzip.h"
+
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -48,6 +50,8 @@ bool Zip::open(const std::string & fileName, OpenFlags flag)
 		return false;
 	}
 
+	this->openFlag = flag;
+
 	boost::filesystem::path path(fileName);
 	path = path.remove_filename();
 
@@ -55,13 +59,17 @@ bool Zip::open(const std::string & fileName, OpenFlags flag)
 		return false;
 	}
 
-	switch (flag) {
+	switch (openFlag) {
 		case APPEND_TO_EXISTING_ZIP:
 			zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_ADDINZIP);
 			break;
 		default:
 			zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_CREATE);
 			break;
+	}
+
+	if(isOpened()){
+		zipFileName = fileName;
 	}
 
 	return isOpened();
@@ -149,7 +157,7 @@ bool Zip::addFile_internal(
 	return true;
 }
 
-bool Zip::containsFile(std::string & fileName)
+bool Zip::containsFile(const std::string & fileName)
 {
 	return files.count(fileName);
 }
@@ -302,6 +310,92 @@ bool Zip::addFolder_internal(const std::string & folderName)
 	info->external_fileAttributes = 0;
 
 	return addFile_internal(info, std::vector<unsigned char>());
+}
+
+bool Zip::deleteFile(const std::string& fileName)
+{
+	//TODO: error handling!!!
+	if(! isOpened()){
+		return false;
+	}
+
+	//check if a file or a folder with the name of fileName exists
+	// -> if not, exit with return true!
+	if(! containsFile(fileName)){
+		return true;
+	}
+
+	//close the current zip
+	close();
+
+	//move the current zip to an tempzip
+	std::string tempZipFile(boost::filesystem::unique_path().string() + "." + zipFileName);
+	boost::filesystem::rename(zipFileName, tempZipFile);
+
+	open(zipFileName, openFlag);
+
+	//Copy all files and folders into a new zip file, except the fileName
+	Unzip unzip;
+	bool ok = unzip.open(tempZipFile);
+
+	if(! ok){
+		boost::filesystem::rename(tempZipFile, zipFileName);
+		return false;
+	}
+	bool fileToDeleteIsAFile = unzip.isFile(fileName);
+
+	std::list<std::string> zipFileNames = unzip.getFileNames();
+	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
+		std::string zipFileName = *zipFileIter;
+
+		if(fileToDeleteIsAFile){ // -> copy all file except the fileName
+			if(zipFileName == fileName){
+				continue;
+			}
+		} else {                // -> copy all files except the folder and the files in the folder
+			if(boost::algorithm::starts_with(zipFileName, fileName)){
+				continue;
+			}
+		}
+
+		if(unzip.isFile(zipFileName)){
+			std::vector<unsigned char> zipFileContent = unzip.getFileContent(zipFileName);
+			addFile(zipFileName, zipFileContent);
+		} else {
+			addEmptyFolder(zipFileName);
+		}
+	}
+
+	return true;
+}
+
+bool Zip::replaceFile(const std::string& fileName, std::vector<unsigned char> content)
+{
+	bool ok = false;
+
+	ok = deleteFile(fileName);
+	if(!ok){
+		return false;
+	}
+
+	ok = addFile(fileName, content);
+
+	return ok;
+}
+
+bool Zip::replaceFile(const std::string& fileName, const std::string& destFileName)
+{
+	bool ok = false;
+
+	ok = deleteFile(destFileName);
+	if(!ok){
+		return false;
+	}
+
+	ok = addFile(fileName, destFileName);
+
+	return ok;
+
 }
 
 bool Zip::addFilter(std::string filter)

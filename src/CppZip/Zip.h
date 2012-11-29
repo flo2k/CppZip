@@ -201,6 +201,43 @@ public:
 	 */
 	bool addEmptyFolder(const std::string & folderName);
 
+	/*!
+	 * \brief     Deletes a file inside the zip.
+	 *
+	 * \attention The delete operation may be slow on big zip files.
+	 *
+	 * \param     fileName is the file that should be removed from the zip file.
+	 *
+	 * \return    true if the file is deleted, otherwise false.
+	 */
+	bool deleteFile(const std::string & fileName);
+
+	/*!
+	 * Replaces the existing file with inside the zip file with given the content.
+	 * If the fileName doesn't exist inside the zip, the file will be added.
+	 *
+	 * \attention The replace operation may be slow on big zip files.
+	 *
+	 * \param  fileName is the file that should be replaced inside the zip file.
+	 * \param  content  is the new content of fileName.
+	 *
+	 * \return true if the file could be replaced or added, otherwise false.
+	 */
+	bool replaceFile(const std::string & fileName, std::vector<unsigned char> content);
+
+	/*!
+	 * Replaces the existing file with inside the zip file with given the content.
+	 * If the fileName doesn't exist inside the zip, the file will be added.
+	 *
+	 * \attention The replace operation may be slow on big zip files.
+	 *
+	 * \param fileName     is the file to add (must exist on file system).
+	 * \param destFileName is the destination file name inside the zip that should be replaced.
+	 *
+	 * \return true if the file could be replaced or added, otherwise false.
+	 */
+	bool replaceFile(const std::string & fileName, const std::string & destFileName);
+
 	bool addFilter(std::string filter); //??
 
 	/*!
@@ -302,14 +339,15 @@ private:
 	bool addFile_internal(
 			std::shared_ptr<InnerZipFileInfo> info,
 			std::vector<unsigned char> content);
-	bool containsFile(std::string & fileName);
+	bool containsFile(const std::string & fileName);
 
 	bool addFolder_internal(const std::string & folderName);
 
 private:
 	typedef void * voidp;
 	typedef voidp zipFile;
-
+	std::string zipFileName;
+	OpenFlags openFlag;
 	std::map<std::string, std::shared_ptr<InnerZipFileInfo> > files;
 
 	zipFile zipfile_handle;

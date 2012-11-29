@@ -103,6 +103,24 @@ public:
 	bool containsFile(const std::string & fileName);
 
 	/*!
+	 * Checks if path is a file
+	 *
+	 * \param path to check
+	 * \return true if path is a file, otherwise false.
+	 */
+	bool isFile(const std::string & path);
+
+	/*!
+	 * Checks if path is a directory
+	 *
+	 * \note Inside a zip file, a directory ends with "/"
+	 *
+	 * \param path to check
+	 * \return true if path is a directory, otherwise false.
+	 */
+	bool isDirectory(const std::string & path);
+
+	/*!
 	 * Returns the containing file names (files, folders) in the zip file. If zip file
 	 * is not opened or zip file is empty, an empty list will be returned.
 	 *
@@ -230,24 +248,6 @@ private:
 	 * Reads all elements in the zip file
 	 */
 	void retrieveAllFileInfos(void);
-
-	/*!
-	 * Checks if path is a file
-	 *
-	 * \param path to check
-	 * \return true if path is a file, otherwise false.
-	 */
-	bool isFile(const std::string & path);
-
-	/*!
-	 * Checks if path is a directory
-	 *
-	 * \note Inside a zip file, a directory ends with "/"
-	 *
-	 * \param path to check
-	 * \return true if path is a directory, otherwise false.
-	 */
-	bool isDirectory(const std::string & path);
 
 	/*!
 	 * Creates a directory with all subdirs if not exists

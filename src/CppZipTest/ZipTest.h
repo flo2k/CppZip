@@ -78,6 +78,12 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders);
 		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists);
 		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WindowsStyle);
+
+		CPPUNIT_TEST(test_deleteFile);
+		CPPUNIT_TEST(test_deleteFolder);
+		CPPUNIT_TEST(test_delete_WhenFileNotExists);
+		CPPUNIT_TEST(test_delete_WhenTemparyFileCouldntCreated);
+		CPPUNIT_TEST(test_delete_WhenTemporaryZipIsCorrupt);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -116,6 +122,12 @@ public:
 	void test_addEmptyFolder_WithSubFolders(void);
 	void test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists(void);
 	void test_addEmptyFolder_WithSubFolders_WindowsStyle(void);
+
+	void test_deleteFile(void);
+	void test_deleteFolder(void);
+	void test_delete_WhenFileNotExists(void);
+	void test_delete_WhenTemparyFileCouldntCreated(void);
+	void test_delete_WhenTemporaryZipIsCorrupt(void);
 
 private:
 	std::shared_ptr<Zip> zip;
