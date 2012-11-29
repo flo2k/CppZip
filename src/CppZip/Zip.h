@@ -57,7 +57,15 @@ public:
 	Zip(void);
 	virtual ~Zip();
 
-	enum OpenFlags {CREATE_AND_OVERWRITE, APPEND_TO_EXISTING_ZIP};
+	/*! Open flags */
+	enum OpenFlags {
+		CREATE_AND_OVERWRITE,   //!< Creates an new zip file, if exists overwrites.
+		APPEND_TO_EXISTING_ZIP, /*!< Append new files to the existing zip file.
+		                         *   Overwriting files and deleting files are not possible.
+		                         */
+		OVERWRITE_AND_DELETE    /*!< Allows to overwrite and delete files from an existing zip file.
+		                         */
+	};
 
 	/*!
 	 * \brief Opens a zip file.
@@ -73,11 +81,17 @@ public:
 	 * If the fileName already exists, open() overrides the existing file.
 	 *
 	 * \param fileName is the file (incl. path) to open.
+	 * \param flag     is the flag that controls, how the zip class works.
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */
 	bool open(const std::string & fileName, OpenFlags flag = CREATE_AND_OVERWRITE);
 
+	/*!
+	 * \brief Gets the opened status.
+	 *
+	 * \return true if a zip file is opened, otherwise false.
+	 */
 	bool isOpened(void);
 
 	/*!
@@ -197,14 +211,23 @@ public:
 	 *
 	 * \param compressionLevel is the level of compression for all files
 	 * \return true if the compressionLevel could set, otherwise false
+	 *
+	 * \see getCompressionLevel()
 	 */
 	bool setCompressionLevel(int compressionLevel);
+
+	/*!
+	 * Gets the compression level.
+	 *
+	 * \return the compression level.
+	 * \see setCompressionLevel()
+	 */
 	size_t getCompressionLevel(void);
 
 	/*!
 	 * Closes the zip file.
 	 *
-	 * \detail When close() is called, the zip headers are written to the end of
+	 * \details When close() is called, the zip headers are written to the end of
 	 *         the zip file.
 	 *
 	 * \return true if the zip file is successfully closed, otherwise false.
