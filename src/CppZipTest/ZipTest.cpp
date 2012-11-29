@@ -38,6 +38,8 @@ void ZipTest::setUp(void)
 	anotherFileName = "x.txt";
 	readMeFileName = "data/ReadMe";
 	notExistingFileName = "fileDoesNotExist";
+	zipFileAndi1 = "testfolder_andi1.zip";
+	folderNameAndi1 = "testfolder_andi1";
 
 	zip = std::shared_ptr<Zip>(new Zip());
 	boost::filesystem::remove_all(tempFolder);
@@ -339,7 +341,30 @@ void ZipTest::test_addEmptyFolder_WithSubFolders_WindowsStyle(void)
 
 void ZipTest::test_deleteFile(void)
 {
-	CPPUNIT_FAIL("needs to be implemented");
+	//CPPUNIT_FAIL("needs to be implemented");
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	cmd = "cp " + zipFileAndi1 + " "+ tempFolder + "/" + zipFileAndi1;
+	system(cmd.c_str());
+
+	bool expected = true;
+	bool actual = false;
+
+
+	std::list<std::string> fileNamesexpected;
+	std::string fileToDelete = "file1.txt";
+	zip->open(tempFolder + "/" + zipFileAndi1);
+	actual = zip->deleteFile(tempFolder + "/" + folderNameAndi1 + "/" + fileToDelete);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+
+	/*std::list<std::string> fileNamesActual;
+	Unzip unzip = new Unzip();
+	unzip->open(tempFolder + "/" + zipFileAndi1);
+	fileNamesActual = unzip->getFileNames();*/
+
+
 }
 
 void ZipTest::test_deleteFolder(void)
