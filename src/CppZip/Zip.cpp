@@ -20,6 +20,13 @@
 
 #include <time.h>
 
+#ifndef _WIN32
+	#include <sys/types.h>
+	#include <sys/stat.h>
+#else
+
+#endif
+
 namespace cppzip {
 
 #define CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE 1000
@@ -169,7 +176,7 @@ std::shared_ptr<Zip::InnerZipFileInfo> Zip::getFileInfo(const std::string & file
 	info->fileName = fileName;
 	info->dosDate = 0;
 
-	//now!
+	//time: now!
 	boost::posix_time::ptime posixTime = boost::posix_time::second_clock::universal_time();
 	std::tm time = ::boost::posix_time::to_tm(posixTime);
 	info->time_year = time.tm_year;
@@ -181,14 +188,33 @@ std::shared_ptr<Zip::InnerZipFileInfo> Zip::getFileInfo(const std::string & file
 
 	//file attributes
 	info->internal_fileAttributes = 0;
-	info->external_fileAttributes = 0;
+	info->external_fileAttributes = this->getExternalFileAttributesFromExistingFile(fileName); //the external file attributes depends on the platform
+                                                                                                //and is on linux and windows different!
 
 	return info;
 }
 
+unsigned long Zip::getExternalFileAttributesFromExistingFile(
+		const std::string& fileName)
+{
+	boost::filesystem::path path(fileName);
+	unsigned long externalAttributes = 0;
+
+	#ifdef _WIN32
+		externalAttributes = GetFileAttributes(path.string()); //windows.h function
+	#else //on linux
+	    struct stat pathStat;
+	    if(stat(path.c_str(), &pathStat) == 0) //linux function
+	    {
+	    	externalAttributes = pathStat.st_mode;
+	    }
+	#endif
+
+	return externalAttributes;
+}
+
 std::vector<unsigned char> Zip::getFileContent(const std::string & fileName)
 {
-
 	boost::filesystem::path path(fileName);
 	boost::filesystem::ifstream ifs(path, std::ios::in | std::ios::binary);
 

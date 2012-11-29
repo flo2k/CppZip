@@ -262,6 +262,13 @@ private:
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfo(const std::string & fileName);
 
+	/*!
+	 * Gets the platform depended file attributes from an exiting file on the file system.
+	 *
+	 * \return The file attributes.
+	 */
+	unsigned long getExternalFileAttributesFromExistingFile(const std::string &fileName);
+
 	bool addFile_internal(
 			std::shared_ptr<InnerZipFileInfo> info,
 			std::vector<unsigned char> content);
