@@ -211,6 +211,17 @@ public:
 	bool deleteFile(const std::string & fileName);
 
 	/*!
+	 * \brief     Deletes a folder incl. file inside the zip.
+	 *
+	 * \attention The delete operation may be slow on big zip files.
+	 *
+	 * \param     folderName is the folder that should be removed from the zip file.
+	 *
+	 * \return    true if the folder is deleted, otherwise false.
+	 */
+	bool deleteFolder(const std::string & folderName);
+
+	/*!
 	 * Replaces the existing file with inside the zip file with given the content.
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *

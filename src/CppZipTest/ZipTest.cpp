@@ -369,7 +369,21 @@ void ZipTest::test_deleteFile(void)
 
 void ZipTest::test_deleteFolder(void)
 {
-	CPPUNIT_FAIL("needs to be implemented");
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	cmd = "cp " + zipFileAndi1 + " "+ tempFolder + "/" + zipFileAndi1;
+	system(cmd.c_str());
+
+	bool expected = true;
+	bool actual = false;
+
+	std::string fileToDelete = folderNameAndi1 + "/folder1";
+	std::string _zipFileName = tempFolder + "/" + zipFileAndi1;
+	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	actual = zip->deleteFolder(fileToDelete);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
 void ZipTest::test_delete_WhenFileNotExists(void)
