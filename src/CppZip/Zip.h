@@ -201,7 +201,14 @@ public:
 	bool setCompressionLevel(int compressionLevel);
 	size_t getCompressionLevel(void);
 
-	bool zip(void);
+	/*!
+	 * Closes the zip file.
+	 *
+	 * \detail When close() is called, the zip headers are written to the end of
+	 *         the zip file.
+	 *
+	 * \return true if the zip file is successfully closed, otherwise false.
+	 */
 	bool close(void);
 
 public:

@@ -309,15 +309,6 @@ bool Zip::addFilter(std::string filter)
 	return false;
 }
 
-
-
-bool Zip::zip(void)
-{
-	return false;
-}
-
-
-
 bool Zip::close(void)
 {
 	if(! isOpened()){
