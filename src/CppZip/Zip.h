@@ -60,10 +60,8 @@ public:
 	/*! Open flags */
 	enum OpenFlags {
 		CREATE_AND_OVERWRITE,   //!< Creates an new zip file, if exists overwrites.
-		APPEND_TO_EXISTING_ZIP, /*!< Append new files to the existing zip file.
+		APPEND_TO_EXISTING_ZIP  /*!< Append new files to the existing zip file.
 		                         *   Overwriting files and deleting files are not possible.
-		                         */
-		OVERWRITE_AND_DELETE    /*!< Allows to overwrite and delete files from an existing zip file.
 		                         */
 	};
 
