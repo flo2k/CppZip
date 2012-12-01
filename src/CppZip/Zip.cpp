@@ -340,7 +340,15 @@ bool Zip::deleteFile(const std::string& fileName)
 
 	//move the current zip to an tempzip
 	std::string tempZipFile(zipFileName + "." + boost::filesystem::unique_path().string());
-	boost::filesystem::rename(zipFileName, tempZipFile);
+
+	// better implement a method like "isDirectoryWritable" to avoid exceptions
+	try {
+		boost::filesystem::rename(zipFileName, tempZipFile);
+	} catch (boost::filesystem3::filesystem_error e) {
+		return false;
+	}
+
+
 
 	open(zipFileName);
 
