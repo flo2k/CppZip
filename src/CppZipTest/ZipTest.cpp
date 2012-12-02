@@ -404,4 +404,91 @@ void ZipTest::test_delete_WhenTemporaryZipIsCorrupt(void) {
 	CPPUNIT_FAIL("needs to be implemented");
 }
 
+void ZipTest::test_replaceFile(void) {
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	//workaround, because boost::filesystem::copy_file don't link
+	//because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, tempFile);
+	cmd = "cp " + zipFileAndi1 + " " + tempFolder + "/" + zipFileAndi1;
+	system(cmd.c_str());
+
+	bool expected = true;
+	bool actual = false;
+
+	std::string fileToReplace = folderNameAndi1 + "/file2.txt";
+	std::string _zipFileName = tempFolder + "/" + zipFileAndi1;
+	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	actual = zip->replaceFile(readMeFileName, fileToReplace);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_replaceFile_WhenFileNotExistsInZip(void) {
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	//workaround, because boost::filesystem::copy_file don't link
+	//because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, tempFile);
+	cmd = "cp " + zipFileAndi1 + " " + tempFolder + "/" + zipFileAndi1;
+	system(cmd.c_str());
+
+	bool expected = false;
+	bool actual = false;
+
+	std::string fileToReplace = folderNameAndi1 + "/file2.txt";
+	std::string _zipFileName = tempFolder + "/" + zipFileAndi1;
+	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	actual = zip->replaceFile(readMeFileName, notExistingFileName);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_replaceFile_WhenFileNotExistsOnFileSystem(void){
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	//workaround, because boost::filesystem::copy_file don't link
+	//because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, tempFile);
+	cmd = "cp " + zipFileAndi1 + " " + tempFolder + "/" + zipFileAndi1;
+	system(cmd.c_str());
+
+	bool expected = false;
+	bool actual = false;
+
+	std::string fileToReplace = folderNameAndi1 + "/file2.txt";
+	std::string _zipFileName = tempFolder + "/" + zipFileAndi1;
+	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	actual = zip->replaceFile(notExistingFileName, fileToReplace);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+
+}
+
+void ZipTest::test_replaceFile_Content(void) {
+	std::vector<unsigned char> content = { 'a', 'z', '7' };
+
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	//workaround, because boost::filesystem::copy_file don't link
+	//because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, tempFile);
+	cmd = "cp " + zipFileAndi1 + " " + tempFolder + "/" + zipFileAndi1;
+	system(cmd.c_str());
+
+	bool expected = true;
+	bool actual = false;
+
+	std::string fileToReplace = folderNameAndi1 + "/file2.txt";
+	std::string _zipFileName = tempFolder + "/" + zipFileAndi1;
+	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	actual = zip->replaceFile(fileToReplace, content);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
 } //cppzip
