@@ -156,8 +156,8 @@ private:
 	std::string anotherFileName;
 	std::string readMeFileName;
 	std::string notExistingFileName;
-	std::string zipFileAndi1;
-	std::string folderNameAndi1;
+	std::string zipFileFor_deleteAndReplace;
+	std::string folderNameInsideZip;
 };
 
 } //cppzip
