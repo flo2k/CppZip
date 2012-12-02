@@ -353,6 +353,42 @@ private:
 
 	bool addFolder_internal(const std::string & folderName);
 
+	// Helpers for deleting file/folder
+	/*!
+	 * Moves the current zip to an temp zip.
+	 *
+	 * \return the name of the file name if successfully moved, otherwise an empty string.
+	 */
+	std::string moveTheCurrentZipToAnTempZip(void);
+
+	/*!
+	 * Copies all files and folders into a new zip, except the fileName.
+	 *
+	 * \return true if all is ok, otherwise false.
+	 */
+	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(const std::string & tempZipFile,
+																		const std::string & fileName);
+
+	/*!
+	 * Copies all files and folders into a new zip, except the folder and the content of the folder.
+	 *
+	 * \return true if all is ok, otherwise false.
+	 */
+	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(const std::string & tempZipFile,
+																		  const std::string & folderName);
+
+	/*!
+	 * Cleans up the temporary files and tries to restore the original zip file.
+	 *
+	 * \return true if the cleanup was successful, otherwise false.
+	 */
+	bool cleanUpAfterCopying(bool ok, const std::string & tempZipFile);
+
+	/*!
+	 * Restores the old open status, with the zip file was opened.
+	 */
+	void restoreTheOldOpenStatus(OpenFlags oldOpenState);
+
 private:
 	typedef void * voidp;
 	typedef voidp zipFile;

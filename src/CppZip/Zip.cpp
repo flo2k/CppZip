@@ -75,8 +75,6 @@ bool Zip::open(const std::string & fileName, OpenFlags flag)
 	return isOpened();
 }
 
-
-
 bool Zip::isOpened(void)
 {
 	return zipfile_handle != NULL;
@@ -324,42 +322,63 @@ bool Zip::addFolder_internal(const std::string & folderName)
 
 bool Zip::deleteFile(const std::string& fileName)
 {
-	//TODO: error handling!!!
 	if(! isOpened()){
 		return false;
 	}
+
+	//remember the openFlag
+	enum OpenFlags oldOpenFlag = openFlag;
 
 	//close the current zip
 	close();
 
 	//check if a file or a folder with the name of fileName exists
-	// -> if not, exit with return true!
 	if(! containsFileInExistingZipFile(zipFileName, fileName)){
 		return true;
 	}
 
 	//move the current zip to an tempzip
-	std::string tempZipFile(zipFileName + "." + boost::filesystem::unique_path().string());
-
-	// better implement a method like "isDirectoryWritable" to avoid exceptions
-	try {
-		boost::filesystem::rename(zipFileName, tempZipFile);
-	} catch (boost::filesystem3::filesystem_error e) {
+	std::string tempZipFile = moveTheCurrentZipToAnTempZip();
+	if(tempZipFile.empty()){
 		return false;
 	}
 
-
-
-	open(zipFileName);
-
 	//Copy all files and folders into a new zip file, except the fileName
+	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(tempZipFile, fileName);
+	cleanUpAfterCopying(ok, tempZipFile);
+
+	//restore the old open status if necessary
+	restoreTheOldOpenStatus(oldOpenFlag);
+
+	return ok;
+}
+
+std::string Zip::moveTheCurrentZipToAnTempZip(void)
+{
+	std::string tempZipFileName(zipFileName + "." + boost::filesystem::unique_path().string());
+
+	try {
+		boost::filesystem::rename(zipFileName, tempZipFileName);
+	} catch (boost::filesystem::filesystem_error & e) {
+		std::string emptyString;
+		return emptyString;
+	}
+
+	return tempZipFileName;
+}
+
+bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(
+		const std::string & tempZipFile,
+		const std::string & fileName)
+{
 	Unzip unzip;
 	bool ok = unzip.open(tempZipFile);
 
 	if(! ok){
-		boost::filesystem::rename(tempZipFile, zipFileName);
 		return false;
 	}
+
+	open(zipFileName, CREATE_AND_OVERWRITE);
 
 	std::list<std::string> zipFileNames = unzip.getFileNames();
 	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
@@ -371,25 +390,53 @@ bool Zip::deleteFile(const std::string& fileName)
 
 		if(unzip.isFile(zipFileName)){
 			std::vector<unsigned char> zipFileContent = unzip.getFileContent(zipFileName);
-			addFile(zipFileName, zipFileContent);
+			ok = addFile(zipFileName, zipFileContent);
 		} else {
-			addEmptyFolder(zipFileName);
+			ok = addEmptyFolder(zipFileName);
 		}
 	}
 
-	unzip.close();
+	ok = unzip.close();
+	return ok;
+}
 
-	//cleanup
-	boost::filesystem::remove(tempZipFile);
+bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
+{
+	if(! ok){
+		close();
 
-	return true;
+		//remove the corrupt copy
+		try{
+			boost::filesystem::remove(zipFileName);
+		} catch(boost::filesystem::filesystem_error & e){
+			//nothing todo..
+		}
+
+		try{
+			boost::filesystem::rename(tempZipFile, zipFileName);
+		} catch(boost::filesystem::filesystem_error & e){
+			//nothing todo..
+		}
+	} else {
+		//cleanup
+		try{
+			boost::filesystem::remove(tempZipFile);
+		} catch(boost::filesystem::filesystem_error & e){
+			//nothing todo...
+		}
+	}
+}
+
+void Zip::restoreTheOldOpenStatus(Zip::OpenFlags oldOpenState)
+{
+	if(oldOpenState == APPEND_TO_EXISTING_ZIP){
+		close();
+		open(zipFileName, APPEND_TO_EXISTING_ZIP);
+	}
 }
 
 bool Zip::deleteFolder(const std::string& folderName)
 {
-	//TODO: error handling!!!
-	//TODO: refactor and use more share more funcitonality with deleteFile()
-	//prepare folder name
 	std::string folderToDelete = folderName;
 	if(! boost::algorithm::ends_with(folderName, "/")){
 		folderToDelete += "/";
@@ -399,51 +446,65 @@ bool Zip::deleteFolder(const std::string& folderName)
 		return false;
 	}
 
+	//remember the openFlag
+	enum OpenFlags oldOpenFlag = openFlag;
+
 	//close the current zip
 	close();
 
 	//check if a file or a folder with the name of fileName exists
-	// -> if not, exit with return true!
 	if(! containsFileInExistingZipFile(zipFileName, folderToDelete)){
 		return true;
 	}
 
 	//move the current zip to an tempzip
-	std::string tempZipFile(zipFileName + "." + boost::filesystem::unique_path().string());
-	boost::filesystem::rename(zipFileName, tempZipFile);
+	std::string tempZipFile = moveTheCurrentZipToAnTempZip();
+	if(tempZipFile.empty()){
+		return false;
+	}
 
-	open(zipFileName);
+	//Copy all files and folders into a new zip file, except the fileName
+	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(tempZipFile, folderToDelete);
+	cleanUpAfterCopying(ok, tempZipFile);
 
+	//restore the old open status if necessary
+	restoreTheOldOpenStatus(oldOpenFlag);
+
+	return ok;
+}
+
+bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(
+		const std::string & tempZipFile,
+		const std::string & folderName)
+{
 	//Copy all files and folders into a new zip file, except the fileName
 	Unzip unzip;
 	bool ok = unzip.open(tempZipFile);
+
+	open(zipFileName, CREATE_AND_OVERWRITE);
 
 	std::list<std::string> zipFileNames = unzip.getFileNames();
 	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
 		std::string zipFileName = *zipFileIter;
 
 		//copy all files except the folder and the files in the folder
-		if(boost::algorithm::starts_with(zipFileName, folderToDelete)){
+		if(boost::algorithm::starts_with(zipFileName, folderName)){
 			continue;
 		}
 
 		if(unzip.isFile(zipFileName)){
 			std::vector<unsigned char> zipFileContent = unzip.getFileContent(zipFileName);
-			addFile(zipFileName, zipFileContent);
+			ok = addFile(zipFileName, zipFileContent);
 		} else {
-			addEmptyFolder(zipFileName);
+			ok = addEmptyFolder(zipFileName);
 		}
 	}
 
-	unzip.close();
-
-	//cleanup
-	boost::filesystem::remove(tempZipFile);
-
-	return true;
+	ok = unzip.close();
+	return ok;
 }
 
-bool Zip::replaceFile(const std::string& fileName, std::vector<unsigned char> content)
+bool Zip::replaceFile(const std::string & fileName, std::vector<unsigned char> content)
 {
 	bool ok = false;
 
@@ -457,7 +518,7 @@ bool Zip::replaceFile(const std::string& fileName, std::vector<unsigned char> co
 	return ok;
 }
 
-bool Zip::replaceFile(const std::string& fileName, const std::string& destFileName)
+bool Zip::replaceFile(const std::string & fileName, const std::string & destFileName)
 {
 	bool ok = false;
 
