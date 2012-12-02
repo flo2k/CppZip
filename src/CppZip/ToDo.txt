@@ -7,26 +7,22 @@
 *******************************************************************
 
 - Document:
-	- Zip::open() and the OpenFlags
-	- More exampels in the documentation, like a tutorial.
+	- More examples in the documentation, like a tutorial.
 	
 - Implement:
-	- Zip::delete()
 	- Zip::fastDelete() with not creating a new zip file (maybe is a little bit tricky and needs
 	                                                      deeper knowledge of the zip specification.
 	                                                      Maybe, this needs also an shrink method.)
-	- Zip::repalce()
-    - Signale implementieren + testen
- 
-    -> Set timestamps correct.
-    -> Zip files with passwords.
+    - Signals implement + test
+    - Set timestamps correct.
+    - Zip files with passwords.
     
 - Bug:
 	- Zip files with umlauts (ä, ö, ü, ..): (Help: result42.com /projects/ZipFileLayout, ...)
     
 - Building:
+	- cmake
+	- VisualStudio 2010 Solutions
 	- Continuous Integration + Delivery
 	- linux packages: .deb, .rpm
 	- windows libs: shared (dll) + static (lib)
-	- cmake
-	- VisualStudio 2010 Solutions
