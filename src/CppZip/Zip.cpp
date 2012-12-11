@@ -44,13 +44,14 @@ Zip::~Zip()
 	close();
 }
 
-bool Zip::open(const std::string & fileName, OpenFlags flag)
+bool Zip::open(const std::string & fileName, OpenFlags flag, const std::string & password)
 {
 	if(isOpened()){ //if already opened, don't open a file
 		return false;
 	}
 
 	this->openFlag = flag;
+	this->password = password;
 
 	boost::filesystem::path path(fileName);
 	path = path.remove_filename();
@@ -126,15 +127,26 @@ bool Zip::addFile_internal(
 	zipFileInfo.external_fa = info->external_fileAttributes;
 
 	//open file inside zip
-	if(ZIP_OK != zipOpenNewFileInZip(
-			zipfile_handle,
-			info->fileName.c_str(),
-			&zipFileInfo,
-			NULL, 0,
-			NULL, 0,
-			info->comment.c_str(),
-			Z_DEFLATED,
-			compressionLevel)){
+	if(ZIP_OK != zipOpenNewFileInZip4_64 (
+					zipfile_handle,
+					info->fileName.c_str(),
+					&zipFileInfo,
+			        NULL,
+			        0,
+			        NULL,
+			        0,
+			        info->comment.c_str(),
+			        Z_DEFLATED,
+			        compressionLevel,
+			        0,
+			        -MAX_WBITS,
+			        DEF_MEM_LEVEL,
+			        Z_DEFAULT_STRATEGY,
+			        this->password.c_str(),
+			        0,
+			        VERSIONMADEBY,
+			        0,
+			        0)){
 		return false;
 	}
 

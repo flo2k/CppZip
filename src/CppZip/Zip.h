@@ -80,10 +80,11 @@ public:
 	 *
 	 * \param fileName is the file (incl. path) to open.
 	 * \param flag     is the flag that controls, how the zip class works.
+	 * \param password the password which protects the files within the zip files
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */
-	bool open(const std::string & fileName, OpenFlags flag = CREATE_AND_OVERWRITE);
+	bool open(const std::string & fileName, OpenFlags flag = CREATE_AND_OVERWRITE, const std::string & password = "");
 
 	/*!
 	 * \brief Gets the opened status.
@@ -398,8 +399,16 @@ private:
 
 	zipFile zipfile_handle;
 	int compressionLevel;
+
+	std::string password;
 };
 
 } //cppzip
 
 #endif /* ZIP_H_ */
+
+/* Defined already in minizip's zip.c. Placed here to use as default parameter in Zip and Unzip*/
+#ifndef VERSIONMADEBY
+# define VERSIONMADEBY   (0x0) /* platform depedent */
+#endif
+

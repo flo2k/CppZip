@@ -89,6 +89,10 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_replaceFile_WhenFileNotExistsInZip);
 		CPPUNIT_TEST(test_replaceFile_WhenFileNotExistsOnFileSystem);
 		CPPUNIT_TEST(test_replaceFile_Content);
+
+		CPPUNIT_TEST(test_addFile_WithPasswordProtection);
+		CPPUNIT_TEST(test_addFile_Content_WithPasswordProtection);
+		CPPUNIT_TEST(test_addFile_Content_FromAString_WithPasswordProtection);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -138,6 +142,10 @@ public:
 	void test_replaceFile_WhenFileNotExistsInZip(void);
 	void test_replaceFile_WhenFileNotExistsOnFileSystem(void);
 	void test_replaceFile_Content(void);
+
+	void test_addFile_WithPasswordProtection(void);
+	void test_addFile_Content_WithPasswordProtection(void);
+	void test_addFile_Content_FromAString_WithPasswordProtection(void);
 
 private:
 	std::shared_ptr<Zip> zip;

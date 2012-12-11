@@ -150,6 +150,7 @@ void ZipTest::test_addFile(void) {
 	bool expected = true;
 	zip->open(tempFolder + "/" + zipFile);
 	bool actual = zip->addFile(readMeFileName, false);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -486,6 +487,38 @@ void ZipTest::test_replaceFile_Content(void) {
 	std::string _zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	actual = zip->replaceFile(fileToReplace, content);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFile_WithPasswordProtection(void) {
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile, Zip::CREATE_AND_OVERWRITE, "secret");
+	bool actual = zip->addFile(readMeFileName, false);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFile_Content_WithPasswordProtection(void) {
+	std::vector<unsigned char> content = { 'a', 'z', '7' };
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile, Zip::CREATE_AND_OVERWRITE, "secret");
+	bool actual = zip->addFile("test.txt", content);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFile_Content_FromAString_WithPasswordProtection(void) {
+	std::string contentAsString("this is a string");
+	std::vector<unsigned char> content;
+	content.insert(content.end(), contentAsString.begin(),
+			contentAsString.end());
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile, Zip::CREATE_AND_OVERWRITE, "secret");
+	bool actual = zip->addFile("test.txt", content);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
