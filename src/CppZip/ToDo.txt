@@ -7,7 +7,10 @@
 *******************************************************************
 
 - Document:
+    - Document, that CppZip is not good with handling large files (at the moment).
 	- More examples in the documentation, like a tutorial.
+	- Create license file
+	- Document license on the github description and in the doxygen doc. 
 	
 - Implement:
 	- Zip::fastDelete() with not creating a new zip file (maybe is a little bit tricky and needs
@@ -16,6 +19,12 @@
     - Signals implement + test
     - Set timestamps correct.
     - Zip files with passwords.
+    - Correct file attributes on unzipping.
+    
+- Improve Performance (CppZip is very slow with big files and needs a lot of memory):
+    - Measure the time of each function
+    - Speedup the implementation
+    - Reduce the needed memory
     
 - Bug:
 	- Zip files with umlauts (ä, ö, ü, ..): (Help: result42.com /projects/ZipFileLayout, ...)

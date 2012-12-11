@@ -434,7 +434,7 @@ void ZipTest::test_replaceFile_WhenFileNotExistsInZip(void) {
 	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
 	system(cmd.c_str());
 
-	bool expected = false;
+	bool expected = true;
 	bool actual = false;
 
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";

@@ -36,11 +36,14 @@
 
 #include <string>
 #include <list>
-#include <map>
+#include <unordered_map>
 #include <vector>
+#include <memory>
 #include <boost/signal.hpp>
 
 namespace cppzip {
+//forward declaration
+struct InnerZipFileInfo;
 
 /*!
  * \brief Unzip allows reading files inside a zip file
@@ -234,17 +237,6 @@ private:
 	bool goToFile(const std::string & fileName);
 
 	/*!
-	 * Describes a file inside a zip file
-	 */
-	typedef struct {
-		std::string fileName;
-		std::string extraField;
-		std::string comment;
-		unsigned long pos_in_zip_directory;
-		unsigned long num_of_file;
-	} InnerZipFileInfo;
-
-	/*!
 	 * Reads all elements in the zip file
 	 */
 	void retrieveAllFileInfos(void);
@@ -286,7 +278,9 @@ private:
 	int numFiles;
 
 	typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
-	std::map<std::string, InnerZipFileInfo> fileInfos;
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+
+	friend class Zip;
 };
 
 } //cppzip

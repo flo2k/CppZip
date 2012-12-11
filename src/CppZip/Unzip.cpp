@@ -6,7 +6,9 @@
  */
 
 #include "Unzip.h"
+#include "ZipCommon.h"
 #include <unzip.h>
+
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -282,14 +284,21 @@ void Unzip::retrieveAllFileInfos(void)
 				currentExtraField, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE,
 				currentComment, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE);
 
-		InnerZipFileInfo innerFileInfo;
-		innerFileInfo.fileName = currentFileName;
-		innerFileInfo.extraField = currentExtraField;
-		innerFileInfo.comment = currentComment;
-		innerFileInfo.pos_in_zip_directory = pos.pos_in_zip_directory;
-		innerFileInfo.num_of_file = pos.num_of_file;
+		std::shared_ptr<InnerZipFileInfo> innerFileInfo(new InnerZipFileInfo());
+		innerFileInfo->fileName = currentFileName;
+		innerFileInfo->extraField = currentExtraField;
+		innerFileInfo->comment = currentComment;
+		innerFileInfo->time_sec = info.tmu_date.tm_sec;
+		innerFileInfo->time_min = info.tmu_date.tm_min;
+		innerFileInfo->time_hour = info.tmu_date.tm_hour;
+		innerFileInfo->time_day_of_month = info.tmu_date.tm_mday;
+		innerFileInfo->time_month = info.tmu_date.tm_mon;
+		innerFileInfo->time_year = info.tmu_date.tm_year;
+		innerFileInfo->dosDate = info.dosDate;
+		innerFileInfo->internal_fileAttributes = info.internal_fa;
+		innerFileInfo->external_fileAttributes = info.external_fa;
 
-		fileInfos.insert(std::make_pair(innerFileInfo.fileName, innerFileInfo));
+		fileInfos.insert(std::make_pair(innerFileInfo->fileName, innerFileInfo));
 
 
 	} while(UNZ_OK == unzGoToNextFile(zipfile_handle));

@@ -37,10 +37,12 @@
 #include <string>
 #include <boost/signals.hpp>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <memory>
 
 namespace cppzip {
+//forward declaration
+struct InnerZipFileInfo;
 
 /*!
  * \brief Zip allows creating zip files
@@ -303,6 +305,16 @@ public:
 
 private:
 	/*!
+	 * Retrieves the file infos of an existing zip file.
+	 *
+	 * If the file doesn't exist or an error occurs, an empty map will be returned;
+	 *
+	 * \return the zip file infos.
+	 */
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
+		retrieveFileInfos(const std::string & fileName);
+
+	/*!
 	 * Clears the internal members.
 	 */
 	void clear(void);
@@ -316,25 +328,6 @@ private:
 	bool createDirectoryIfNotExists(const std::string & path);
 
 	std::vector<unsigned char> getFileContent(const std::string & fileName);
-
-	/*!
-	 * InnerZipFileInfo contains all Infos to save a file into zip.
-	 * The informations are very similar to zip_fileinfo from zip.h
-	 */
-	typedef struct {
-		std::string fileName;
-		std::string extraField;
-		std::string comment;
-		unsigned int time_sec;            /*! seconds after the minute - [0,59] */
-		unsigned int time_min;            /*! minutes after the hour - [0,59] */
-		unsigned int time_hour;           /*! hours since midnight - [0,23] */
-		unsigned int time_day_of_month;   /*! day of the month - [1,31] */
-		unsigned int time_month;          /*! months since January - [0,11] */
-		unsigned int time_year;           /*! years - [1980..2044] */
-		unsigned long dosDate;            /*! if dos_date == 0, tmu_date is used */
-		unsigned long internal_fileAttributes;
-		unsigned long external_fileAttributes;
-	} InnerZipFileInfo;
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfo(const std::string & fileName);
 
@@ -394,7 +387,7 @@ private:
 	typedef voidp zipFile;
 	std::string zipFileName;
 	OpenFlags openFlag;
-	std::map<std::string, std::shared_ptr<InnerZipFileInfo> > files;
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
 
 	zipFile zipfile_handle;
 	int compressionLevel;

@@ -6,6 +6,7 @@
  */
 
 #include "Zip.h"
+#include "ZipCommon.h"
 #include "zip.h"
 #include "Unzip.h"
 
@@ -22,11 +23,11 @@
 
 #include <time.h>
 
-#ifndef _WIN32
+#ifndef WIN32
 	#include <sys/types.h>
 	#include <sys/stat.h>
 #else
-
+	#include <windows.h>
 #endif
 
 namespace cppzip {
@@ -61,6 +62,7 @@ bool Zip::open(const std::string & fileName, OpenFlags flag)
 
 	switch (openFlag) {
 		case APPEND_TO_EXISTING_ZIP:
+			fileInfos = retrieveFileInfos(fileName);
 			zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_ADDINZIP);
 			break;
 		default:
@@ -78,6 +80,24 @@ bool Zip::open(const std::string & fileName, OpenFlags flag)
 bool Zip::isOpened(void)
 {
 	return zipfile_handle != NULL;
+}
+
+std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
+	Zip::retrieveFileInfos(const std::string & fileName)
+{
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos_;
+
+	Unzip unzip;
+	bool ok = unzip.open(fileName);
+	if(!ok){
+		return fileInfos_;
+	}
+
+	fileInfos_ = unzip.fileInfos;
+
+	unzip.close();
+
+	return fileInfos_;
 }
 
 bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> content)
@@ -145,7 +165,7 @@ bool Zip::addFile_internal(
 		return false;
 	}
 
-	files[info->fileName] = info;
+	fileInfos[info->fileName] = info;
 
 	//close file
 	if(ZIP_OK != zipCloseFileInZip(zipfile_handle)){
@@ -157,13 +177,18 @@ bool Zip::addFile_internal(
 
 bool Zip::containsFile(const std::string & fileName)
 {
-	return files.count(fileName);
+	return fileInfos.count(fileName);
 }
 
 bool Zip::containsFileInExistingZipFile(const std::string& zipFileName, const std::string& fileName)
 {
 	Unzip unzip;
+
 	bool ok = unzip.open(zipFileName);
+	if(! ok){
+		return false;
+	}
+
 	bool fileExistInsideZip = unzip.containsFile(fileName);
 	unzip.close();
 
@@ -172,7 +197,7 @@ bool Zip::containsFileInExistingZipFile(const std::string& zipFileName, const st
 
 bool Zip::addFile(const std::string & fileName, bool preservePath)
 {
-	std::shared_ptr<Zip::InnerZipFileInfo> info;
+	std::shared_ptr<InnerZipFileInfo> info;
 	std::vector<unsigned char> content;
 
 	try{
@@ -185,7 +210,7 @@ bool Zip::addFile(const std::string & fileName, bool preservePath)
 	return addFile_internal(info, content);
 }
 
-std::shared_ptr<Zip::InnerZipFileInfo> Zip::getFileInfo(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfo(const std::string & fileName)
 {
 	std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
 
@@ -216,7 +241,7 @@ unsigned long Zip::getExternalFileAttributesFromExistingFile(
 	boost::filesystem::path path(fileName);
 	unsigned long externalAttributes = 0;
 
-	#ifdef _WIN32
+	#ifdef WIN32
 		externalAttributes = GetFileAttributes(path.string()); //windows.h function
 	#else //on linux
 	    struct stat pathStat;
@@ -264,7 +289,7 @@ bool Zip::addFile(const std::string & fileName, const std::string & destFileName
 		return false;
 	}
 
-	std::shared_ptr<Zip::InnerZipFileInfo> info;
+	std::shared_ptr<InnerZipFileInfo> info;
 	std::vector<unsigned char> content;
 
 	try{
@@ -329,13 +354,13 @@ bool Zip::deleteFile(const std::string& fileName)
 	//remember the openFlag
 	enum OpenFlags oldOpenFlag = openFlag;
 
-	//close the current zip
-	close();
-
 	//check if a file or a folder with the name of fileName exists
-	if(! containsFileInExistingZipFile(zipFileName, fileName)){
+	if(! containsFile(fileName)){
 		return true;
 	}
+
+	//close the current zip
+	close();
 
 	//move the current zip to an tempzip
 	std::string tempZipFile = moveTheCurrentZipToAnTempZip();
@@ -425,6 +450,8 @@ bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
 			//nothing todo...
 		}
 	}
+
+	return true; //TODO: check the return type!!
 }
 
 void Zip::restoreTheOldOpenStatus(Zip::OpenFlags oldOpenState)
@@ -449,13 +476,13 @@ bool Zip::deleteFolder(const std::string& folderName)
 	//remember the openFlag
 	enum OpenFlags oldOpenFlag = openFlag;
 
-	//close the current zip
-	close();
-
 	//check if a file or a folder with the name of fileName exists
-	if(! containsFileInExistingZipFile(zipFileName, folderToDelete)){
+	if(! containsFile(folderToDelete)){
 		return true;
 	}
+
+	//close the current zip
+	close();
 
 	//move the current zip to an tempzip
 	std::string tempZipFile = moveTheCurrentZipToAnTempZip();
@@ -555,7 +582,7 @@ bool Zip::close(void)
 void Zip::clear(void)
 {
 	zipfile_handle = NULL;
-	files.clear();
+	fileInfos.clear();
 }
 
 bool Zip::setCompressionLevel(int compressionLevel)
