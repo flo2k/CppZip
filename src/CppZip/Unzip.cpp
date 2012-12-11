@@ -22,7 +22,6 @@ namespace cppzip {
 Unzip::Unzip(void)
 : zipfile_handle(NULL), numFiles(0)
 {
-	// TODO Auto-generated constructor stub
 
 }
 
@@ -142,7 +141,6 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 
 bool Unzip::goToFile(const std::string & fileName)
 {
-
 	if(containsFile(fileName) == false){
 		return false;
 	}
