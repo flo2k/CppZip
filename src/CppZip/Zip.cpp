@@ -100,7 +100,7 @@ std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
 	return fileInfos_;
 }
 
-bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> content)
+bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> & content)
 {
 	std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
 	info->fileName = fileName;
@@ -124,7 +124,7 @@ bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> conte
 }
 
 bool Zip::addFile_internal(
-		std::shared_ptr<InnerZipFileInfo> info, std::vector<unsigned char> content)
+		std::shared_ptr<InnerZipFileInfo> info, std::vector<unsigned char> & content)
 {
 	if(containsFile(info->fileName) || info->fileName.length() == 0){
 		return false;
@@ -342,7 +342,8 @@ bool Zip::addFolder_internal(const std::string & folderName)
 	info->internal_fileAttributes = 0;
 	info->external_fileAttributes = 0;
 
-	return addFile_internal(info, std::vector<unsigned char>());
+	std::vector<unsigned char> emptyData;
+	return addFile_internal(info, emptyData);
 }
 
 bool Zip::deleteFile(const std::string& fileName)
@@ -531,7 +532,7 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(
 	return ok;
 }
 
-bool Zip::replaceFile(const std::string & fileName, std::vector<unsigned char> content)
+bool Zip::replaceFile(const std::string & fileName, std::vector<unsigned char> & content)
 {
 	bool ok = false;
 
