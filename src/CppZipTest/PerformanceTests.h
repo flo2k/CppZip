@@ -24,6 +24,7 @@ class PerformanceTests : public CppUnit::TestFixture {
 	CPPUNIT_TEST_SUITE(PerformanceTests);
 		CPPUNIT_TEST(testZip_addMidSizedFiles);
 		CPPUNIT_TEST(testZip_replaceMidSizedFiles);
+		CPPUNIT_TEST(testZip_deleteMidSizedFile);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -33,6 +34,7 @@ public:
 public:
 	void testZip_addMidSizedFiles(void);
 	void testZip_replaceMidSizedFiles(void);
+	void testZip_deleteMidSizedFile(void);
 
 private:
 	std::shared_ptr<Zip> zip;

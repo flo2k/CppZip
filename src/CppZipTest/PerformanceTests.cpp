@@ -61,4 +61,15 @@ void PerformanceTests::testZip_replaceMidSizedFiles(void)
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("close", true, ok);
 }
 
+void PerformanceTests::testZip_deleteMidSizedFile(void) {
+	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+
+	ok = zip->deleteFile(midSizedFilesFolder + "/" + midSizeFile2);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("replace", true, ok);
+
+	ok = zip->close();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("close", true, ok);
+}
+
 } //cppzip
