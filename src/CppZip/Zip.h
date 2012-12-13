@@ -350,6 +350,7 @@ private:
 	 */
 	void clear(void);
 
+	// Helpers for adding file/folder
 	/*!
 	 * Creates a directory on the file system with all subdirs if not exists
 	 *
