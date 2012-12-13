@@ -330,7 +330,8 @@ private:
 	bool createDirectoryIfNotExists(const std::string & path);
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string & fileName);
-	std::shared_ptr<InnerZipFileInfo> getFileInfo(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoForAExistingFile(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoFromDirectory(const std::string & fileName);
 
 	/*!
 	 * Gets the platform depended file attributes from an exiting file on the file system.

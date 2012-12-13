@@ -39,12 +39,19 @@ void PerformanceTests::tearDown(void)
 }
 
 void PerformanceTests::testZip_addMidSizedFiles(void) {
-	zip->open(tempFolder + "/" + zipFile);
-	zip->addFile(midSizedFilesFolder + "/" + midSizeFile1, true);
-	zip->addFile(midSizedFilesFolder + "/" + midSizeFile2, true);
-	//zip->addFile(midSizedFilesFolder + "/" + midSizeFile3, true);
-	//zip->addFile(midSizedFilesFolder + "/" + midSizeFile4, true);
-	zip->close();
+	bool ok = zip->open(tempFolder + "/" + zipFile);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+
+	ok = zip->addFile(midSizedFilesFolder + "/" + midSizeFile1, false);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add file 1", true, ok);
+
+	ok = zip->addFile(midSizedFilesFolder + "/" + midSizeFile2, false);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add file2", true, ok);
+
+	//ok = zip->addFile(midSizedFilesFolder + "/" + midSizeFile3, false);
+	//ok = zip->addFile(midSizedFilesFolder + "/" + midSizeFile4, false);
+	ok = zip->close();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("close", true, ok);
 }
 
 void PerformanceTests::testZip_replaceMidSizedFiles(void)

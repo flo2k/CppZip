@@ -103,23 +103,7 @@ std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
 
 bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> & content)
 {
-	std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
-	info->fileName = fileName;
-	info->dosDate = 0;
-
-	//time: now!
-	boost::posix_time::ptime posixTime = boost::posix_time::second_clock::universal_time();
-	std::tm time = ::boost::posix_time::to_tm(posixTime);
-	info->time_year = time.tm_year;
-	info->time_month = time.tm_mon;
-	info->time_day_of_month = time.tm_mday;
-	info->time_hour = time.tm_hour;
-	info->time_min = time.tm_min;
-	info->time_sec = time.tm_sec;
-
-	//file attributes
-	info->internal_fileAttributes = 0x0; //0x777;
-	info->external_fileAttributes = 0x0; //0x777;
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForANewFile(fileName);
 
 	return addFile_internal(info, content);
 }
@@ -226,10 +210,16 @@ bool Zip::containsFile(const std::string & fileName)
 
 bool Zip::addFile(const std::string & fileName, bool preservePath)
 {
+	if(! preservePath){
+		boost::filesystem::path fileToAdd(fileName);
+		std::string destinationFileName = fileToAdd.filename().string();
+		return addFile(fileName, destinationFileName);
+	}
+
 	std::shared_ptr<InnerZipFileInfo> info;
 
 	try{
-		info = getFileInfoForANewFile(fileName);
+		info = getFileInfoForAExistingFile(fileName);
 	} catch(std::exception & e){
 		return false;
 	}
@@ -260,12 +250,40 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForANewFile(const std::string 
 
 	//file attributes
 	info->internal_fileAttributes = 0;
+	info->external_fileAttributes = 0; //the external file attributes depends on the platform
+                                       //and is on linux and windows different!
+	return info;
+}
+
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::string & fileName)
+{
+	std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
+
+	info->fileName = fileName;
+	info->dosDate = 0;
+
+	//time: now!
+	boost::posix_time::ptime posixTime = boost::posix_time::second_clock::universal_time();
+	std::tm time = ::boost::posix_time::to_tm(posixTime);
+	info->time_year = time.tm_year;
+	info->time_month = time.tm_mon;
+	info->time_day_of_month = time.tm_mday;
+	info->time_hour = time.tm_hour;
+	info->time_min = time.tm_min;
+	info->time_sec = time.tm_sec;
+
+	info->crc = 0;
+	info->compressed_size = 0;
+	info->uncompressed_size = 0;
+
+	//file attributes
+	info->internal_fileAttributes = 0;
 	info->external_fileAttributes = this->getExternalFileAttributesFromExistingFile(fileName); //the external file attributes depends on the platform
                                                                                                 //and is on linux and windows different!
 	return info;
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfo(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromDirectory(const std::string & fileName)
 {
 	return fileInfos[fileName];
 }
@@ -298,7 +316,8 @@ bool Zip::addFile(const std::string & fileName, const std::string & destFileName
 	std::shared_ptr<InnerZipFileInfo> info;
 
 	try{
-		info = getFileInfoForANewFile(fileName);
+		info = getFileInfoForAExistingFile(fileName);
+		info->fileName = destFileName;
 	} catch(std::exception & e){
 		return false;
 	}
@@ -328,7 +347,7 @@ bool Zip::addFolder_internal(const std::string & folderName)
 		return true;
 	}
 
-	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForANewFile(folderToCreate);
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForAExistingFile(folderToCreate);
 
 	std::vector<unsigned char> emptyData;
 	return addFile_internal(info, emptyData);
@@ -432,7 +451,7 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	//locate file
 	ok = unzip.goToFile(fileName);
 
-	std::shared_ptr<InnerZipFileInfo> info = getFileInfo(fileName);
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoFromDirectory(fileName);
 	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
 
 	int raw = 1;

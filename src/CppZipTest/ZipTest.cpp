@@ -149,7 +149,7 @@ void ZipTest::test_closeWhenNoZipFileIsOpened(void) {
 void ZipTest::test_addFile(void) {
 	bool expected = true;
 	zip->open(tempFolder + "/" + zipFile);
-	bool actual = zip->addFile(readMeFileName, false);
+	bool actual = zip->addFile(readMeFileName);
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -157,7 +157,7 @@ void ZipTest::test_addFile(void) {
 void ZipTest::test_addFile_WhenFileNotExists(void) {
 	bool expected = false;
 	zip->open(tempFolder + "/" + zipFile);
-	bool actual = zip->addFile(notExistingFileName, false);
+	bool actual = zip->addFile(notExistingFileName);
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -165,8 +165,17 @@ void ZipTest::test_addFile_WhenFileNotExists(void) {
 void ZipTest::test_addFile_WhenFileNameAlreadyExists(void) {
 	bool expected = false;
 	zip->open(tempFolder + "/" + zipFile);
+	zip->addFile(readMeFileName);
+	bool actual = zip->addFile(readMeFileName);
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFile_WithPreservePath(void) {
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile);
 	zip->addFile(readMeFileName, false);
-	bool actual = zip->addFile(readMeFileName, false);
+	bool actual = zip->addFile(readMeFileName, true);
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -199,8 +208,8 @@ void ZipTest::test_addFile_WithDestinationFile_WithFileNameIsEmpty(void) {
 void ZipTest::test_addFile_WithDestinationFile_WhenFileNameAlreadyExists(void) {
 	bool expected = false;
 	zip->open(tempFolder + "/" + zipFile);
-	zip->addFile(readMeFileName, false);
-	bool actual = zip->addFile(readMeFileName, readMeFileName);
+	zip->addFile(readMeFileName);
+	bool actual = zip->addFile(readMeFileName);
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -465,7 +474,6 @@ void ZipTest::test_replaceFile_WhenFileNotExistsOnFileSystem(void){
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
-
 }
 
 void ZipTest::test_replaceFile_Content(void) {
