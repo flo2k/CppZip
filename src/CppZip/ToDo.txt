@@ -7,9 +7,7 @@
 *******************************************************************
 
 - Document:
-    - Document, that CppZip is not good with handling large files (at the moment).
 	- More examples in the documentation, like a tutorial.
-	- Create license file
 	- Document license on the github description and in the doxygen doc. 
 	
 - Implement:
