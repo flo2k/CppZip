@@ -22,7 +22,7 @@
 					<folderInfo id="cdt.managedbuild.config.gnu.cross.exe.debug.1358660991." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.2080717008" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="cdt.managedbuild.target.gnu.platform.base.2002259004" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
-							<builder buildPath="${workspace_loc:/ZLibCppWrapperTest/Debug}" id="cdt.managedbuild.target.gnu.builder.base.1447358455" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="unlimited" superClass="cdt.managedbuild.target.gnu.builder.base"/>
+							<builder buildPath="${workspace_loc:/CppZipTest/Debug}" id="cdt.managedbuild.target.gnu.builder.base.1447358455" keepEnvironmentInBuildfile="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="unlimited" superClass="cdt.managedbuild.target.gnu.builder.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.89505745" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.584707533" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base">
 								<option id="gnu.cpp.compiler.option.include.paths.753139207" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
@@ -48,7 +48,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.885694181" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.933003690" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.955208617" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="CppZip"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CppZip"/>
 									<listOptionValue builtIn="false" value="cppunit"/>
 									<listOptionValue builtIn="false" value="boost_system"/>
 									<listOptionValue builtIn="false" value="boost_filesystem"/>
@@ -68,7 +68,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.1067936709" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<option id="gnu.both.asm.option.include.paths.1337728091" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ZLibCppWrapper}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CppZip}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.406135134" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -79,9 +79,9 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
 				<externalSettings containerId="CppZip;cdt.managedbuild.config.gnu.cross.so.debug.410983520" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/ZLibCppWrapper"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/ZLibCppWrapper/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="ZLibCppWrapper" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/CppZip"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/CppZip/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="CppZip" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 			</storageModule>
@@ -128,7 +128,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1186021293" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.343174138" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
 								<option id="gnu.cpp.link.option.libs.1173400035" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="CppZip"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="CppZip"/>
 									<listOptionValue builtIn="false" value="cppunit"/>
 									<listOptionValue builtIn="false" value="boost_system"/>
 									<listOptionValue builtIn="false" value="boost_filesystem"/>
@@ -139,7 +139,7 @@
 								<option id="gnu.cpp.link.option.paths.364237114" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CppZip/Release}&quot;"/>
 								</option>
-								<option id="gnu.cpp.link.option.flags.752673801" superClass="gnu.cpp.link.option.flags" value="-Wl,-rpath,&quot;${workspace_loc:/CppZip/Release}&quot;" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.752673801" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-Wl,-rpath,&quot;${workspace_loc:/CppZip/Release}&quot;" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.278780540" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -147,7 +147,7 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.base.428207049" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
 								<option id="gnu.both.asm.option.include.paths.1626926668" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ZLibCppWrapper}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/CppZip}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1888363828" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -158,20 +158,20 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings">
 				<externalSettings containerId="CppZip;cdt.managedbuild.config.gnu.cross.so.release.664862255" factoryId="org.eclipse.cdt.core.cfg.export.settings.sipplier">
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/ZLibCppWrapper"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/ZLibCppWrapper/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="ZLibCppWrapper" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/CppZip"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/CppZip/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="CppZip" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
 			</storageModule>
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="ZLibCppWrapperTest.cdt.managedbuild.target.gnu.cross.exe.588738750" name="Executable" projectType="cdt.managedbuild.target.gnu.cross.exe"/>
+		<project id="CppZipTest.cdt.managedbuild.target.gnu.cross.exe.588738750" name="Executable" projectType="cdt.managedbuild.target.gnu.cross.exe"/>
 	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/ZLibCppWrapperTest"/>
+			<resource resourceType="PROJECT" workspacePath="/CppZipTest"/>
 		</configuration>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/CppZipTest"/>
