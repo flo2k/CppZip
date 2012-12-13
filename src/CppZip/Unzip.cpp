@@ -197,10 +197,35 @@ bool Unzip::extractFileTo_Internal(
 			extraction_ok = false;
 		}
 
-		std::vector<unsigned char> data = getFileContent(fileName);
+		//locate filefileContent
+		if(! goToFile(fileName)){
+			return false;
+		}
 
+		//open file
+		if(UNZ_OK != unzOpenCurrentFile(zipfile_handle)){
+			return false;
+		}
+
+		//destination
 		boost::filesystem::ofstream ofs(p, std::ios::out | std::ios::binary);
-		std::copy(data.begin(), data.end(), std::ostream_iterator<unsigned char>(ofs));
+
+		//copy the content
+		unsigned char buffer[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
+
+		unsigned int len = 0;
+		while((len = unzReadCurrentFile(
+				zipfile_handle,
+				buffer,
+				CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE))
+		){
+			ofs.write((const char *)buffer, len);
+		}
+
+		//close file
+		if(UNZ_OK != unzCloseCurrentFile(zipfile_handle)){
+			return false;
+		}
 
 		ofs.flush();
 
