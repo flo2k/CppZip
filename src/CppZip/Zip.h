@@ -43,6 +43,7 @@
 namespace cppzip {
 //forward declaration
 struct InnerZipFileInfo;
+class Unzip;
 
 /*!
  * \brief Zip allows creating zip files
@@ -228,7 +229,7 @@ public:
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *
 	 * \attention The replace operation may be slow on big zip files.
-	 *
+	 *getFileContent
 	 * \param  fileName is the file that should be replaced inside the zip file.
 	 * \param  content  is the new content of fileName.
 	 *
@@ -327,8 +328,7 @@ private:
 	 */
 	bool createDirectoryIfNotExists(const std::string & path);
 
-	std::vector<unsigned char> getFileContent(const std::string & fileName);
-
+	std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string & fileName);
 	std::shared_ptr<InnerZipFileInfo> getFileInfo(const std::string & fileName);
 
 	/*!
@@ -341,8 +341,12 @@ private:
 	bool addFile_internal(
 			std::shared_ptr<InnerZipFileInfo> info,
 			std::vector<unsigned char> & content);
+
+	bool addFile_internal(
+				std::shared_ptr<InnerZipFileInfo> info,
+				const std::string & fileName);
+
 	bool containsFile(const std::string & fileName);
-	bool containsFileInExistingZipFile(const std::string & zipFileName, const std::string & fileName);
 
 	bool addFolder_internal(const std::string & folderName);
 
@@ -360,15 +364,10 @@ private:
 	 * \return true if all is ok, otherwise false.
 	 */
 	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(const std::string & tempZipFile,
-																		const std::string & fileName);
+																		const std::string & fileName,
+																		bool isFileNameAFolder);
 
-	/*!
-	 * Copies all files and folders into a new zip, except the folder and the content of the folder.
-	 *
-	 * \return true if all is ok, otherwise false.
-	 */
-	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(const std::string & tempZipFile,
-																		  const std::string & folderName);
+	bool copyFile(Unzip & unzip, const std::string & fileName);
 
 	/*!
 	 * Cleans up the temporary files and tries to restore the original zip file.
@@ -386,10 +385,10 @@ private:
 	typedef void * voidp;
 	typedef voidp zipFile;
 	std::string zipFileName;
-	OpenFlags openFlag;
 	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
 
 	zipFile zipfile_handle;
+	OpenFlags openFlag;
 	int compressionLevel;
 };
 

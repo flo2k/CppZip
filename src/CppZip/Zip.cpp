@@ -8,20 +8,21 @@
 #include "Zip.h"
 #include "ZipCommon.h"
 #include "zip.h"
+#include "unzip.h"
 #include "Unzip.h"
+#include "ZipPrivate.h"
 
 #include <algorithm>
+#include <fstream>
+#include <vector>
+#include <list>
+#include <time.h>
+
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/date_time/posix_time/conversion.hpp>
-#include <fstream>
-#include <vector>
-#include <list>
-#include <exception>
-
-#include <time.h>
 
 #ifndef WIN32
 	#include <sys/types.h>
@@ -32,10 +33,10 @@
 
 namespace cppzip {
 
-#define CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE 1000
+#define CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE 65536
 
 Zip::Zip()
-	: zipfile_handle(NULL), compressionLevel(Z_DEFAULT_COMPRESSION)
+	: zipfile_handle(NULL), openFlag(CREATE_AND_OVERWRITE), compressionLevel(Z_DEFAULT_COMPRESSION)
 {
 
 }
@@ -130,20 +131,7 @@ bool Zip::addFile_internal(
 		return false;
 	}
 
-	zip_fileinfo zipFileInfo;
-
-	//time stuff
-	zipFileInfo.dosDate = 0;
-	zipFileInfo.tmz_date.tm_year = info->time_year;
-	zipFileInfo.tmz_date.tm_mon  = info->time_month;
-	zipFileInfo.tmz_date.tm_mday = info->time_day_of_month;
-	zipFileInfo.tmz_date.tm_hour = info->time_hour;
-	zipFileInfo.tmz_date.tm_min  = info->time_min;
-	zipFileInfo.tmz_date.tm_sec  = info->time_sec;
-
-	//file attributes
-	zipFileInfo.internal_fa = info->internal_fileAttributes;
-	zipFileInfo.external_fa = info->external_fileAttributes;
+	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
 
 	//open file inside zip
 	if(ZIP_OK != zipOpenNewFileInZip(
@@ -175,42 +163,81 @@ bool Zip::addFile_internal(
 	return true;
 }
 
+bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::string& fileName)
+{
+	if(containsFile(info->fileName) || info->fileName.length() == 0){
+		return false;
+	}
+
+	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
+
+	//open file inside zip
+	if(ZIP_OK != zipOpenNewFileInZip(
+			zipfile_handle,
+			info->fileName.c_str(),
+			&zipFileInfo,
+			NULL, 0,
+			NULL, 0,
+			info->comment.c_str(),
+			Z_DEFLATED,
+			compressionLevel)){
+		return false;
+	}
+
+	//copy the file contents
+	boost::filesystem::ifstream ifs(fileName, std::ios::in | std::ios::binary);
+
+	if(! ifs.is_open()){
+		zipCloseFileInZip(zipfile_handle); //try to close
+		return false;
+	}
+
+	char buffer[CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE];
+	while (ifs.good()) {
+		ifs.read(buffer, CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE);
+		int len = ifs.gcount();
+
+		if(len > 0){
+			bool ok = ZIP_OK == zipWriteInFileInZip(zipfile_handle, buffer, len);
+			if(!ok){
+				//try to close...
+				zipCloseFileInZip(zipfile_handle);
+				return false;
+			}
+		}
+	}
+
+	ifs.close();
+
+	fileInfos[info->fileName] = info;
+
+	//close file
+	if(ZIP_OK != zipCloseFileInZip(zipfile_handle)){
+		return false;
+	}
+
+	return true;
+}
+
 bool Zip::containsFile(const std::string & fileName)
 {
 	return fileInfos.count(fileName);
 }
 
-bool Zip::containsFileInExistingZipFile(const std::string& zipFileName, const std::string& fileName)
-{
-	Unzip unzip;
-
-	bool ok = unzip.open(zipFileName);
-	if(! ok){
-		return false;
-	}
-
-	bool fileExistInsideZip = unzip.containsFile(fileName);
-	unzip.close();
-
-	return fileExistInsideZip;
-}
-
 bool Zip::addFile(const std::string & fileName, bool preservePath)
 {
 	std::shared_ptr<InnerZipFileInfo> info;
-	std::vector<unsigned char> content;
 
 	try{
-		info = getFileInfo(fileName);
-		content = getFileContent(fileName);
+		info = getFileInfoForANewFile(fileName);
 	} catch(std::exception & e){
 		return false;
 	}
 
-	return addFile_internal(info, content);
+	return addFile_internal(info, fileName);
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfo(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForANewFile(const std::string & fileName)
 {
 	std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
 
@@ -227,12 +254,20 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfo(const std::string & fileName)
 	info->time_min = time.tm_min;
 	info->time_sec = time.tm_sec;
 
+	info->crc = 0;
+	info->compressed_size = 0;
+	info->uncompressed_size = 0;
+
 	//file attributes
 	info->internal_fileAttributes = 0;
 	info->external_fileAttributes = this->getExternalFileAttributesFromExistingFile(fileName); //the external file attributes depends on the platform
                                                                                                 //and is on linux and windows different!
-
 	return info;
+}
+
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfo(const std::string & fileName)
+{
+	return fileInfos[fileName];
 }
 
 unsigned long Zip::getExternalFileAttributesFromExistingFile(
@@ -254,35 +289,6 @@ unsigned long Zip::getExternalFileAttributesFromExistingFile(
 	return externalAttributes;
 }
 
-std::vector<unsigned char> Zip::getFileContent(const std::string & fileName)
-{
-	boost::filesystem::path path(fileName);
-	boost::filesystem::ifstream ifs(path, std::ios::in | std::ios::binary);
-
-//	std::istream_iterator<unsigned char> begin(ifs), end;
-//	std::vector<unsigned char> content(begin, end);
-
-	std::vector<unsigned char> content;
-	char buffer[CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE];
-
-	if(ifs.is_open()){
-		while (ifs.good()) {
-			ifs.read(buffer, CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE);
-			int len = ifs.gcount();
-
-			if(len > 0){
-				content.insert(content.end(), buffer, buffer + len);
-			}
-		}
-
-		ifs.close();
-	} else {
-		throw std::exception();
-	}
-
-	return content;
-}
-
 bool Zip::addFile(const std::string & fileName, const std::string & destFileName)
 {
 	if(destFileName.length() == 0){
@@ -290,16 +296,14 @@ bool Zip::addFile(const std::string & fileName, const std::string & destFileName
 	}
 
 	std::shared_ptr<InnerZipFileInfo> info;
-	std::vector<unsigned char> content;
 
 	try{
-		info = getFileInfo(destFileName);
-		content = getFileContent(fileName);
+		info = getFileInfoForANewFile(fileName);
 	} catch(std::exception & e){
 		return false;
 	}
 
-	return addFile_internal(info, content);
+	return addFile_internal(info, fileName);
 }
 
 bool Zip::addFolder(const std::string & fileName, bool recursive)
@@ -324,23 +328,7 @@ bool Zip::addFolder_internal(const std::string & folderName)
 		return true;
 	}
 
-	std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
-	info->fileName = folderToCreate;
-	info->dosDate = 0;
-
-	//time: now!
-	boost::posix_time::ptime posixTime = boost::posix_time::second_clock::universal_time();
-	std::tm time = ::boost::posix_time::to_tm(posixTime);
-	info->time_year = time.tm_year;
-	info->time_month = time.tm_mon;
-	info->time_day_of_month = time.tm_mday;
-	info->time_hour = time.tm_hour;
-	info->time_min = time.tm_min;
-	info->time_sec = time.tm_sec;
-
-	//file attributes
-	info->internal_fileAttributes = 0;
-	info->external_fileAttributes = 0;
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForANewFile(folderToCreate);
 
 	std::vector<unsigned char> emptyData;
 	return addFile_internal(info, emptyData);
@@ -361,7 +349,9 @@ bool Zip::deleteFile(const std::string& fileName)
 	}
 
 	//close the current zip
-	close();
+	if(! close()){
+		return false;
+	}
 
 	//move the current zip to an tempzip
 	std::string tempZipFile = moveTheCurrentZipToAnTempZip();
@@ -370,7 +360,7 @@ bool Zip::deleteFile(const std::string& fileName)
 	}
 
 	//Copy all files and folders into a new zip file, except the fileName
-	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(tempZipFile, fileName);
+	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(tempZipFile, fileName, false);
 	cleanUpAfterCopying(ok, tempZipFile);
 
 	//restore the old open status if necessary
@@ -395,34 +385,89 @@ std::string Zip::moveTheCurrentZipToAnTempZip(void)
 
 bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(
 		const std::string & tempZipFile,
-		const std::string & fileName)
+		const std::string & fileName,
+		bool isFileNameAFolder)
 {
 	Unzip unzip;
-	bool ok = unzip.open(tempZipFile);
-
-	if(! ok){
+	if(! unzip.open(tempZipFile)){
 		return false;
 	}
 
 	open(zipFileName, CREATE_AND_OVERWRITE);
+	fileInfos = unzip.fileInfos;
 
 	std::list<std::string> zipFileNames = unzip.getFileNames();
 	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
 		std::string zipFileName = *zipFileIter;
 
-		if(zipFileName == fileName){
-			continue;
+		if(isFileNameAFolder){
+			//copy all files except the folder and the files in the folder
+			if(boost::algorithm::starts_with(zipFileName, fileName)){
+				continue;
+			}
+		} else{
+			if(zipFileName == fileName){
+				continue;
+			}
 		}
 
 		if(unzip.isFile(zipFileName)){
-			std::vector<unsigned char> zipFileContent = unzip.getFileContent(zipFileName);
-			ok = addFile(zipFileName, zipFileContent);
+			if(! copyFile(unzip, zipFileName)){
+				return false;
+			}
 		} else {
-			ok = addEmptyFolder(zipFileName);
+			if(! addEmptyFolder(zipFileName)){
+				return false;
+			}
 		}
 	}
 
-	ok = unzip.close();
+	return unzip.close();
+}
+
+bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
+{
+	bool ok;
+
+	//locate file
+	ok = unzip.goToFile(fileName);
+
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfo(fileName);
+	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
+
+	int raw = 1;
+	int method;
+	int level;
+
+	//open the files
+	ok = UNZ_OK == unzOpenCurrentFile3(unzip.zipfile_handle, &method, &level, raw, NULL);
+	ok = ZIP_OK == zipOpenNewFileInZip2(
+					zipfile_handle,
+					info->fileName.c_str(),
+					&zipFileInfo,
+					NULL, 0,
+					NULL, 0,
+					info->comment.c_str(),
+					method,
+					level,
+					raw);
+
+	//read and write the content
+	unsigned char buffer[CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE];
+
+	unsigned int len = 0;
+	while((len = unzReadCurrentFile(
+			unzip.zipfile_handle,
+			buffer,
+			CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE))
+	){
+		ok = ZIP_OK == zipWriteInFileInZip(zipfile_handle, buffer, len);
+	}
+
+	//close the files
+	ok = UNZ_OK == unzCloseCurrentFile(unzip.zipfile_handle);
+	ok = ZIP_OK == zipCloseFileInZipRaw(zipfile_handle, info->uncompressed_size, info->crc);
+
 	return ok;
 }
 
@@ -492,43 +537,12 @@ bool Zip::deleteFolder(const std::string& folderName)
 	}
 
 	//Copy all files and folders into a new zip file, except the fileName
-	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(tempZipFile, folderToDelete);
+	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(tempZipFile, folderToDelete, true);
 	cleanUpAfterCopying(ok, tempZipFile);
 
 	//restore the old open status if necessary
 	restoreTheOldOpenStatus(oldOpenFlag);
 
-	return ok;
-}
-
-bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(
-		const std::string & tempZipFile,
-		const std::string & folderName)
-{
-	//Copy all files and folders into a new zip file, except the fileName
-	Unzip unzip;
-	bool ok = unzip.open(tempZipFile);
-
-	open(zipFileName, CREATE_AND_OVERWRITE);
-
-	std::list<std::string> zipFileNames = unzip.getFileNames();
-	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
-		std::string zipFileName = *zipFileIter;
-
-		//copy all files except the folder and the files in the folder
-		if(boost::algorithm::starts_with(zipFileName, folderName)){
-			continue;
-		}
-
-		if(unzip.isFile(zipFileName)){
-			std::vector<unsigned char> zipFileContent = unzip.getFileContent(zipFileName);
-			ok = addFile(zipFileName, zipFileContent);
-		} else {
-			ok = addEmptyFolder(zipFileName);
-		}
-	}
-
-	ok = unzip.close();
 	return ok;
 }
 
@@ -605,9 +619,6 @@ size_t Zip::getCompressionLevel(void)
 bool Zip::createDirectoryIfNotExists(const std::string & path)
 {
 	std::string pathToCreate = path;
-//	if(isDirectory(pathToCreate)){
-//		boost::algorithm::erase_tail_copy(pathToCreate, 1);
-//	}
 
 	if(pathToCreate.length() == 0){
 		return true;
