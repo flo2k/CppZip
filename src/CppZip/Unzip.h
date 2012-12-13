@@ -5,7 +5,8 @@
  *
  * Created: 05.11.2011, Florian Künzner
  *
- * Copyright (C) 2011-2012 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2011 Florian Künzner (CppZip)
+ * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
