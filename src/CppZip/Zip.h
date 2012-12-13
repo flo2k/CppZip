@@ -109,7 +109,7 @@ public:
 	 * - "folder/subFolder/fileName.txt"
 	 * - "folder\\subFolder\\fileName.txt"
 	 *
-	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * This is a usage example for addFile():
 	 * \code
@@ -144,6 +144,8 @@ public:
 	 * If the file in fileName is empty, an empty file will be created inside the zip file.
 	 * If the file in fileName doesn't exist or can't read, false is returned.
      *
+     * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+     *
      * This is a usage example for addFile():
 	 * \code
 	 *  //open zip file
@@ -174,6 +176,8 @@ public:
 	 * If the file in fileName is empty, an empty file will be created inside the zip file.
 	 * If the file in fileName doesn't exist or can't read, false is returned.
 	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+	 *
 	 * \param fileName is the file to add (must exist on file system).
 	 * \param destFileName is the destination file name inside the zip.
 	 * \return true if the content of fileName could be added to the specified destFileName,
@@ -188,7 +192,7 @@ public:
 	 *
 	 * If the folder already exists addFolder() == false, and nothing will be added.
 	 *
-	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param folderName is the folder to add inside the zip file.
 	 * \param recursive  is a flag, that controls the add behavior:
@@ -213,7 +217,7 @@ public:
 	 * - "folder/subFolder/subSubFolder"
 	 * - "folder\\subFolder\\subSubFolder"
 	 *
-	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param folderName is the folder to add inside the zip file.
 	 * \return true if folder could be added, otherwise false.
@@ -249,6 +253,8 @@ public:
 	 *
 	 * \attention The replace operation may be slow on big zip files.
 	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+	 *
 	 * \param  fileName is the file that should be replaced inside the zip file.
 	 * \param  content  is the new content of fileName.
 	 *
@@ -262,6 +268,8 @@ public:
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *
 	 * \attention The replace operation may be slow on big zip files.
+	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param fileName     is the file to add (must exist on file system).
 	 * \param destFileName is the destination file name inside the zip that should be replaced.
