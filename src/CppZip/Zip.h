@@ -180,7 +180,24 @@ public:
 	 *         otherwise false.
 	 */
 	bool addFile(const std::string & fileName, const std::string & destFileName);
-	bool addFolder(const std::string & folderName, bool recursive);
+
+	/*!
+	 * \brief Adds a folder from the file system to the zip.
+	 *
+	 * Adds the folder and the content of the folder to the zip.
+	 *
+	 * If the folder already exists addFolder() == false, and nothing will be added.
+	 *
+	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
+	 *
+	 * \param folderName is the folder to add inside the zip file.
+	 * \param recursive  is a flag, that controls the add behavior:
+	 *                   - if recursive == true: all the content of the folder and the
+	 *                     content of the subfolders are added.
+	 *                   - if recursive == false: only the files of the folder will be added.
+	 * \return true if folder and the content of the folder could be added, otherwise false.
+	 */
+	bool addFolder(const std::string & folderName, bool recursive = true);
 
 	/*!
 	 * \brief Adds a new empty folder inside the zip.
@@ -350,7 +367,7 @@ private:
 
 	bool containsFile(const std::string & fileName);
 
-	bool addFolder_internal(const std::string & folderName);
+	bool addFolder_internal(std::shared_ptr<InnerZipFileInfo> info);
 
 	// Helpers for deleting file/folder
 	/*!

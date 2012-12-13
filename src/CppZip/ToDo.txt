@@ -20,7 +20,7 @@
     - Set timestamps correct.
     - Zip files with passwords.
     - Correct file attributes on unzipping.
-    - addFolder()
+    - addFolder() with preserve path!!
     - Filters: for extensions, file names, directories, ... 
       (example1: files that match the filters are added)
       (example2: files that doesn't match the filters are added)

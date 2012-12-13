@@ -321,6 +321,24 @@ void ZipTest::test_addEmptyFolder_WithSubFolders_WindowsStyle(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
+void ZipTest::test_addFolder_recursive(void) {
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile);
+	bool actual = zip->addFolder("data/test");
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFolder_notRecursive(void){
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile);
+	bool actual = zip->addFolder("data/test", false);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
 void ZipTest::test_deleteFile(void) {
 	//CPPUNIT_FAIL("needs to be implemented");
 	std::string cmd = "mkdir " + tempFolder;

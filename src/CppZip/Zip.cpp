@@ -325,29 +325,60 @@ bool Zip::addFile(const std::string & fileName, const std::string & destFileName
 	return addFile_internal(info, fileName);
 }
 
-bool Zip::addFolder(const std::string & fileName, bool recursive)
+bool Zip::addFolder(const std::string & folderName, bool recursive)
 {
-	return false;
+	std::string folderNameToAdd = boost::algorithm::replace_all_copy(folderName, "\\", "/");
+	if(! boost::algorithm::ends_with(folderNameToAdd, "/")){
+		folderNameToAdd += "/";
+	}
+
+	if(containsFile(folderNameToAdd)){
+		return false;
+	}
+
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForAExistingFile(folderName);
+	info->fileName = folderNameToAdd;
+	if(! addFolder_internal(info)){
+		return false;
+	}
+
+	boost::filesystem::directory_iterator iter(folderName);
+	boost::filesystem::directory_iterator end;
+
+	for(; iter != end; ++iter){
+		boost::filesystem::path dirEntry = *iter;
+		if(boost::filesystem::is_regular_file(dirEntry)){
+			if(! addFile(dirEntry.string())){
+				return false;
+			}
+
+		} else if(boost::filesystem::is_directory(dirEntry) && recursive){
+			if(! addFolder(dirEntry.string(), recursive)){
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 bool Zip::addEmptyFolder(const std::string & folderName)
 {
-	return addFolder_internal(boost::algorithm::replace_all_copy(folderName, "\\", "/"));
+	std::string folderNameToAdd = boost::algorithm::replace_all_copy(folderName, "\\", "/");
+	if(! boost::algorithm::ends_with(folderNameToAdd, "/")){
+		folderNameToAdd += "/";
+	}
+
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForANewFile(folderNameToAdd);
+
+	return addFolder_internal(info);
 }
 
-bool Zip::addFolder_internal(const std::string & folderName)
+bool Zip::addFolder_internal(std::shared_ptr<InnerZipFileInfo> info)
 {
-	std::string folderToCreate = folderName;
-	if(! boost::algorithm::ends_with(folderToCreate, "/"))
-	{
-		folderToCreate += "/";
-	}
-
-	if(containsFile(folderToCreate)){
+	if(containsFile(info->fileName)){
 		return true;
 	}
-
-	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForAExistingFile(folderToCreate);
 
 	std::vector<unsigned char> emptyData;
 	return addFile_internal(info, emptyData);
