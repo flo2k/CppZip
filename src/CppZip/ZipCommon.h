@@ -43,16 +43,35 @@ namespace cppzip {
  * The informations are very similar to zip_fileinfo from zip.h
  */
 struct InnerZipFileInfo{
+	InnerZipFileInfo(void){
+		time_sec = 0;
+		time_min = 0;
+		time_hour = 0;
+		time_day_of_month = 0;
+		time_month = 0;
+		time_year = 0;
+		dosDate = 0;
+		crc = 0;
+		compressed_size = 0;
+		uncompressed_size = 0;
+		internal_fileAttributes = 0;
+		external_fileAttributes = 0;
+	}
+
 	std::string fileName;
 	std::string extraField;
 	std::string comment;
-	unsigned int time_sec;            /*! seconds after the minute - [0,59] */
-	unsigned int time_min;            /*! minutes after the hour - [0,59] */
-	unsigned int time_hour;           /*! hours since midnight - [0,23] */
-	unsigned int time_day_of_month;   /*! day of the month - [1,31] */
-	unsigned int time_month;          /*! months since January - [0,11] */
-	unsigned int time_year;           /*! years - [1980..2044] */
-	unsigned long dosDate;            /*! if dos_date == 0, tmu_date is used */
+	unsigned int time_sec;                    /*! seconds after the minute - [0,59] */
+	unsigned int time_min;                    /*! minutes after the hour - [0,59] */
+	unsigned int time_hour;                   /*! hours since midnight - [0,23] */
+	unsigned int time_day_of_month;           /*! day of the month - [1,31] */
+	unsigned int time_month;                  /*! months since January - [0,11] */
+	unsigned int time_year;                   /*! years - [1980..2044] */
+	unsigned long dosDate;                    /*! if dos_date == 0, tmu_date is used */
+	unsigned long crc;                        /*! crc-32 */
+	unsigned long compressed_size;      /*! compressed size */
+	unsigned long uncompressed_size;    /*! uncompressed size */
+
 	unsigned long internal_fileAttributes;
 	unsigned long external_fileAttributes;
 };

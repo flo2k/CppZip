@@ -293,6 +293,9 @@ void Unzip::retrieveAllFileInfos(void)
 		innerFileInfo->time_month = info.tmu_date.tm_mon;
 		innerFileInfo->time_year = info.tmu_date.tm_year;
 		innerFileInfo->dosDate = info.dosDate;
+		innerFileInfo->crc = info.crc;
+		innerFileInfo->compressed_size = info.compressed_size;
+		innerFileInfo->uncompressed_size = info.uncompressed_size;
 		innerFileInfo->internal_fileAttributes = info.internal_fa;
 		innerFileInfo->external_fileAttributes = info.external_fa;
 

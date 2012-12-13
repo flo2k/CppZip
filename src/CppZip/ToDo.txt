@@ -20,6 +20,8 @@
     - Set timestamps correct.
     - Zip files with passwords.
     - Correct file attributes on unzipping.
+    - addFile() with preserve path!!
+    - addFolder()
     
 - Improve Performance (CppZip is very slow with big files and needs a lot of memory):
     - Measure the time of each function -> maybe, use CppUnit for this
