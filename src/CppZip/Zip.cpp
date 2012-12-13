@@ -594,10 +594,10 @@ bool Zip::replaceFile(const std::string & fileName, const std::string & destFile
 
 }
 
-bool Zip::addFilter(std::string filter)
-{
-	return false;
-}
+//bool Zip::addFilter(std::string filter)
+//{
+//	return false;
+//}
 
 bool Zip::close(void)
 {

@@ -251,7 +251,7 @@ public:
 	 */
 	bool replaceFile(const std::string & fileName, const std::string & destFileName);
 
-	bool addFilter(std::string filter); //??
+	//bool addFilter(std::string filter); //??
 
 	/*!
 	 * Sets the compression level. Allowed values are from 0 to 9.
