@@ -85,7 +85,6 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_deleteFolder);
 		CPPUNIT_TEST(test_delete_WhenFileNotExists);
 		CPPUNIT_TEST(test_delete_WhenTemparyFileCouldntCreated);
-		CPPUNIT_TEST(test_delete_WhenTemporaryZipIsCorrupt);
 
 		CPPUNIT_TEST(test_replaceFile);
 		CPPUNIT_TEST(test_replaceFile_WhenFileNotExistsInZip);
@@ -135,7 +134,6 @@ public:
 	void test_deleteFolder(void);
 	void test_delete_WhenFileNotExists(void);
 	void test_delete_WhenTemparyFileCouldntCreated(void);
-	void test_delete_WhenTemporaryZipIsCorrupt(void);
 
 	void test_replaceFile(void);
 	void test_replaceFile_WhenFileNotExistsInZip(void);

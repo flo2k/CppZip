@@ -409,10 +409,6 @@ void ZipTest::test_delete_WhenTemparyFileCouldntCreated(void) {
     system(cmd.c_str());
 }
 
-void ZipTest::test_delete_WhenTemporaryZipIsCorrupt(void) {
-	CPPUNIT_FAIL("needs to be implemented");
-}
-
 void ZipTest::test_replaceFile(void) {
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
