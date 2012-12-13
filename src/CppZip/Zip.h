@@ -243,11 +243,12 @@ public:
 	bool deleteFolder(const std::string & folderName);
 
 	/*!
-	 * Replaces the existing file with inside the zip file with given the content.
+	 * \brief Replaces the existing file inside the zip file with given the content.
+	 *
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *
 	 * \attention The replace operation may be slow on big zip files.
-	 *getFileContent
+	 *
 	 * \param  fileName is the file that should be replaced inside the zip file.
 	 * \param  content  is the new content of fileName.
 	 *
@@ -256,7 +257,8 @@ public:
 	bool replaceFile(const std::string & fileName, std::vector<unsigned char> & content);
 
 	/*!
-	 * Replaces the existing file with inside the zip file with given the content.
+	 * \brief Replaces the existing file inside the zip file with the content of the file.
+	 *
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *
 	 * \attention The replace operation may be slow on big zip files.
@@ -271,7 +273,9 @@ public:
 	//bool addFilter(std::string filter); //??
 
 	/*!
-	 * Sets the compression level. Allowed values are from 0 to 9.
+	 * \brief Sets the compression level.
+	 *
+	 * Allowed values are from 0 to 9.
 	 *  - 0 = no compression, only saving in zip
 	 *  - 9 = maximum compression
 	 *  - default = 6
@@ -284,7 +288,7 @@ public:
 	bool setCompressionLevel(int compressionLevel);
 
 	/*!
-	 * Gets the compression level.
+	 * \brief Gets the compression level.
 	 *
 	 * \return the compression level.
 	 * \see setCompressionLevel()
@@ -292,10 +296,10 @@ public:
 	size_t getCompressionLevel(void);
 
 	/*!
-	 * Closes the zip file.
+	 * \brief Closes the zip file.
 	 *
-	 * \details When close() is called, the zip headers are written to the end of
-	 *         the zip file.
+	 * When close() is called, the zip headers are written to the end of
+	 * the zip file.
 	 *
 	 * \return true if the zip file is successfully closed, otherwise false.
 	 */

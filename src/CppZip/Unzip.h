@@ -62,9 +62,11 @@ public:
 	~Unzip();
 
 	/*!
-	 * Opens a zip given in zipFile file. If open() is called and
-	 * isOpened() == true, then open() returns false, because
-	 * another zip file is already opened.
+	 * \brief Opens a zip given in zipFile file.
+	 *
+	 * If open() is called and isOpened() == true,
+	 * then open() returns false, because another zip
+	 * file is already opened.
 	 *
 	 * \param zipFile is the file (incl. path) to open
 	 *
@@ -73,14 +75,18 @@ public:
 	bool open(const std::string & zipFile);
 
 	/*!
-	 * Closes a zip file. If it couldn't close it returns false. If
-	 * no zip file was opened it returns true.
+	 * \brief Closes a zip file.
+	 *
+	 * If it couldn't close it returns false. If no zip file was
+	 * opened it returns true.
 	 *
 	 * \return true if the close() was successful, otherwise false.
 	 */
 	bool close(void);
 
 	/*!
+	 * \brief Gets the opened status.
+	 *
 	 * Returns true if a zip file is opened. When a new object of Unzip is
 	 * created and open() is never called, then it returns always false;
 	 *
@@ -89,7 +95,8 @@ public:
 	bool isOpened(void);
 
 	/*!
-	 * Returns the number of files (files, folders) inside the zip file.
+	 * \brief Returns the number of files (files, folders) inside the zip file.
+	 *
 	 * If no zip file is opened getNumElements() == 0.
 	 *
 	 * \note A directory is also a file.
@@ -99,15 +106,16 @@ public:
 	int getNumFiles(void);
 
 	/*!
-	 * Returns if a file is inside the zip file. If no zip file is opened
-	 * containsFile() == false
+	 * \brief Returns if a file is inside the zip file.
+	 *
+	 * If no zip file is opened containsFile() == false
 	 *
 	 * \return true if the file is inside the zip
 	 */
 	bool containsFile(const std::string & fileName);
 
 	/*!
-	 * Checks if path is a file
+	 * \brief Checks if path is a file.
 	 *
 	 * \param path to check
 	 * \return true if path is a file, otherwise false.
@@ -115,7 +123,7 @@ public:
 	bool isFile(const std::string & path);
 
 	/*!
-	 * Checks if path is a directory
+	 * \brief Checks if path is a directory.
 	 *
 	 * \note Inside a zip file, a directory ends with "/"
 	 *
@@ -125,8 +133,10 @@ public:
 	bool isDirectory(const std::string & path);
 
 	/*!
-	 * Returns the containing file names (files, folders) in the zip file. If zip file
-	 * is not opened or zip file is empty, an empty list will be returned.
+	 * \brief Returns the containing file names (files, folders) in the zip file.
+	 *
+	 * If zip file is not opened or zip file is empty, an empty list
+	 * will be returned.
 	 *
 	 * \note A directory is also a file and is in the list of file names.
 	 *
@@ -135,8 +145,9 @@ public:
 	std::list<std::string> getFileNames(void);
 
 	/*!
-	 * Get the file content. If file is a directory or doesn't exist
-	 * an empty list will be returned.
+	 * \brief Get the file content.
+	 *
+	 * If file is a directory or doesn't exist an empty list will be returned.
 	 *
 	 * This is a usage example of getFileNames():
 	 * \code
@@ -160,7 +171,8 @@ public:
 	std::vector<unsigned char> getFileContent(const std::string & fileName);
 
 	/*!
-	 * Extracts the file in fileName to the path.
+	 * \brief Extracts the file in fileName to the path.
+	 *
 	 * path = "/path/to/file"
 	 *
 	 * If path doesn't exist, extractFileTo trys to create it
@@ -186,7 +198,7 @@ public:
 	bool extractFileTo(const std::string & fileName, const std::string & path);
 
 	/*!
-	 * Extracts the contents of zip file to the given path.
+	 * \brief Extracts the contents of zip file to the given path.
 	 *
 	 * \note If the path doesn't exists, extractAllTo() tries to
 	 * create the paths and all subdirs.
