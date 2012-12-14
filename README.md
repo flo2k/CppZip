@@ -4,6 +4,10 @@ CppZip
 CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with 
 standard C++ (C++11) and some funtions of the boost libraries.
 
+### Current state
+CppZip is still under heavy development, it's not in an stable version. But may be version 1.0 is comming soon.
+
+### Development
 It's implementation focus is
  - on easy to use - a clear and well documented API
  - and to run on multiple platforms (Windows, Linux, ...).
@@ -26,7 +30,7 @@ _Unzip_ uncompresses and unzips zip files.
 _Florian Künzner_ and _Andreas Bauer_
 
 ### Version:
-0.2
+0.2 alpha state
 
 ### License:
 
