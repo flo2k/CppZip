@@ -22,8 +22,8 @@ void PerformanceTests::setUp(void) {
 	tempFolder = "temp";
 	dataFolder = "data";
 	midSizedFilesFolder = dataFolder + "/midSizedFiles";
-	midSizeFile1 = "ER3_055.mp3";
-	midSizeFile2 = "ER3_057.mp3";
+	midSizeFile1 = "lorem1.txt";
+	midSizeFile2 = "lorem2.txt";
 	//midSizeFile3 = "eclipse-cpp-juno-SR1-linux-gtk-x86_64.tar.gz";
 	//midSizeFile4 = "linuxmint-13-mate-dvd-64bit.iso";
 
