@@ -29,6 +29,7 @@ Version:
 0.2
 
 License:
+
 CppZip -- IO on .zip files using minizip and zlib
 Version 0.2, 12.12.2012
 CppZip project - (https://github.com/flo2k/CppZip)
