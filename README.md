@@ -16,6 +16,7 @@ Zip compresses and zips files and folders.
  - Adding complete (and recursive) folders from file system
  - Delete files
  - Replace files
+
 Unzip uncompresses and unzips zip files.
  - Inspect files inside a zip (e.g. file list)
  - Extract to file system
