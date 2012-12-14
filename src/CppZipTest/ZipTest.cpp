@@ -98,38 +98,43 @@ void ZipTest::test_openAppendToZip(void) {
 	cmd = "cp " + zipFile + " " + tempFolder + "/" + zipFile;
 	system(cmd.c_str());
 
-	zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string theString("Lorem Ipsum...");
 	std::vector<unsigned char> content;
 	content.insert(content.end(), theString.begin(), theString.end());
 	bool actual = zip->addFile("file1.txt", content);
 	zip->close();
 
-	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "file1.txt"));
 }
 
 void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
-	bool expected = true;
-
+	bool expected = false;
 	//boost::filesystem::copy_file(zipFile, tempFolder + "/" + zipFile);
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	cmd = "cp " + zipFile + " " + tempFolder + "/" + zipFile;
 	system(cmd.c_str());
 
-	zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string theString("Lorem Ipsum...");
 	std::vector<unsigned char> content;
 	content.insert(content.end(), theString.begin(), theString.end());
+	zip->addFile("file1.txt", content);
 	zip->close();
 
-	zip->open(tempFolder + "/" + zipFile, Zip::APPEND_TO_EXISTING_ZIP);
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	theString = "Lorem Ipsum Number 2...";
 	content.insert(content.end(), theString.begin(), theString.end());
 	bool actual = zip->addFile("file1.txt", content);
 	zip->close();
 
-	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "file1.txt"));
 }
 
 void ZipTest::test_closeAZipFile(void) {
@@ -532,7 +537,7 @@ void ZipTest::test_replaceFile_Content(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-bool ZipTest::containsFile(std::string zipFileName, std::string fileName) {
+bool ZipTest::containsFile(const std::string & zipFileName, const std::string & fileName) {
 	Unzip unzip;
 
 	if(! unzip.open(zipFileName)){
@@ -550,7 +555,7 @@ bool ZipTest::containsFile(std::string zipFileName, std::string fileName) {
 	return true;
 }
 
-bool ZipTest::containsFolder(std::string zipFileName, std::string fileName) {
+bool ZipTest::containsFolder(const std::string & zipFileName, const std::string & fileName) {
 	Unzip unzip;
 
 	if(! unzip.open(zipFileName)){
@@ -566,6 +571,19 @@ bool ZipTest::containsFolder(std::string zipFileName, std::string fileName) {
 	}
 
 	return true;
+}
+
+bool ZipTest::containsNumFiles(const std::string & zipFileName, const int numFiles) {
+	Unzip unzip;
+
+	if(! unzip.open(zipFileName)){
+		return 0;
+	}
+
+	int numFilesFromZip = unzip.getNumFiles();
+	unzip.close();
+
+	return numFiles == numFilesFromZip;
 }
 
 } //cppzip

@@ -151,8 +151,9 @@ public:
 	void test_replaceFile_Content(void);
 
 private:
-	bool containsFile(std::string zipFileName, std::string fileName);
-	bool containsFolder(std::string zipFileName, std::string fileName);
+	bool containsFile(const std::string & zipFileName, const std::string & fileName);
+	bool containsFolder(const std::string & zipFileName, const std::string & fileName);
+	bool containsNumFiles(const std::string & zipFileName, const int numFiles);
 
 private:
 	std::shared_ptr<Zip> zip;
