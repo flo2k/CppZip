@@ -7,7 +7,7 @@
 
 #include "Unzip.h"
 #include "ZipCommon.h"
-#include <unzip.h>
+#include "minizip/unzip.h"
 
 #include <algorithm>
 #include <boost/filesystem.hpp>

@@ -37,7 +37,7 @@
 #include <memory>
 
 #include "ZipCommon.h"
-#include "zip.h"
+#include "minizip/zip.h"
 
 namespace cppzip{
 

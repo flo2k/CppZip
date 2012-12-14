@@ -7,8 +7,8 @@
 
 #include "Zip.h"
 #include "ZipCommon.h"
-#include "zip.h"
-#include "unzip.h"
+#include "minizip/zip.h"
+#include "minizip/unzip.h"
 #include "Unzip.h"
 #include "ZipPrivate.h"
 
