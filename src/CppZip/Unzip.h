@@ -99,7 +99,7 @@ public:
 	 *
 	 * If no zip file is opened getNumElements() == 0.
 	 *
-	 * \note A directory is also a file.
+	 * \note A folder is also a file.
 	 *
 	 * \return number of elements in the zip file
 	 */
@@ -123,14 +123,14 @@ public:
 	bool isFile(const std::string & path);
 
 	/*!
-	 * \brief Checks if path is a directory.
+	 * \brief Checks if path is a folder.
 	 *
-	 * \note Inside a zip file, a directory ends with "/"
+	 * \note Inside a zip file, a folder ends with "/"
 	 *
 	 * \param path to check
-	 * \return true if path is a directory, otherwise false.
+	 * \return true if path is a folder, otherwise false.
 	 */
-	bool isDirectory(const std::string & path);
+	bool isFolder(const std::string & path);
 
 	/*!
 	 * \brief Returns the containing file names (files, folders) in the zip file.
@@ -138,7 +138,7 @@ public:
 	 * If zip file is not opened or zip file is empty, an empty list
 	 * will be returned.
 	 *
-	 * \note A directory is also a file and is in the list of file names.
+	 * \note A folder is also a file and is in the list of file names.
 	 *
 	 * \return list of file names
 	 */
@@ -147,7 +147,7 @@ public:
 	/*!
 	 * \brief Get the file content.
 	 *
-	 * If file is a directory or doesn't exist an empty list will be returned.
+	 * If file is a folder or doesn't exist an empty list will be returned.
 	 *
 	 * This is a usage example of getFileNames():
 	 * \code
@@ -203,7 +203,7 @@ public:
 	 * \note If the path doesn't exists, extractAllTo() tries to
 	 * create the paths and all subdirs.
 	 *
-	 * \param path is a directory
+	 * \param path is a folder
 	 * \return true if all is extracted, otherwise false
 	 */
 	bool extractAllTo(const std::string & path);
@@ -255,12 +255,12 @@ private:
 	void retrieveAllFileInfos(void);
 
 	/*!
-	 * Creates a directory with all subdirs if not exists
+	 * Creates a folder with all subdirs if not exists
 	 *
 	 * \param path to create
 	 * \return true if path exists or created, otherwise false.
 	 */
-	bool createDirectoryIfNotExists(const std::string & path);
+	bool createFolderIfNotExists(const std::string & path);
 
 	/*!
 	 * Extracts the file to the given path. Bevor a file is extracted

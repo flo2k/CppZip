@@ -163,10 +163,10 @@ bool Unzip::containsFile(const std::string & fileName)
 
 bool Unzip::isFile(const std::string & path)
 {
-	return isDirectory(path) == false;
+	return isFolder(path) == false;
 }
 
-bool Unzip::isDirectory(const std::string & path)
+bool Unzip::isFolder(const std::string & path)
 {
 	return boost::algorithm::ends_with(path, "/");
 }
@@ -193,7 +193,7 @@ bool Unzip::extractFileTo_Internal(
 		beforeFileExtraction(destinationPath);
 
 		boost::filesystem::path p(destinationPath);
-		if(createDirectoryIfNotExists(p.parent_path().string()) == false){
+		if(createFolderIfNotExists(p.parent_path().string()) == false){
 			extraction_ok = false;
 		}
 
@@ -247,7 +247,7 @@ bool Unzip::extractAllTo(const std::string & path)
 	std::string dest_path = path;
 	bool extraction_ok = true;
 
-	if(! isDirectory(dest_path)){
+	if(! isFolder(dest_path)){
 		dest_path += "/";
 	}
 
@@ -261,7 +261,7 @@ bool Unzip::extractAllTo(const std::string & path)
 				extraction_ok = false;
 			}
 		} else {
-			if(createDirectoryIfNotExists(dest_path + fileName) == false){
+			if(createFolderIfNotExists(dest_path + fileName) == false){
 				extraction_ok = false;
 			}
 		}
@@ -270,10 +270,10 @@ bool Unzip::extractAllTo(const std::string & path)
 	return extraction_ok;
 }
 
-bool Unzip::createDirectoryIfNotExists(const std::string & path)
+bool Unzip::createFolderIfNotExists(const std::string & path)
 {
 	std::string pathToCreate = path;
-	if(isDirectory(pathToCreate)){
+	if(isFolder(pathToCreate)){
 		boost::algorithm::erase_tail_copy(pathToCreate, 1);
 	}
 
