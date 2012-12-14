@@ -358,16 +358,16 @@ private:
 
 	// Helpers for adding file/folder
 	/*!
-	 * Creates a directory on the file system with all subdirs if not exists
+	 * Creates a folder on the file system with all subfolders if not exists
 	 *
 	 * \param path to create
 	 * \return true if path exists or created, otherwise false.
 	 */
-	bool createDirectoryIfNotExists(const std::string & path);
+	bool createFolderIfNotExists(const std::string & path);
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string & fileName);
 	std::shared_ptr<InnerZipFileInfo> getFileInfoForAExistingFile(const std::string & fileName);
-	std::shared_ptr<InnerZipFileInfo> getFileInfoFromDirectory(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoFromFolder(const std::string & fileName);
 
 	/*!
 	 * Gets the platform depended file attributes from an exiting file on the file system.

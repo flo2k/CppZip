@@ -57,7 +57,7 @@ bool Zip::open(const std::string & fileName, OpenFlags flag)
 	boost::filesystem::path path(fileName);
 	path = path.remove_filename();
 
-	if(! createDirectoryIfNotExists(path.string())){
+	if(! createFolderIfNotExists(path.string())){
 		return false;
 	}
 
@@ -283,7 +283,7 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::st
 	return info;
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromDirectory(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromFolder(const std::string & fileName)
 {
 	return fileInfos[fileName];
 }
@@ -512,7 +512,7 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	//locate file
 	ok = unzip.goToFile(fileName);
 
-	std::shared_ptr<InnerZipFileInfo> info = getFileInfoFromDirectory(fileName);
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoFromFolder(fileName);
 	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
 
 	int raw = 1;
@@ -696,7 +696,7 @@ size_t Zip::getCompressionLevel(void)
 	return compressionLevel;
 }
 
-bool Zip::createDirectoryIfNotExists(const std::string & path)
+bool Zip::createFolderIfNotExists(const std::string & path)
 {
 	std::string pathToCreate = path;
 

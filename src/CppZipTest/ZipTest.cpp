@@ -7,6 +7,7 @@
 
 #include "ZipTest.h"
 #include <Zip.h>
+#include <Unzip.h>
 #include <cppunit/extensions/HelperMacros.h>
 
 #include <list>
@@ -427,7 +428,7 @@ void ZipTest::test_delete_WhenTemparyFileCouldntCreated(void) {
 	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
 	system(cmd.c_str());
 
-	// make directory which contains the zip read-only
+	// make folder which contains the zip read-only
 	cmd = "chmod 555 " + tempFolder;
 	system(cmd.c_str());
 
@@ -440,7 +441,7 @@ void ZipTest::test_delete_WhenTemparyFileCouldntCreated(void) {
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 
-	// make the directory writeable again so it can be deleted
+	// make the folder writeable again so it can be deleted
 	cmd = "chmod 755 " + tempFolder;
     system(cmd.c_str());
 }
@@ -529,6 +530,42 @@ void ZipTest::test_replaceFile_Content(void) {
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+bool ZipTest::containsFile(std::string zipFileName, std::string fileName) {
+	Unzip unzip;
+
+	if(! unzip.open(zipFileName)){
+		return false;
+	}
+
+	if(! unzip.containsFile(fileName)){
+		return false;
+	}
+
+	if(! unzip.isFile(fileName)){
+		return false;
+	}
+
+	return true;
+}
+
+bool ZipTest::containsFolder(std::string zipFileName, std::string fileName) {
+	Unzip unzip;
+
+	if(! unzip.open(zipFileName)){
+		return false;
+	}
+
+	if(! unzip.containsFile(fileName)){
+		return false;
+	}
+
+	if(! unzip.isFolder(fileName)){
+		return false;
+	}
+
+	return true;
 }
 
 } //cppzip
