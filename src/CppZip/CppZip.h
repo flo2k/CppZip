@@ -142,7 +142,7 @@
  * Version 0.2, 13.12.2012\n
  * part of the CppZip project - (https://github.com/flo2k/CppZip)\n
  *
- * Copyright (C) 2011 Florian Künzner (CppZip)
+ * Copyright (C) 2011 Florian Künzner (CppZip)\n
  * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)\n
  *
  * ---------------------------------------------------------------------------
