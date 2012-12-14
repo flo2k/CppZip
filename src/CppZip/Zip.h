@@ -160,7 +160,9 @@ public:
 	 * \endcode
      *
 	 * \param fileName is the file to add (must exist on file system).
-	 * \param preservePath preserves the from fileName inside the zip.
+	 * \param preservePath preserves the path from fileName inside the zip.
+	 *        - if preservePath == true and fileName == "path/to/file" -> fileName == "path/to/file"
+	 *        - if preservePath == true and fileName == "path/to/file" -> fileName == "file"
 	 * \return true if the content of fileName could be added to the specified destFileName,
 	 *         otherwise false.
 	 */
