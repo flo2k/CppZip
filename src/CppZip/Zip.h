@@ -161,8 +161,8 @@ public:
      *
 	 * \param fileName is the file to add (must exist on file system).
 	 * \param preservePath preserves the path from fileName inside the zip.
-	 *        - if preservePath == true and fileName == "path/to/file" -> fileName == "path/to/file"
-	 *        - if preservePath == true and fileName == "path/to/file" -> fileName == "file"
+	 *        - if preservePath == true and fileName == "path/to/file" -> fileName == "path/to/file".
+	 *        - if preservePath == false and fileName == "path/to/file" -> fileName == "file".
 	 * \return true if the content of fileName could be added to the specified destFileName,
 	 *         otherwise false.
 	 */
@@ -197,13 +197,17 @@ public:
 	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param folderName is the folder to add inside the zip file.
+	 * \param preservePath preserves the path from folderName inside the zip.
+	 *        - if preservePath == true and folderName == "path/to/folder" -> folderName == "path/to/folder".
+	 *        - if preservePath == false and folderName == "path/to/folder" -> folderName == "folder".
+	 *          All files inside "path/to/folder/file" results in "folder/file".
 	 * \param recursive  is a flag, that controls the add behavior:
 	 *                   - if recursive == true: all the content of the folder and the
 	 *                     content of the subfolders are added.
 	 *                   - if recursive == false: only the files of the folder will be added.
 	 * \return true if folder and the content of the folder could be added, otherwise false.
 	 */
-	bool addFolder(const std::string & folderName, bool recursive = true);
+	bool addFolder(const std::string & folderName, bool preservePath = true, bool recursive = true);
 
 	/*!
 	 * \brief Adds a new empty folder inside the zip.
@@ -382,6 +386,12 @@ private:
 
 	bool containsFile(const std::string & fileName);
 
+	bool addFolder(
+			const std::string & realFolderName, const std::string & relativeFolderName,
+			bool preservePath = true, bool recursive = true);
+	bool addFolderChilds(
+				const std::string & realFolderName, const std::string & folderNameToAdd,
+				bool preservePath = true, bool recursive = true);
 	bool addFolder_internal(std::shared_ptr<InnerZipFileInfo> info);
 
 	// Helpers for deleting file/folder

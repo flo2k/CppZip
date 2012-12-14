@@ -325,9 +325,24 @@ bool Zip::addFile(const std::string & fileName, const std::string & destFileName
 	return addFile_internal(info, fileName);
 }
 
-bool Zip::addFolder(const std::string & folderName, bool recursive)
+bool Zip::addFolder(const std::string & folderName, bool preservePath, bool recursive)
 {
-	std::string folderNameToAdd = boost::algorithm::replace_all_copy(folderName, "\\", "/");
+	std::string relativeFolderName = boost::filesystem::path(folderName).filename().string();
+	return addFolder(folderName, relativeFolderName, preservePath, recursive);
+}
+
+bool Zip::addFolder(
+			const std::string & realFolderName, const std::string & relativeFolderName,
+			bool preservePath, bool recursive)
+{
+	std::string folderNameToAdd;
+
+	if(preservePath){
+		folderNameToAdd = boost::algorithm::replace_all_copy(realFolderName, "\\", "/");
+	} else {
+		folderNameToAdd = relativeFolderName;
+	}
+
 	if(! boost::algorithm::ends_with(folderNameToAdd, "/")){
 		folderNameToAdd += "/";
 	}
@@ -336,24 +351,39 @@ bool Zip::addFolder(const std::string & folderName, bool recursive)
 		return false;
 	}
 
-	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForAExistingFile(folderName);
+	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForAExistingFile(realFolderName);
 	info->fileName = folderNameToAdd;
 	if(! addFolder_internal(info)){
 		return false;
 	}
 
-	boost::filesystem::directory_iterator iter(folderName);
+	return addFolderChilds(realFolderName, folderNameToAdd, preservePath, recursive);
+}
+bool Zip::addFolderChilds(
+				const std::string & realFolderName, const std::string & folderNameToAdd,
+				bool preservePath, bool recursive)
+{
+	boost::filesystem::directory_iterator iter(realFolderName);
 	boost::filesystem::directory_iterator end;
 
 	for(; iter != end; ++iter){
 		boost::filesystem::path dirEntry = *iter;
+		std::string destName;
+
+		if(preservePath){
+			destName = dirEntry.string();
+		} else {
+			destName= folderNameToAdd + dirEntry.filename().string();
+		}
+
 		if(boost::filesystem::is_regular_file(dirEntry)){
-			if(! addFile(dirEntry.string())){
+			if(! addFile(dirEntry.string(), destName)){
 				return false;
 			}
 
 		} else if(boost::filesystem::is_directory(dirEntry) && recursive){
-			if(! addFolder(dirEntry.string(), recursive)){
+
+			if(! addFolder(dirEntry.string(), destName, preservePath, recursive)){
 				return false;
 			}
 		}

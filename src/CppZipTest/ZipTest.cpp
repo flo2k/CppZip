@@ -333,7 +333,25 @@ void ZipTest::test_addFolder_recursive(void) {
 void ZipTest::test_addFolder_notRecursive(void){
 	bool expected = true;
 	zip->open(tempFolder + "/" + zipFile);
+	bool actual = zip->addFolder("data/test", true, false);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFolder_notPreservesPath(void) {
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile);
 	bool actual = zip->addFolder("data/test", false);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void ZipTest::test_addFolder_notPreservesPath_and_notRecursive(void) {
+	bool expected = true;
+	zip->open(tempFolder + "/" + zipFile);
+	bool actual = zip->addFolder("data/test", false, false);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);

@@ -83,6 +83,8 @@ class ZipTest : public CppUnit::TestFixture {
 
 		CPPUNIT_TEST(test_addFolder_recursive);
 		CPPUNIT_TEST(test_addFolder_notRecursive);
+		CPPUNIT_TEST(test_addFolder_notPreservesPath);
+		CPPUNIT_TEST(test_addFolder_notPreservesPath_and_notRecursive);
 
 		CPPUNIT_TEST(test_deleteFile);
 		CPPUNIT_TEST(test_deleteFolder);
@@ -135,6 +137,8 @@ public:
 
 	void test_addFolder_recursive(void);
 	void test_addFolder_notRecursive(void);
+	void test_addFolder_notPreservesPath(void);
+	void test_addFolder_notPreservesPath_and_notRecursive(void);
 
 	void test_deleteFile(void);
 	void test_deleteFolder(void);
