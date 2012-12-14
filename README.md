@@ -1,7 +1,7 @@
 CppZip
 ======
 
-CppZip is an open source c++ zip library and is based on zlib and minizip. CppZip is implemented with 
+CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with 
 standard C++ (C++11) and some funtions of the boost libraries.
 
 It's implementation focus is
