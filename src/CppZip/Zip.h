@@ -5,7 +5,8 @@
  *
  * Created: 13.11.2011, Florian Künzner
  *
- * Copyright (C) 2011-2012 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2011 Florian Künzner (CppZip)
+ * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -37,10 +38,13 @@
 #include <string>
 #include <boost/signals.hpp>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <memory>
 
 namespace cppzip {
+//forward declaration
+struct InnerZipFileInfo;
+class Unzip;
 
 /*!
  * \brief Zip allows creating zip files
@@ -106,7 +110,7 @@ public:
 	 * - "folder/subFolder/fileName.txt"
 	 * - "folder\\subFolder\\fileName.txt"
 	 *
-	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * This is a usage example for addFile():
 	 * \code
@@ -131,7 +135,7 @@ public:
 	 * \return true if the content could be added to the spezified fileName,
 	 *         otherwise false.
 	 */
-	bool addFile(const std::string & fileName, std::vector<unsigned char> content);
+	bool addFile(const std::string & fileName, std::vector<unsigned char> & content);
 
 	/*!
 	 * \brief Adds a file from fileName into the zip.
@@ -140,6 +144,8 @@ public:
 	 *
 	 * If the file in fileName is empty, an empty file will be created inside the zip file.
 	 * If the file in fileName doesn't exist or can't read, false is returned.
+     *
+     * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
      *
      * This is a usage example for addFile():
 	 * \code
@@ -155,11 +161,33 @@ public:
 	 * \endcode
      *
 	 * \param fileName is the file to add (must exist on file system).
-	 * \param preservePath preserves the from fileName inside the zip.
+	 * \param preservePath preserves the path from fileName inside the zip.
+	 *        - if preservePath == true and fileName == "path/to/file" -> fileName == "path/to/file".
+	 *        - if preservePath == false and fileName == "path/to/file" -> fileName == "file".
 	 * \return true if the content of fileName could be added to the specified destFileName,
 	 *         otherwise false.
 	 */
 	bool addFile(const std::string & fileName, bool preservePath = true);
+
+	/*!
+	 * \brief Adds a list of files from the file system into the zip.
+	 *
+	 * Adds the content of the files into new files inside the zip.
+	 *
+	 * If a file in fileNames is empty, an empty file will be created inside the zip file.
+	 * If a file in fileNames doesn't exist or can't read, false is returned, but it tries
+	 * to add as much files as possible and don't break at a failure.
+	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+	 *
+	 * \param fileNames is a list of fileNames to add (fileNames must exist on file system).
+	 * \param preservePath preserves the path from fileNames inside the zip.
+	 *        - if preservePath == true and a fileName == "path/to/file" -> a fileName == "path/to/file".
+	 *        - if preservePath == false and a fileName == "path/to/file" -> a fileName == "file".
+	 * \return true if the content of fileName could be added to the specified destFileName,
+	 *         otherwise false.
+	 */
+	bool addFiles(const std::list<std::string> & fileNames, bool preservePath = true);
 
 	/*!
 	 * \brief Adds a file from fileName into the zip.
@@ -171,13 +199,36 @@ public:
 	 * If the file in fileName is empty, an empty file will be created inside the zip file.
 	 * If the file in fileName doesn't exist or can't read, false is returned.
 	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+	 *
 	 * \param fileName is the file to add (must exist on file system).
 	 * \param destFileName is the destination file name inside the zip.
 	 * \return true if the content of fileName could be added to the specified destFileName,
 	 *         otherwise false.
 	 */
 	bool addFile(const std::string & fileName, const std::string & destFileName);
-	bool addFolder(const std::string & folderName, bool recursive);
+
+	/*!
+	 * \brief Adds a folder from the file system to the zip.
+	 *
+	 * Adds the folder and the content of the folder to the zip.
+	 *
+	 * If the folder already exists addFolder() == false, and nothing will be added.
+	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+	 *
+	 * \param folderName is the folder to add inside the zip file.
+	 * \param preservePath preserves the path from folderName inside the zip.
+	 *        - if preservePath == true and folderName == "path/to/folder" -> folderName == "path/to/folder".
+	 *        - if preservePath == false and folderName == "path/to/folder" -> folderName == "folder".
+	 *          All files inside "path/to/folder/file" results in "folder/file".
+	 * \param recursive  is a flag, that controls the add behavior:
+	 *                   - if recursive == true: all the content of the folder and the
+	 *                     content of the subfolders are added.
+	 *                   - if recursive == false: only the files of the folder will be added.
+	 * \return true if folder and the content of the folder could be added, otherwise false.
+	 */
+	bool addFolder(const std::string & folderName, bool preservePath = true, bool recursive = true);
 
 	/*!
 	 * \brief Adds a new empty folder inside the zip.
@@ -193,7 +244,7 @@ public:
 	 * - "folder/subFolder/subSubFolder"
 	 * - "folder\\subFolder\\subSubFolder"
 	 *
-	 * \note At the Moment there are Problems with Umlauts in fileName (ä, ö, ü, ..)
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param folderName is the folder to add inside the zip file.
 	 * \return true if folder could be added, otherwise false.
@@ -223,23 +274,29 @@ public:
 	bool deleteFolder(const std::string & folderName);
 
 	/*!
-	 * Replaces the existing file with inside the zip file with given the content.
+	 * \brief Replaces the existing file inside the zip file with given the content.
+	 *
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *
 	 * \attention The replace operation may be slow on big zip files.
+	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param  fileName is the file that should be replaced inside the zip file.
 	 * \param  content  is the new content of fileName.
 	 *
 	 * \return true if the file could be replaced or added, otherwise false.
 	 */
-	bool replaceFile(const std::string & fileName, std::vector<unsigned char> content);
+	bool replaceFile(const std::string & fileName, std::vector<unsigned char> & content);
 
 	/*!
-	 * Replaces the existing file with inside the zip file with given the content.
+	 * \brief Replaces the existing file inside the zip file with the content of the file.
+	 *
 	 * If the fileName doesn't exist inside the zip, the file will be added.
 	 *
 	 * \attention The replace operation may be slow on big zip files.
+	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
 	 *
 	 * \param fileName     is the file to add (must exist on file system).
 	 * \param destFileName is the destination file name inside the zip that should be replaced.
@@ -248,10 +305,12 @@ public:
 	 */
 	bool replaceFile(const std::string & fileName, const std::string & destFileName);
 
-	bool addFilter(std::string filter); //??
+	//bool addFilter(std::string filter); //??
 
 	/*!
-	 * Sets the compression level. Allowed values are from 0 to 9.
+	 * \brief Sets the compression level.
+	 *
+	 * Allowed values are from 0 to 9.
 	 *  - 0 = no compression, only saving in zip
 	 *  - 9 = maximum compression
 	 *  - default = 6
@@ -264,7 +323,7 @@ public:
 	bool setCompressionLevel(int compressionLevel);
 
 	/*!
-	 * Gets the compression level.
+	 * \brief Gets the compression level.
 	 *
 	 * \return the compression level.
 	 * \see setCompressionLevel()
@@ -272,10 +331,10 @@ public:
 	size_t getCompressionLevel(void);
 
 	/*!
-	 * Closes the zip file.
+	 * \brief Closes the zip file.
 	 *
-	 * \details When close() is called, the zip headers are written to the end of
-	 *         the zip file.
+	 * When close() is called, the zip headers are written to the end of
+	 * the zip file.
 	 *
 	 * \return true if the zip file is successfully closed, otherwise false.
 	 */
@@ -304,40 +363,32 @@ public:
 
 private:
 	/*!
+	 * Retrieves the file infos of an existing zip file.
+	 *
+	 * If the file doesn't exist or an error occurs, an empty map will be returned;
+	 *
+	 * \return the zip file infos.
+	 */
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
+		retrieveFileInfos(const std::string & fileName);
+
+	/*!
 	 * Clears the internal members.
 	 */
 	void clear(void);
 
+	// Helpers for adding file/folder
 	/*!
-	 * Creates a directory on the file system with all subdirs if not exists
+	 * Creates a folder on the file system with all subfolders if not exists
 	 *
 	 * \param path to create
 	 * \return true if path exists or created, otherwise false.
 	 */
-	bool createDirectoryIfNotExists(const std::string & path);
+	bool createFolderIfNotExists(const std::string & path);
 
-	std::vector<unsigned char> getFileContent(const std::string & fileName);
-
-	/*!
-	 * InnerZipFileInfo contains all Infos to save a file into zip.
-	 * The informations are very similar to zip_fileinfo from zip.h
-	 */
-	typedef struct {
-		std::string fileName;
-		std::string extraField;
-		std::string comment;
-		unsigned int time_sec;            /*! seconds after the minute - [0,59] */
-		unsigned int time_min;            /*! minutes after the hour - [0,59] */
-		unsigned int time_hour;           /*! hours since midnight - [0,23] */
-		unsigned int time_day_of_month;   /*! day of the month - [1,31] */
-		unsigned int time_month;          /*! months since January - [0,11] */
-		unsigned int time_year;           /*! years - [1980..2044] */
-		unsigned long dosDate;            /*! if dos_date == 0, tmu_date is used */
-		unsigned long internal_fileAttributes;
-		unsigned long external_fileAttributes;
-	} InnerZipFileInfo;
-
-	std::shared_ptr<InnerZipFileInfo> getFileInfo(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoForAExistingFile(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
 
 	/*!
 	 * Gets the platform depended file attributes from an exiting file on the file system.
@@ -348,11 +399,21 @@ private:
 
 	bool addFile_internal(
 			std::shared_ptr<InnerZipFileInfo> info,
-			std::vector<unsigned char> content);
-	bool containsFile(const std::string & fileName);
-	bool containsFileInExistingZipFile(const std::string & zipFileName, const std::string & fileName);
+			std::vector<unsigned char> & content);
 
-	bool addFolder_internal(const std::string & folderName);
+	bool addFile_internal(
+				std::shared_ptr<InnerZipFileInfo> info,
+				const std::string & fileName);
+
+	bool containsFile(const std::string & fileName);
+
+	bool addFolder(
+			const std::string & realFolderName, const std::string & relativeFolderName,
+			bool preservePath = true, bool recursive = true);
+	bool addFolderChilds(
+				const std::string & realFolderName, const std::string & folderNameToAdd,
+				bool preservePath = true, bool recursive = true);
+	bool addFolder_internal(std::shared_ptr<InnerZipFileInfo> info);
 
 	// Helpers for deleting file/folder
 	/*!
@@ -368,15 +429,10 @@ private:
 	 * \return true if all is ok, otherwise false.
 	 */
 	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(const std::string & tempZipFile,
-																		const std::string & fileName);
+																		const std::string & fileName,
+																		bool isFileNameAFolder);
 
-	/*!
-	 * Copies all files and folders into a new zip, except the folder and the content of the folder.
-	 *
-	 * \return true if all is ok, otherwise false.
-	 */
-	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFolderName(const std::string & tempZipFile,
-																		  const std::string & folderName);
+	bool copyFile(Unzip & unzip, const std::string & fileName);
 
 	/*!
 	 * Cleans up the temporary files and tries to restore the original zip file.
@@ -394,10 +450,10 @@ private:
 	typedef void * voidp;
 	typedef voidp zipFile;
 	std::string zipFileName;
-	OpenFlags openFlag;
-	std::map<std::string, std::shared_ptr<InnerZipFileInfo> > files;
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
 
 	zipFile zipfile_handle;
+	OpenFlags openFlag;
 	int compressionLevel;
 
 	std::string password;

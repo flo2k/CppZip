@@ -6,7 +6,9 @@
  */
 
 #include "Unzip.h"
-#include <unzip.h>
+#include "ZipCommon.h"
+#include "minizip/unzip.h"
+
 #include <algorithm>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -20,7 +22,6 @@ namespace cppzip {
 Unzip::Unzip(void)
 : zipfile_handle(NULL), numFiles(0)
 {
-	// TODO Auto-generated constructor stub
 
 }
 
@@ -140,7 +141,6 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 
 bool Unzip::goToFile(const std::string & fileName)
 {
-
 	if(containsFile(fileName) == false){
 		return false;
 	}
@@ -163,10 +163,10 @@ bool Unzip::containsFile(const std::string & fileName)
 
 bool Unzip::isFile(const std::string & path)
 {
-	return isDirectory(path) == false;
+	return isFolder(path) == false;
 }
 
-bool Unzip::isDirectory(const std::string & path)
+bool Unzip::isFolder(const std::string & path)
 {
 	return boost::algorithm::ends_with(path, "/");
 }
@@ -193,14 +193,39 @@ bool Unzip::extractFileTo_Internal(
 		beforeFileExtraction(destinationPath);
 
 		boost::filesystem::path p(destinationPath);
-		if(createDirectoryIfNotExists(p.parent_path().string()) == false){
+		if(createFolderIfNotExists(p.parent_path().string()) == false){
 			extraction_ok = false;
 		}
 
-		std::vector<unsigned char> data = getFileContent(fileName);
+		//locate filefileContent
+		if(! goToFile(fileName)){
+			return false;
+		}
 
+		//open file
+		if(UNZ_OK != unzOpenCurrentFile(zipfile_handle)){
+			return false;
+		}
+
+		//destination
 		boost::filesystem::ofstream ofs(p, std::ios::out | std::ios::binary);
-		std::copy(data.begin(), data.end(), std::ostream_iterator<unsigned char>(ofs));
+
+		//copy the content
+		unsigned char buffer[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
+
+		unsigned int len = 0;
+		while((len = unzReadCurrentFile(
+				zipfile_handle,
+				buffer,
+				CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE))
+		){
+			ofs.write((const char *)buffer, len);
+		}
+
+		//close file
+		if(UNZ_OK != unzCloseCurrentFile(zipfile_handle)){
+			return false;
+		}
 
 		ofs.flush();
 
@@ -222,7 +247,7 @@ bool Unzip::extractAllTo(const std::string & path)
 	std::string dest_path = path;
 	bool extraction_ok = true;
 
-	if(! isDirectory(dest_path)){
+	if(! isFolder(dest_path)){
 		dest_path += "/";
 	}
 
@@ -236,7 +261,7 @@ bool Unzip::extractAllTo(const std::string & path)
 				extraction_ok = false;
 			}
 		} else {
-			if(createDirectoryIfNotExists(dest_path + fileName) == false){
+			if(createFolderIfNotExists(dest_path + fileName) == false){
 				extraction_ok = false;
 			}
 		}
@@ -245,10 +270,10 @@ bool Unzip::extractAllTo(const std::string & path)
 	return extraction_ok;
 }
 
-bool Unzip::createDirectoryIfNotExists(const std::string & path)
+bool Unzip::createFolderIfNotExists(const std::string & path)
 {
 	std::string pathToCreate = path;
-	if(isDirectory(pathToCreate)){
+	if(isFolder(pathToCreate)){
 		boost::algorithm::erase_tail_copy(pathToCreate, 1);
 	}
 
@@ -262,7 +287,6 @@ bool Unzip::createDirectoryIfNotExists(const std::string & path)
 
 	return ok;
 }
-
 
 void Unzip::retrieveAllFileInfos(void)
 {
@@ -282,17 +306,33 @@ void Unzip::retrieveAllFileInfos(void)
 				currentExtraField, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE,
 				currentComment, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE);
 
-		InnerZipFileInfo innerFileInfo;
-		innerFileInfo.fileName = currentFileName;
-		innerFileInfo.extraField = currentExtraField;
-		innerFileInfo.comment = currentComment;
-		innerFileInfo.pos_in_zip_directory = pos.pos_in_zip_directory;
-		innerFileInfo.num_of_file = pos.num_of_file;
+		std::shared_ptr<InnerZipFileInfo> innerFileInfo(new InnerZipFileInfo());
+		innerFileInfo->fileName = currentFileName;
+		innerFileInfo->extraField = currentExtraField;
+		innerFileInfo->comment = currentComment;
+		innerFileInfo->time_sec = info.tmu_date.tm_sec;
+		innerFileInfo->time_min = info.tmu_date.tm_min;
+		innerFileInfo->time_hour = info.tmu_date.tm_hour;
+		innerFileInfo->time_day_of_month = info.tmu_date.tm_mday;
+		innerFileInfo->time_month = info.tmu_date.tm_mon;
+		innerFileInfo->time_year = info.tmu_date.tm_year;
+		innerFileInfo->dosDate = info.dosDate;
+		innerFileInfo->crc = info.crc;
+		innerFileInfo->compressed_size = info.compressed_size;
+		innerFileInfo->uncompressed_size = info.uncompressed_size;
+		innerFileInfo->internal_fileAttributes = info.internal_fa;
+		innerFileInfo->external_fileAttributes = info.external_fa;
 
-		fileInfos.insert(std::make_pair(innerFileInfo.fileName, innerFileInfo));
+		fileInfos.insert(std::make_pair(innerFileInfo->fileName, innerFileInfo));
 
 
 	} while(UNZ_OK == unzGoToNextFile(zipfile_handle));
 }
 
+std::shared_ptr<InnerZipFileInfo> Unzip::getFileInfoFromLocalFileInfos(	const std::string& fileName)
+{
+	return fileInfos[fileName];
+}
+
 } //cppzip
+

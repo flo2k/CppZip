@@ -7,6 +7,7 @@ some others:
 - http://quazip.sourceforge.net/
 - http://code.google.com/p/microzip/source/browse/
 - http://code.google.com/p/miniz/ (deflate Algorithmus)
+- https://github.com/mattconnolly/ZipArchive (for Cocoa: iPhone and OS X)
 
 Zip-Standard:
 - http://www.pkware.com/documents/casestudies/APPNOTE.TXT

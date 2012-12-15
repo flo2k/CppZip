@@ -5,7 +5,8 @@
  *
  * Created: 05.11.2011, Florian Künzner
  *
- * Copyright (C) 2011-2012 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2011 Florian Künzner (CppZip)
+ * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -36,11 +37,14 @@
 
 #include <string>
 #include <list>
-#include <map>
+#include <unordered_map>
 #include <vector>
+#include <memory>
 #include <boost/signal.hpp>
 
 namespace cppzip {
+//forward declaration
+struct InnerZipFileInfo;
 
 /*!
  * \brief Unzip allows reading files inside a zip file
@@ -58,9 +62,11 @@ public:
 	~Unzip();
 
 	/*!
-	 * Opens a zip given in zipFile file. If open() is called and
-	 * isOpened() == true, then open() returns false, because
-	 * another zip file is already opened.
+	 * \brief Opens a zip given in zipFile file.
+	 *
+	 * If open() is called and isOpened() == true,
+	 * then open() returns false, because another zip
+	 * file is already opened.
 	 *
 	 * \param zipFile is the file (incl. path) to open
 	 *
@@ -69,14 +75,18 @@ public:
 	bool open(const std::string & zipFile);
 
 	/*!
-	 * Closes a zip file. If it couldn't close it returns false. If
-	 * no zip file was opened it returns true.
+	 * \brief Closes a zip file.
+	 *
+	 * If it couldn't close it returns false. If no zip file was
+	 * opened it returns true.
 	 *
 	 * \return true if the close() was successful, otherwise false.
 	 */
 	bool close(void);
 
 	/*!
+	 * \brief Gets the opened status.
+	 *
 	 * Returns true if a zip file is opened. When a new object of Unzip is
 	 * created and open() is never called, then it returns always false;
 	 *
@@ -85,25 +95,27 @@ public:
 	bool isOpened(void);
 
 	/*!
-	 * Returns the number of files (files, folders) inside the zip file.
+	 * \brief Returns the number of files (files, folders) inside the zip file.
+	 *
 	 * If no zip file is opened getNumElements() == 0.
 	 *
-	 * \note A directory is also a file.
+	 * \note A folder is also a file.
 	 *
 	 * \return number of elements in the zip file
 	 */
 	int getNumFiles(void);
 
 	/*!
-	 * Returns if a file is inside the zip file. If no zip file is opened
-	 * containsFile() == false
+	 * \brief Returns if a file is inside the zip file.
+	 *
+	 * If no zip file is opened containsFile() == false
 	 *
 	 * \return true if the file is inside the zip
 	 */
 	bool containsFile(const std::string & fileName);
 
 	/*!
-	 * Checks if path is a file
+	 * \brief Checks if path is a file.
 	 *
 	 * \param path to check
 	 * \return true if path is a file, otherwise false.
@@ -111,28 +123,31 @@ public:
 	bool isFile(const std::string & path);
 
 	/*!
-	 * Checks if path is a directory
+	 * \brief Checks if path is a folder.
 	 *
-	 * \note Inside a zip file, a directory ends with "/"
+	 * \note Inside a zip file, a folder ends with "/"
 	 *
 	 * \param path to check
-	 * \return true if path is a directory, otherwise false.
+	 * \return true if path is a folder, otherwise false.
 	 */
-	bool isDirectory(const std::string & path);
+	bool isFolder(const std::string & path);
 
 	/*!
-	 * Returns the containing file names (files, folders) in the zip file. If zip file
-	 * is not opened or zip file is empty, an empty list will be returned.
+	 * \brief Returns the containing file names (files, folders) in the zip file.
 	 *
-	 * \note A directory is also a file and is in the list of file names.
+	 * If zip file is not opened or zip file is empty, an empty list
+	 * will be returned.
+	 *
+	 * \note A folder is also a file and is in the list of file names.
 	 *
 	 * \return list of file names
 	 */
 	std::list<std::string> getFileNames(void);
 
 	/*!
-	 * Get the file content. If file is a directory or doesn't exist
-	 * an empty list will be returned.
+	 * \brief Get the file content.
+	 *
+	 * If file is a folder or doesn't exist an empty list will be returned.
 	 *
 	 * This is a usage example of getFileNames():
 	 * \code
@@ -156,7 +171,8 @@ public:
 	std::vector<unsigned char> getFileContent(const std::string & fileName);
 
 	/*!
-	 * Extracts the file in fileName to the path.
+	 * \brief Extracts the file in fileName to the path.
+	 *
 	 * path = "/path/to/file"
 	 *
 	 * If path doesn't exist, extractFileTo trys to create it
@@ -182,12 +198,12 @@ public:
 	bool extractFileTo(const std::string & fileName, const std::string & path);
 
 	/*!
-	 * Extracts the contents of zip file to the given path.
+	 * \brief Extracts the contents of zip file to the given path.
 	 *
 	 * \note If the path doesn't exists, extractAllTo() tries to
 	 * create the paths and all subdirs.
 	 *
-	 * \param path is a directory
+	 * \param path is a folder
 	 * \return true if all is extracted, otherwise false
 	 */
 	bool extractAllTo(const std::string & path);
@@ -234,28 +250,17 @@ private:
 	bool goToFile(const std::string & fileName);
 
 	/*!
-	 * Describes a file inside a zip file
-	 */
-	typedef struct {
-		std::string fileName;
-		std::string extraField;
-		std::string comment;
-		unsigned long pos_in_zip_directory;
-		unsigned long num_of_file;
-	} InnerZipFileInfo;
-
-	/*!
 	 * Reads all elements in the zip file
 	 */
 	void retrieveAllFileInfos(void);
 
 	/*!
-	 * Creates a directory with all subdirs if not exists
+	 * Creates a folder with all subdirs if not exists
 	 *
 	 * \param path to create
 	 * \return true if path exists or created, otherwise false.
 	 */
-	bool createDirectoryIfNotExists(const std::string & path);
+	bool createFolderIfNotExists(const std::string & path);
 
 	/*!
 	 * Extracts the file to the given path. Bevor a file is extracted
@@ -278,6 +283,8 @@ private:
 			int max,
 			int current);
 
+	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
+
 private:
 	typedef void * voidp;
 	typedef voidp unzFile;
@@ -286,7 +293,9 @@ private:
 	int numFiles;
 
 	typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
-	std::map<std::string, InnerZipFileInfo> fileInfos;
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+
+	friend class Zip;
 };
 
 } //cppzip

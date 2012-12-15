@@ -5,7 +5,8 @@
  *
  * Created: 15.11.2011, Florian Künzner
  *
- * Copyright (C) 2011-2012 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2011 Florian Künzner (CppZip)
+ * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -61,6 +62,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFile);
 		CPPUNIT_TEST(test_addFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_addFile_WhenFileNameAlreadyExists);
+		CPPUNIT_TEST(test_addFile_WithNotPreservePath);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WithFileNameIsEmpty);
@@ -72,6 +74,10 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFile_Content_WithSubFoldersFileName);
 		CPPUNIT_TEST(test_addFile_Content_IfZipIsNotOpened);
 
+		CPPUNIT_TEST(test_addFiles);
+		CPPUNIT_TEST(test_addFiles_WithNotPreservePath);
+		CPPUNIT_TEST(test_addFiles_WhenOneFileNotExists);
+
 		CPPUNIT_TEST(test_addEmptyFolder);
 		CPPUNIT_TEST(test_addEmptyFolder_WithUmlaut);
 		CPPUNIT_TEST(test_addEmptyFolder_WhenFolderAlreadyExists);
@@ -79,11 +85,15 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists);
 		CPPUNIT_TEST(test_addEmptyFolder_WithSubFolders_WindowsStyle);
 
+		CPPUNIT_TEST(test_addFolder_recursive);
+		CPPUNIT_TEST(test_addFolder_notRecursive);
+		CPPUNIT_TEST(test_addFolder_notPreservesPath);
+		CPPUNIT_TEST(test_addFolder_notPreservesPath_and_notRecursive);
+
 		CPPUNIT_TEST(test_deleteFile);
 		CPPUNIT_TEST(test_deleteFolder);
-		CPPUNIT_TEST(test_delete_WhenFileNotExists);
-		CPPUNIT_TEST(test_delete_WhenTemparyFileCouldntCreated);
-		CPPUNIT_TEST(test_delete_WhenTemporaryZipIsCorrupt);
+		CPPUNIT_TEST(test_deleteFile_WhenFileNotExists);
+		CPPUNIT_TEST(test_deleteFile_WhenTemparyFileCouldntCreated);
 
 		CPPUNIT_TEST(test_replaceFile);
 		CPPUNIT_TEST(test_replaceFile_WhenFileNotExistsInZip);
@@ -114,6 +124,7 @@ public:
 	void test_addFile(void);
 	void test_addFile_WhenFileNotExists(void);
 	void test_addFile_WhenFileNameAlreadyExists(void);
+	void test_addFile_WithNotPreservePath(void);
 	void test_addFile_WithDestinationFile(void);
 	void test_addFile_WithDestinationFile_WhenFileNotExists(void);
 	void test_addFile_WithDestinationFile_WithFileNameIsEmpty(void);
@@ -125,6 +136,10 @@ public:
 	void test_addFile_Content_WithSubFoldersFileName(void);
 	void test_addFile_Content_IfZipIsNotOpened(void);
 
+	void test_addFiles(void);
+	void test_addFiles_WithNotPreservePath(void);
+	void test_addFiles_WhenOneFileNotExists(void);
+
 	void test_addEmptyFolder(void);
 	void test_addEmptyFolder_WithUmlaut(void);
 	void test_addEmptyFolder_WhenFolderAlreadyExists(void);
@@ -132,11 +147,15 @@ public:
 	void test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists(void);
 	void test_addEmptyFolder_WithSubFolders_WindowsStyle(void);
 
+	void test_addFolder_recursive(void);
+	void test_addFolder_notRecursive(void);
+	void test_addFolder_notPreservesPath(void);
+	void test_addFolder_notPreservesPath_and_notRecursive(void);
+
 	void test_deleteFile(void);
 	void test_deleteFolder(void);
-	void test_delete_WhenFileNotExists(void);
-	void test_delete_WhenTemparyFileCouldntCreated(void);
-	void test_delete_WhenTemporaryZipIsCorrupt(void);
+	void test_deleteFile_WhenFileNotExists(void);
+	void test_deleteFile_WhenTemparyFileCouldntCreated(void);
 
 	void test_replaceFile(void);
 	void test_replaceFile_WhenFileNotExistsInZip(void);
@@ -146,6 +165,13 @@ public:
 	void test_addFile_WithPasswordProtection(void);
 	void test_addFile_Content_WithPasswordProtection(void);
 	void test_addFile_Content_FromAString_WithPasswordProtection(void);
+
+private:
+	bool containsFile(const std::string & zipFileName, const std::string & fileName);
+	bool containsFolder(const std::string & zipFileName, const std::string & folderName);
+	int numFilesInZip(const std::string & zipFileName);
+	void createFolder(const std::string & folderName);
+	void copyFile(const std::string & src, const std::string & dest);
 
 private:
 	std::shared_ptr<Zip> zip;
