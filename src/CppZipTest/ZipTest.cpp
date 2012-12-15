@@ -68,18 +68,16 @@ void ZipTest::test_openANonExistingZipFile(void) {
 
 void ZipTest::test_openAExistingZipFile(void) {
 	bool expected = true;
-	boost::filesystem::create_directories(tempFolder);
+	std::string zipFileName = tempFolder + "/" + zipFile;
 
-	//workaround, because boost::filesystem::copy_file don't link
-	//because there are some missing symbols...
-	//tested on my ubuntu 11.10 64bit with boost 1.46.1
-	//boost::filesystem::copy_file(zipFile, tempFolder + "/" + zipFile);
-	std::string cmd = "touch " + tempFolder + "/" + zipFile;
-	system(cmd.c_str());
+	createFolder(tempFolder);
+	copyFile(zipFile, zipFileName);
 
-	bool actual = zip->open(tempFolder + "/" + zipFile);
+	bool actual = zip->open(zipFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 0, numFilesInZip(zipFileName));
 }
 
 void ZipTest::test_openAExistingWriteProtectedZipFile(void) {
