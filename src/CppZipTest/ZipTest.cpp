@@ -694,10 +694,13 @@ void ZipTest::createFolder(const std::string & folderName) {
 void ZipTest::copyFile(const std::string& src, const std::string& dest) {
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
-	//boost::filesystem::copy_file(src, dest);
 
+#ifdef WIN32
+	boost::filesystem::copy_file(src, dest);
+#else
 	std::string cmd = "cp " + src + " " + dest;
 	system(cmd.c_str());
+#endif
 }
 
 } //cppzip
