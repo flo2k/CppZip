@@ -21,6 +21,10 @@
     - Filters: for extensions, file names, directories, ... 
       (example1: files that match the filters are added)
       (example2: files that doesn't match the filters are added)
+    - Zip::addFiles()
+    - Zip::deleteFiles()
+    - Zip::replaceFiles()
+    - Unzip::extractFilesTo()
     
 - Bug:
 	- Zip files with umlauts (ä, ö, ü, ..): (Help: result42.com /projects/ZipFileLayout, ...)
