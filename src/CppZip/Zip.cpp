@@ -147,6 +147,30 @@ bool Zip::addFile_internal(
 	return true;
 }
 
+bool Zip::containsFile(const std::string & fileName)
+{
+	return fileInfos.count(fileName);
+}
+
+bool Zip::addFile(const std::string & fileName, bool preservePath)
+{
+	if(! preservePath){
+		boost::filesystem::path fileToAdd(fileName);
+		std::string destinationFileName = fileToAdd.filename().string();
+		return addFile(fileName, destinationFileName);
+	}
+
+	std::shared_ptr<InnerZipFileInfo> info;
+
+	try{
+		info = getFileInfoForAExistingFile(fileName);
+	} catch(std::exception & e){
+		return false;
+	}
+
+	return addFile_internal(info, fileName);
+}
+
 bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::string& fileName)
 {
 	if(containsFile(info->fileName) || info->fileName.length() == 0){
@@ -201,30 +225,6 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 	}
 
 	return true;
-}
-
-bool Zip::containsFile(const std::string & fileName)
-{
-	return fileInfos.count(fileName);
-}
-
-bool Zip::addFile(const std::string & fileName, bool preservePath)
-{
-	if(! preservePath){
-		boost::filesystem::path fileToAdd(fileName);
-		std::string destinationFileName = fileToAdd.filename().string();
-		return addFile(fileName, destinationFileName);
-	}
-
-	std::shared_ptr<InnerZipFileInfo> info;
-
-	try{
-		info = getFileInfoForAExistingFile(fileName);
-	} catch(std::exception & e){
-		return false;
-	}
-
-	return addFile_internal(info, fileName);
 }
 
 std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForANewFile(const std::string & fileName)
