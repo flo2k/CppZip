@@ -14,7 +14,6 @@
 #include <string>
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
-#include <boost/filesystem/v3/operations.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <boost/algorithm/string.hpp>
@@ -695,7 +694,8 @@ void ZipTest::createFolder(const std::string & folderName) {
 void ZipTest::copyFile(const std::string& src, const std::string& dest) {
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
-	//boost::filesystem::copy_file(zipFile, tempFile);
+	//boost::filesystem::copy_file(src, dest);
+
 	std::string cmd = "cp " + src + " " + dest;
 	system(cmd.c_str());
 }
