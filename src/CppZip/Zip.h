@@ -169,6 +169,26 @@ public:
 	bool addFile(const std::string & fileName, bool preservePath = true);
 
 	/*!
+	 * \brief Adds a list of files from the file system into the zip.
+	 *
+	 * Adds the content of the files into new files inside the zip.
+	 *
+	 * If a file in fileNames is empty, an empty file will be created inside the zip file.
+	 * If a file in fileNames doesn't exist or can't read, false is returned, but it tries
+	 * to add as much files as possible and don't break at a failure.
+	 *
+	 * \note At the moment there are problems with umlauts in fileName (ä, ö, ü, ..)
+	 *
+	 * \param fileNames is a list of fileNames to add (fileNames must exist on file system).
+	 * \param preservePath preserves the path from fileNames inside the zip.
+	 *        - if preservePath == true and a fileName == "path/to/file" -> a fileName == "path/to/file".
+	 *        - if preservePath == false and a fileName == "path/to/file" -> a fileName == "file".
+	 * \return true if the content of fileName could be added to the specified destFileName,
+	 *         otherwise false.
+	 */
+	bool addFiles(const std::list<std::string> & fileNames, bool preservePath = true);
+
+	/*!
 	 * \brief Adds a file from fileName into the zip.
 	 *
 	 * Adds the content of fileName into a new file named in destFileName inside the zip.

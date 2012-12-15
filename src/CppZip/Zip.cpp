@@ -308,6 +308,19 @@ unsigned long Zip::getExternalFileAttributesFromExistingFile(
 	return externalAttributes;
 }
 
+bool Zip::addFiles(const std::list<std::string> & fileNames, bool preservePath)
+{
+	bool ok = true;
+
+	for(auto & fileName : fileNames){
+		if(! addFile(fileName, preservePath)){
+			ok = false;
+		}
+	}
+
+	return ok;
+}
+
 bool Zip::addFile(const std::string & fileName, const std::string & destFileName)
 {
 	if(destFileName.length() == 0){
@@ -360,6 +373,7 @@ bool Zip::addFolder(
 
 	return addFolderChilds(realFolderName, folderNameToAdd, preservePath, recursive);
 }
+
 bool Zip::addFolderChilds(
 				const std::string & realFolderName, const std::string & folderNameToAdd,
 				bool preservePath, bool recursive)

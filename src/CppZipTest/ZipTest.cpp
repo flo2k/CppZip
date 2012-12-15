@@ -323,6 +323,53 @@ void ZipTest::test_addFile_Content_IfZipIsNotOpened(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
+void ZipTest::test_addFiles(void) {
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	std::string dataDir = "data/test/";
+	std::list<std::string> fileNames {dataDir + fileInsideZip, dataDir + fileInsideZipWithUmlaut};
+	bool actual = zip->addFiles(fileNames);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 2, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, dataDir + fileInsideZip));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, dataDir + fileInsideZipWithUmlaut));
+}
+
+void ZipTest::test_addFiles_WithNotPreservePath(void) {
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	std::string dataDir = "data/test/";
+	std::list<std::string> fileNames {dataDir + fileInsideZip, dataDir + fileInsideZipWithUmlaut};
+	bool actual = zip->addFiles(fileNames, false);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 2, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileInsideZip));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileInsideZipWithUmlaut));
+}
+
+void ZipTest::test_addFiles_WhenOneFileNotExists(void) {
+	bool expected = false;
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	std::string dataDir = "data/test/";
+	std::list<std::string> fileNames {notExistingFileName, dataDir + fileInsideZip};
+	bool actual = zip->addFiles(fileNames);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, dataDir + fileInsideZip));
+}
+
 void ZipTest::test_addEmptyFolder(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFile;

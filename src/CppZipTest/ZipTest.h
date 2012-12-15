@@ -74,6 +74,10 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFile_Content_WithSubFoldersFileName);
 		CPPUNIT_TEST(test_addFile_Content_IfZipIsNotOpened);
 
+		CPPUNIT_TEST(test_addFiles);
+		CPPUNIT_TEST(test_addFiles_WithNotPreservePath);
+		CPPUNIT_TEST(test_addFiles_WhenOneFileNotExists);
+
 		CPPUNIT_TEST(test_addEmptyFolder);
 		CPPUNIT_TEST(test_addEmptyFolder_WithUmlaut);
 		CPPUNIT_TEST(test_addEmptyFolder_WhenFolderAlreadyExists);
@@ -127,6 +131,10 @@ public:
 	void test_addFile_Content_WithEmptyContent(void);
 	void test_addFile_Content_WithSubFoldersFileName(void);
 	void test_addFile_Content_IfZipIsNotOpened(void);
+
+	void test_addFiles(void);
+	void test_addFiles_WithNotPreservePath(void);
+	void test_addFiles_WhenOneFileNotExists(void);
 
 	void test_addEmptyFolder(void);
 	void test_addEmptyFolder_WithUmlaut(void);
