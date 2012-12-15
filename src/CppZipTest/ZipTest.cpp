@@ -589,89 +589,98 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 }
 
 void ZipTest::test_replaceFile(void) {
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
 	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
-	bool expected = true;
 	bool actual = false;
 
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
-	std::string _zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
-	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	actual = zip->replaceFile(readMeFileName, fileToReplace);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 8, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileToReplace));
 }
 
 void ZipTest::test_replaceFile_WhenFileNotExistsInZip(void) {
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
 	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
-	bool expected = true;
-	bool actual = false;
-
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
-	std::string _zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
-	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
-	actual = zip->replaceFile(readMeFileName, notExistingFileName);
+	bool actual = zip->replaceFile(readMeFileName, notExistingFileName);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 9, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, notExistingFileName));
 }
 
 void ZipTest::test_replaceFile_WhenFileNotExistsOnFileSystem(void){
+	bool expected = false;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
 	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
-	bool expected = false;
 	bool actual = false;
 
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
-	std::string _zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
-	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	actual = zip->replaceFile(notExistingFileName, fileToReplace);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", false, containsFile(zipFileName, fileToReplace));
 }
 
 void ZipTest::test_replaceFile_Content(void) {
 	std::vector<unsigned char> content = { 'a', 'z', '7' };
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
 	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
-	bool expected = true;
 	bool actual = false;
 
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
-	std::string _zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
-	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	actual = zip->replaceFile(fileToReplace, content);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 8, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileToReplace));
 }
 
 bool ZipTest::containsFile(const std::string & zipFileName, const std::string & fileName) {
