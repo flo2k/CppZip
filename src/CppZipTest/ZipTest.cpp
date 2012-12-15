@@ -542,9 +542,9 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	// make folder which contains the zip read-only
+	//TODO: set the perms with boost, but for this boost 1.49 or higher is required.
 	std::string cmd = "chmod 555 " + tempFolder;
 	system(cmd.c_str());
-
 
 	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
