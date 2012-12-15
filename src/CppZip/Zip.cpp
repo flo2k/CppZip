@@ -153,6 +153,13 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 		return false;
 	}
 
+	//open the file on filesystem
+	boost::filesystem::ifstream ifs(fileName, std::ios::in | std::ios::binary);
+
+	if(! ifs.is_open()){
+		return false;
+	}
+
 	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
 
 	//open file inside zip
@@ -169,13 +176,6 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 	}
 
 	//copy the file contents
-	boost::filesystem::ifstream ifs(fileName, std::ios::in | std::ios::binary);
-
-	if(! ifs.is_open()){
-		zipCloseFileInZip(zipfile_handle); //try to close
-		return false;
-	}
-
 	char buffer[CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE];
 	while (ifs.good()) {
 		ifs.read(buffer, CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE);

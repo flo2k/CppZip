@@ -62,7 +62,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFile);
 		CPPUNIT_TEST(test_addFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_addFile_WhenFileNameAlreadyExists);
-		CPPUNIT_TEST(test_addFile_WithPreservePath);
+		CPPUNIT_TEST(test_addFile_WithNotPreservePath);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WithFileNameIsEmpty);
@@ -116,7 +116,7 @@ public:
 	void test_addFile(void);
 	void test_addFile_WhenFileNotExists(void);
 	void test_addFile_WhenFileNameAlreadyExists(void);
-	void test_addFile_WithPreservePath(void);
+	void test_addFile_WithNotPreservePath(void);
 	void test_addFile_WithDestinationFile(void);
 	void test_addFile_WithDestinationFile_WhenFileNotExists(void);
 	void test_addFile_WithDestinationFile_WithFileNameIsEmpty(void);
@@ -153,7 +153,7 @@ public:
 private:
 	bool containsFile(const std::string & zipFileName, const std::string & fileName);
 	bool containsFolder(const std::string & zipFileName, const std::string & fileName);
-	bool containsNumFiles(const std::string & zipFileName, const int numFiles);
+	int numFilesInZip(const std::string & zipFileName);
 
 private:
 	std::shared_ptr<Zip> zip;

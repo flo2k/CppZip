@@ -107,8 +107,8 @@ void ZipTest::test_openAppendToZip(void) {
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
-
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "file1.txt"));
+	//TODO: test numfiles
 }
 
 void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
@@ -135,6 +135,7 @@ void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "file1.txt"));
+	//TODO: testnumfiles
 }
 
 void ZipTest::test_closeAZipFile(void) {
@@ -154,52 +155,71 @@ void ZipTest::test_closeWhenNoZipFileIsOpened(void) {
 
 void ZipTest::test_addFile(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName);
 	bool actual = zip->addFile(readMeFileName);
+	zip->close();
 
-	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("add", expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, readMeFileName));
 }
 
 void ZipTest::test_addFile_WhenFileNotExists(void) {
 	bool expected = false;
 	zip->open(tempFolder + "/" + zipFile);
 	bool actual = zip->addFile(notExistingFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
 void ZipTest::test_addFile_WhenFileNameAlreadyExists(void) {
 	bool expected = false;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName);
 	zip->addFile(readMeFileName);
 	bool actual = zip->addFile(readMeFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, readMeFileName));
 }
 
-void ZipTest::test_addFile_WithPreservePath(void) {
+void ZipTest::test_addFile_WithNotPreservePath(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
-	zip->addFile(readMeFileName, false);
-	bool actual = zip->addFile(readMeFileName, true);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName);
+	bool actual = zip->addFile(readMeFileName, false);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, boost::filesystem::path(readMeFileName).filename().string()));
 }
 
 void ZipTest::test_addFile_WithDestinationFile(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName);
 	bool actual = zip->addFile(readMeFileName, anotherFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, anotherFileName));
 }
 
 void ZipTest::test_addFile_WithDestinationFile_WhenFileNotExists(void) {
 	bool expected = false;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+	zip->open(zipFileName);
 	bool actual = zip->addFile(notExistingFileName, anotherFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 0, numFilesInZip(zipFileName));
 }
 
 void ZipTest::test_addFile_WithDestinationFile_WithFileNameIsEmpty(void) {
@@ -573,7 +593,7 @@ bool ZipTest::containsFolder(const std::string & zipFileName, const std::string 
 	return true;
 }
 
-bool ZipTest::containsNumFiles(const std::string & zipFileName, const int numFiles) {
+int ZipTest::numFilesInZip(const std::string & zipFileName) {
 	Unzip unzip;
 
 	if(! unzip.open(zipFileName)){
@@ -583,7 +603,7 @@ bool ZipTest::containsNumFiles(const std::string & zipFileName, const int numFil
 	int numFilesFromZip = unzip.getNumFiles();
 	unzip.close();
 
-	return numFiles == numFilesFromZip;
+	return numFilesFromZip;
 }
 
 } //cppzip
