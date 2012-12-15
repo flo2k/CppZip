@@ -288,7 +288,6 @@ bool Unzip::createFolderIfNotExists(const std::string & path)
 	return ok;
 }
 
-
 void Unzip::retrieveAllFileInfos(void)
 {
 	do{
@@ -330,4 +329,10 @@ void Unzip::retrieveAllFileInfos(void)
 	} while(UNZ_OK == unzGoToNextFile(zipfile_handle));
 }
 
+std::shared_ptr<InnerZipFileInfo> Unzip::getFileInfoFromLocalFileInfos(	const std::string& fileName)
+{
+	return fileInfos[fileName];
+}
+
 } //cppzip
+

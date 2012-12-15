@@ -17,6 +17,7 @@
 #include <boost/filesystem/v3/operations.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
+#include <boost/algorithm/string.hpp>
 #include <algorithm>
 
 namespace cppzip {
@@ -50,6 +51,7 @@ void ZipTest::tearDown(void) {
 
 void ZipTest::test_isOpenedWithNonOpenedZipFile(void) {
 	bool expected = false;
+
 	bool actual = zip->isOpened();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
@@ -57,6 +59,7 @@ void ZipTest::test_isOpenedWithNonOpenedZipFile(void) {
 
 void ZipTest::test_openANonExistingZipFile(void) {
 	bool expected = true;
+
 	bool openOk = zip->open(tempFolder + "/" + zipFile);
 	bool isOpened = zip->isOpened();
 
@@ -82,6 +85,7 @@ void ZipTest::test_openAExistingZipFile(void) {
 
 void ZipTest::test_openAExistingWriteProtectedZipFile(void) {
 	bool expected = false;
+
 	bool openOk = zip->open(writeProtectedZipFile);
 	bool isOpened = zip->isOpened();
 
@@ -99,6 +103,7 @@ void ZipTest::test_openAppendToZip(void) {
 	system(cmd.c_str());
 
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string theString("Lorem Ipsum...");
 	std::vector<unsigned char> content;
@@ -120,6 +125,7 @@ void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
 	system(cmd.c_str());
 
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string theString("Lorem Ipsum...");
 	std::vector<unsigned char> content;
@@ -140,6 +146,7 @@ void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
 
 void ZipTest::test_closeAZipFile(void) {
 	bool expected = true;
+
 	zip->open(tempFolder + "/" + zipFile);
 	bool actual = zip->close();
 
@@ -148,6 +155,7 @@ void ZipTest::test_closeAZipFile(void) {
 
 void ZipTest::test_closeWhenNoZipFileIsOpened(void) {
 	bool expected = true;
+
 	bool actual = zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
@@ -156,6 +164,7 @@ void ZipTest::test_closeWhenNoZipFileIsOpened(void) {
 void ZipTest::test_addFile(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName);
 	bool actual = zip->addFile(readMeFileName);
 	zip->close();
@@ -167,16 +176,20 @@ void ZipTest::test_addFile(void) {
 
 void ZipTest::test_addFile_WhenFileNotExists(void) {
 	bool expected = false;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addFile(notExistingFileName);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 0, numFilesInZip(zipFileName));
 }
 
 void ZipTest::test_addFile_WhenFileNameAlreadyExists(void) {
 	bool expected = false;
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName);
 	zip->addFile(readMeFileName);
 	bool actual = zip->addFile(readMeFileName);
@@ -190,6 +203,7 @@ void ZipTest::test_addFile_WhenFileNameAlreadyExists(void) {
 void ZipTest::test_addFile_WithNotPreservePath(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName);
 	bool actual = zip->addFile(readMeFileName, false);
 	zip->close();
@@ -202,6 +216,7 @@ void ZipTest::test_addFile_WithNotPreservePath(void) {
 void ZipTest::test_addFile_WithDestinationFile(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName);
 	bool actual = zip->addFile(readMeFileName, anotherFileName);
 	zip->close();
@@ -214,6 +229,7 @@ void ZipTest::test_addFile_WithDestinationFile(void) {
 void ZipTest::test_addFile_WithDestinationFile_WhenFileNotExists(void) {
 	bool expected = false;
 	std::string zipFileName = tempFolder + "/" + zipFile;
+
 	zip->open(zipFileName);
 	bool actual = zip->addFile(notExistingFileName, anotherFileName);
 	zip->close();
@@ -224,59 +240,87 @@ void ZipTest::test_addFile_WithDestinationFile_WhenFileNotExists(void) {
 
 void ZipTest::test_addFile_WithDestinationFile_WithFileNameIsEmpty(void) {
 	bool expected = false;
-	zip->open(tempFolder + "/" + zipFile);
-	std::string fileEmpty = "";
-	bool actual = zip->addFile(readMeFileName, fileEmpty);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	std::string emptyFileName = "";
+	bool actual = zip->addFile(readMeFileName, emptyFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 0, numFilesInZip(zipFileName));
 }
 
 void ZipTest::test_addFile_WithDestinationFile_WhenFileNameAlreadyExists(void) {
 	bool expected = false;
-	zip->open(tempFolder + "/" + zipFile);
-	zip->addFile(readMeFileName);
-	bool actual = zip->addFile(readMeFileName);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	zip->addFile(readMeFileName, anotherFileName);
+	bool actual = zip->addFile(readMeFileName, anotherFileName);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, anotherFileName));
 }
 
 void ZipTest::test_addFile_Content(void) {
 	std::vector<unsigned char> content = { 'a', 'z', '7' };
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
-	bool actual = zip->addFile("test.txt", content);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	bool actual = zip->addFile(fileInsideZip, content);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileInsideZip));
 }
 
 void ZipTest::test_addFile_Content_FromAString(void) {
 	std::string contentAsString("this is a string");
 	std::vector<unsigned char> content;
-	content.insert(content.end(), contentAsString.begin(),
-			contentAsString.end());
+	content.insert(content.end(), contentAsString.begin(), contentAsString.end());
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
-	bool actual = zip->addFile("test.txt", content);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	bool actual = zip->addFile(fileInsideZip, content);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileInsideZip));
 }
 
 void ZipTest::test_addFile_Content_WithEmptyContent(void) {
 	std::vector<unsigned char> content;
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
-	bool actual = zip->addFile("test.txt", content);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
+	bool actual = zip->addFile(fileInsideZip, content);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileInsideZip));
 }
 
 void ZipTest::test_addFile_Content_WithSubFoldersFileName(void) {
 	std::vector<unsigned char> content = { 'a', 'z', '7' };
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addFile("folder/subfolder/test.txt", content);
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "folder/subfolder/test.txt"));
 }
 
 void ZipTest::test_addFile_Content_IfZipIsNotOpened(void) {
@@ -289,42 +333,64 @@ void ZipTest::test_addFile_Content_IfZipIsNotOpened(void) {
 
 void ZipTest::test_addEmptyFolder(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addEmptyFolder("folder");
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder"));
 }
 
 void ZipTest::test_addEmptyFolder_WithUmlaut(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addEmptyFolder("földer");
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "földer"));
 }
 
 void ZipTest::test_addEmptyFolder_WhenFolderAlreadyExists(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addEmptyFolder("folder");
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 
 	actual = zip->addEmptyFolder("folder");
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+
+	zip->close();
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder"));
 }
 
 void ZipTest::test_addEmptyFolder_WithSubFolders(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addEmptyFolder("folder/subfolder/subsubfolder");
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder/subfolder/subsubfolder"));
 }
 
-void ZipTest::test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists(
-		void) {
+void ZipTest::test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 
 	bool actual = zip->addEmptyFolder("folder/subfolder1/subsubfolder1");
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
@@ -337,138 +403,189 @@ void ZipTest::test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists(
 
 	actual = zip->addEmptyFolder("folder/subfolder2");
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 4, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder/subfolder1/subsubfolder1"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder/subfolder1/subsubfolder2"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder/subfolder1"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder/subfolder2"));
 }
 
 void ZipTest::test_addEmptyFolder_WithSubFolders_WindowsStyle(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addEmptyFolder("folder\\subfolder\\subsubfolder");
+	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "folder/subfolder/subsubfolder"));
 }
 
 void ZipTest::test_addFolder_recursive(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addFolder("data/test");
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Pruefplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Prüfplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test/info"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/info/readme.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test/pics"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/pics/matrix.jpg"));
 }
 
 void ZipTest::test_addFolder_notRecursive(void){
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addFolder("data/test", true, false);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 3, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Pruefplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Prüfplan.txt"));
 }
 
 void ZipTest::test_addFolder_notPreservesPath(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addFolder("data/test", false);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Pruefplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Prüfplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test/info"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/info/readme.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test/pics"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/pics/matrix.jpg"));
 }
 
 void ZipTest::test_addFolder_notPreservesPath_and_notRecursive(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile);
+	std::string zipFileName = tempFolder + "/" + zipFile;
+
+	zip->open(zipFileName);
 	bool actual = zip->addFolder("data/test", false, false);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 3, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Pruefplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Prüfplan.txt"));
 }
 
 void ZipTest::test_deleteFile(void) {
-	//CPPUNIT_FAIL("needs to be implemented");
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	//workaround, because boost::filesystem::copy_file don't link
+	//because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, tempFile);
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
-	bool expected = true;
-	bool actual = false;
-
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
-	zip->open(tempFolder + "/" + zipFileFor_deleteAndReplace, Zip::APPEND_TO_EXISTING_ZIP);
-	actual = zip->deleteFile(fileToDelete);
+	bool actual  = zip->deleteFile(fileToDelete);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", false, containsFile(zipFileName, fileToDelete));
 }
 
 void ZipTest::test_deleteFolder(void) {
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
 	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
-	bool expected = true;
-	bool actual = false;
-
-	std::string fileToDelete = folderNameInsideZip + "/folder1";
-	std::string _zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
-	zip->open(_zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
-	actual = zip->deleteFolder(fileToDelete);
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	std::string folderToDelete = folderNameInsideZip + "/folder1";
+	bool actual = zip->deleteFolder(folderToDelete);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 5, numFilesInZip(zipFileName));
 }
 
-void ZipTest::test_delete_WhenFileNotExists(void) {
-	std::string cmd = "mkdir " + tempFolder;
-	system(cmd.c_str());
-
-	std::string tempFile = tempFolder + "/" + zipFile;
-	//workaround, because boost::filesystem::copy_file don't link
-	//because there are some missing symbols...
-	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp \"" + zipFile + "\" \"" + tempFile + "\"";
-	system(cmd.c_str());
-
-	zip->open(tempFile);
-
+void ZipTest::test_deleteFile_WhenFileNotExists(void) {
 	bool expected = true;
-	bool actual = zip->deleteFile(fileInsideZip);
-	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	expected = true;
-	actual = zip->close();
+	std::string cmd = "mkdir " + tempFolder;
+	system(cmd.c_str());
+	//workaround, because boost::filesystem::copy_file don't link
+	//because there are some missing symbols...
+	//boost::filesystem::copy_file(zipFile, zipFileName);
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
+	system(cmd.c_str());
+
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
+	bool actual = zip->deleteFile(notExistingFileName);
+	zip->close();
+
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 8, numFilesInZip(zipFileName));
 }
 
-void ZipTest::test_delete_WhenTemparyFileCouldntCreated(void) {
+void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
+	bool expected = false;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
 	std::string cmd = "mkdir " + tempFolder;
 	system(cmd.c_str());
 	//workaround, because boost::filesystem::copy_file don't link
 	//because there are some missing symbols...
 	//boost::filesystem::copy_file(zipFile, tempFile);
-	cmd = "cp " + zipFileFor_deleteAndReplace + " " + tempFolder + "/" + zipFileFor_deleteAndReplace;
+	cmd = "cp " + zipFileFor_deleteAndReplace + " " + zipFileName;
 	system(cmd.c_str());
 
 	// make folder which contains the zip read-only
 	cmd = "chmod 555 " + tempFolder;
 	system(cmd.c_str());
 
-	bool expected = false;
 
+	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
-	zip->open(tempFolder + "/" + zipFileFor_deleteAndReplace, Zip::APPEND_TO_EXISTING_ZIP);
 	bool actual = zip->deleteFile(fileToDelete);
 	zip->close();
-
-	CPPUNIT_ASSERT_EQUAL(expected, actual);
 
 	// make the folder writeable again so it can be deleted
 	cmd = "chmod 755 " + tempFolder;
     system(cmd.c_str());
+
+    CPPUNIT_ASSERT_EQUAL(expected, actual);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 8, numFilesInZip(zipFileName));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileToDelete));
 }
 
 void ZipTest::test_replaceFile(void) {
@@ -575,18 +692,23 @@ bool ZipTest::containsFile(const std::string & zipFileName, const std::string & 
 	return true;
 }
 
-bool ZipTest::containsFolder(const std::string & zipFileName, const std::string & fileName) {
+bool ZipTest::containsFolder(const std::string & zipFileName, const std::string & folderName) {
 	Unzip unzip;
 
 	if(! unzip.open(zipFileName)){
 		return false;
 	}
 
-	if(! unzip.containsFile(fileName)){
+	std::string folderNameWithTrailingSlash = folderName;
+	if(! boost::algorithm::ends_with(folderNameWithTrailingSlash, "/")){
+		folderNameWithTrailingSlash += "/";
+	}
+
+	if(! unzip.containsFile(folderNameWithTrailingSlash)){
 		return false;
 	}
 
-	if(! unzip.isFolder(fileName)){
+	if(! unzip.isFolder(folderNameWithTrailingSlash)){
 		return false;
 	}
 

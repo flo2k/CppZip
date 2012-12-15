@@ -367,7 +367,7 @@ private:
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string & fileName);
 	std::shared_ptr<InnerZipFileInfo> getFileInfoForAExistingFile(const std::string & fileName);
-	std::shared_ptr<InnerZipFileInfo> getFileInfoFromFolder(const std::string & fileName);
+	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
 
 	/*!
 	 * Gets the platform depended file attributes from an exiting file on the file system.

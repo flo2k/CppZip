@@ -88,8 +88,8 @@ class ZipTest : public CppUnit::TestFixture {
 
 		CPPUNIT_TEST(test_deleteFile);
 		CPPUNIT_TEST(test_deleteFolder);
-		CPPUNIT_TEST(test_delete_WhenFileNotExists);
-		CPPUNIT_TEST(test_delete_WhenTemparyFileCouldntCreated);
+		CPPUNIT_TEST(test_deleteFile_WhenFileNotExists);
+		CPPUNIT_TEST(test_deleteFile_WhenTemparyFileCouldntCreated);
 
 		CPPUNIT_TEST(test_replaceFile);
 		CPPUNIT_TEST(test_replaceFile_WhenFileNotExistsInZip);
@@ -142,8 +142,8 @@ public:
 
 	void test_deleteFile(void);
 	void test_deleteFolder(void);
-	void test_delete_WhenFileNotExists(void);
-	void test_delete_WhenTemparyFileCouldntCreated(void);
+	void test_deleteFile_WhenFileNotExists(void);
+	void test_deleteFile_WhenTemparyFileCouldntCreated(void);
 
 	void test_replaceFile(void);
 	void test_replaceFile_WhenFileNotExistsInZip(void);
@@ -152,7 +152,7 @@ public:
 
 private:
 	bool containsFile(const std::string & zipFileName, const std::string & fileName);
-	bool containsFolder(const std::string & zipFileName, const std::string & fileName);
+	bool containsFolder(const std::string & zipFileName, const std::string & folderName);
 	int numFilesInZip(const std::string & zipFileName);
 
 private:

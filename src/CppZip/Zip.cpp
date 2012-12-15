@@ -149,7 +149,8 @@ bool Zip::addFile_internal(
 
 bool Zip::containsFile(const std::string & fileName)
 {
-	return fileInfos.count(fileName);
+	int count = fileInfos.count(fileName);
+	return count == 1;
 }
 
 bool Zip::addFile(const std::string & fileName, bool preservePath)
@@ -283,7 +284,7 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::st
 	return info;
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromFolder(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromLocalFileInfos(const std::string & fileName)
 {
 	return fileInfos[fileName];
 }
@@ -414,7 +415,7 @@ bool Zip::addFolder_internal(std::shared_ptr<InnerZipFileInfo> info)
 	return addFile_internal(info, emptyData);
 }
 
-bool Zip::deleteFile(const std::string& fileName)
+bool Zip::deleteFile(const std::string & fileName)
 {
 	if(! isOpened()){
 		return false;
@@ -474,7 +475,6 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(
 	}
 
 	open(zipFileName, CREATE_AND_OVERWRITE);
-	fileInfos = unzip.fileInfos;
 
 	std::list<std::string> zipFileNames = unzip.getFileNames();
 	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
@@ -512,7 +512,7 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	//locate file
 	ok = unzip.goToFile(fileName);
 
-	std::shared_ptr<InnerZipFileInfo> info = getFileInfoFromFolder(fileName);
+	std::shared_ptr<InnerZipFileInfo> info = unzip.getFileInfoFromLocalFileInfos(fileName);
 	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
 
 	int raw = 1;

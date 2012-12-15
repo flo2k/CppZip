@@ -283,6 +283,8 @@ private:
 			int max,
 			int current);
 
+	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
+
 private:
 	typedef void * voidp;
 	typedef voidp unzFile;
