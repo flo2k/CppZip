@@ -154,6 +154,8 @@ private:
 	bool containsFile(const std::string & zipFileName, const std::string & fileName);
 	bool containsFolder(const std::string & zipFileName, const std::string & folderName);
 	int numFilesInZip(const std::string & zipFileName);
+	void createFolder(const std::string & folderName);
+	void copyFile(const std::string & src, const std::string & dest);
 
 private:
 	std::shared_ptr<Zip> zip;
