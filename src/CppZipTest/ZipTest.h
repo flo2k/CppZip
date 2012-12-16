@@ -91,7 +91,9 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFolder_notPreservesPath_and_notRecursive);
 
 		CPPUNIT_TEST(test_deleteFile);
+		CPPUNIT_TEST(test_deleteFiles);
 		CPPUNIT_TEST(test_deleteFolder);
+		CPPUNIT_TEST(test_deleteFolders);
 		CPPUNIT_TEST(test_deleteFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_deleteFile_WhenTemparyFileCouldntCreated);
 
@@ -149,7 +151,9 @@ public:
 	void test_addFolder_notPreservesPath_and_notRecursive(void);
 
 	void test_deleteFile(void);
+	void test_deleteFiles(void);
 	void test_deleteFolder(void);
+	void test_deleteFolders(void);
 	void test_deleteFile_WhenFileNotExists(void);
 	void test_deleteFile_WhenTemparyFileCouldntCreated(void);
 
