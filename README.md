@@ -27,7 +27,7 @@ _Unzip_ uncompresses and unzips zip files.
 _Florian Künzner_ and _Andreas Bauer_
 
 ### Version:
-0.2
+0.2 alpha state
 
 ### License:
 

@@ -274,7 +274,7 @@ bool Unzip::createFolderIfNotExists(const std::string & path)
 {
 	std::string pathToCreate = path;
 	if(isFolder(pathToCreate)){
-		boost::algorithm::erase_tail_copy(pathToCreate, 1);
+		boost::algorithm::erase_tail(pathToCreate, 1);
 	}
 
 	boost::filesystem::path p(pathToCreate);

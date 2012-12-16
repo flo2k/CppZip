@@ -263,6 +263,18 @@ public:
 	bool deleteFile(const std::string & fileName);
 
 	/*!
+	 * \brief     Deletes all files specified in fileNames inside the zip.
+	 *
+	 * \attention The delete operation may be slow on big zip files.
+	 *
+	 * \param     fileName is the file that should be removed from the zip file.
+	 *
+	 * \return    true if the files are deleted, otherwise false.
+	 */
+	bool deleteFiles(const std::list<std::string> & fileNames);
+
+
+	/*!
 	 * \brief     Deletes a folder incl. file inside the zip.
 	 *
 	 * \attention The delete operation may be slow on big zip files.
@@ -272,6 +284,17 @@ public:
 	 * \return    true if the folder is deleted, otherwise false.
 	 */
 	bool deleteFolder(const std::string & folderName);
+
+	/*!
+	 * \brief     Deletes a folders incl. file inside the zip.
+	 *
+	 * \attention The delete operation may be slow on big zip files.
+	 *
+	 * \param     folderNames are the folder that should be removed from the zip file.
+	 *
+	 * \return    true if the folders are deleted, otherwise false.
+	 */
+	bool deleteFolders(const std::list<std::string> & folderNames);
 
 	/*!
 	 * \brief Replaces the existing file inside the zip file with given the content.
@@ -406,6 +429,7 @@ private:
 				const std::string & fileName);
 
 	bool containsFile(const std::string & fileName);
+	bool containsAnyFile(const std::list<std::string> & fileNames);
 
 	bool addFolder(
 			const std::string & realFolderName, const std::string & relativeFolderName,
@@ -424,13 +448,13 @@ private:
 	std::string moveTheCurrentZipToAnTempZip(void);
 
 	/*!
-	 * Copies all files and folders into a new zip, except the fileName.
+	 * Copies all files and folders into a new zip, except the files in fileNames.
 	 *
 	 * \return true if all is ok, otherwise false.
 	 */
-	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(const std::string & tempZipFile,
-																		const std::string & fileName,
-																		bool isFileNameAFolder);
+	bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(const std::string & tempZipFile,
+																 const std::list<std::string> & fileNames,
+																 bool areFileNamesFolders);
 
 	bool copyFile(Unzip & unzip, const std::string & fileName);
 
@@ -455,7 +479,6 @@ private:
 	zipFile zipfile_handle;
 	OpenFlags openFlag;
 	int compressionLevel;
-
 	std::string password;
 };
 

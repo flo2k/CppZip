@@ -443,6 +443,11 @@ bool Zip::addFolder_internal(std::shared_ptr<InnerZipFileInfo> info)
 
 bool Zip::deleteFile(const std::string & fileName)
 {
+	return deleteFiles(std::list<std::string>{fileName});
+}
+
+bool Zip::deleteFiles(const std::list<std::string> & fileNames)
+{
 	if(! isOpened()){
 		return false;
 	}
@@ -450,8 +455,8 @@ bool Zip::deleteFile(const std::string & fileName)
 	//remember the openFlag
 	enum OpenFlags oldOpenFlag = openFlag;
 
-	//check if a file or a folder with the name of fileName exists
-	if(! containsFile(fileName)){
+	//check if a file or a folder with a name in fileNames exists
+	if(! containsAnyFile(fileNames)){
 		return true;
 	}
 
@@ -466,14 +471,25 @@ bool Zip::deleteFile(const std::string & fileName)
 		return false;
 	}
 
-	//Copy all files and folders into a new zip file, except the fileName
-	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(tempZipFile, fileName, false);
+	//Copy all files and folders into a new zip file, except the fileNames
+	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(tempZipFile, fileNames, false);
 	cleanUpAfterCopying(ok, tempZipFile);
 
 	//restore the old open status if necessary
 	restoreTheOldOpenStatus(oldOpenFlag);
 
 	return ok;
+}
+
+bool Zip::containsAnyFile(const std::list<std::string> & fileNames)
+{
+	for(auto & fileName : fileNames){
+		if(containsFile(fileName)){
+			return true;
+		}
+	}
+
+	return false;
 }
 
 std::string Zip::moveTheCurrentZipToAnTempZip(void)
@@ -490,10 +506,10 @@ std::string Zip::moveTheCurrentZipToAnTempZip(void)
 	return tempZipFileName;
 }
 
-bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(
+bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
 		const std::string & tempZipFile,
-		const std::string & fileName,
-		bool isFileNameAFolder)
+		const std::list<std::string> & fileNames,
+		bool areFileNamesFolders)
 {
 	Unzip unzip;
 	if(! unzip.open(tempZipFile)){
@@ -506,13 +522,27 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(
 	for(auto zipFileIter = zipFileNames.begin(); zipFileIter != zipFileNames.end(); ++zipFileIter){
 		std::string zipFileName = *zipFileIter;
 
-		if(isFileNameAFolder){
+		if(areFileNamesFolders){
 			//copy all files except the folder and the files in the folder
-			if(boost::algorithm::starts_with(zipFileName, fileName)){
+			bool equals = false;
+			for(auto & fileName : fileNames){
+				if(boost::algorithm::starts_with(zipFileName, fileName)){
+					equals = true;
+					break;
+				}
+			}
+			if(equals){
 				continue;
 			}
 		} else{
-			if(zipFileName == fileName){
+			bool equals = false;
+			for(auto fileName : fileNames){
+				if(zipFileName == fileName){
+					equals = true;
+					break;
+				}
+			}
+			if(equals){
 				continue;
 			}
 		}
@@ -616,9 +646,18 @@ void Zip::restoreTheOldOpenStatus(Zip::OpenFlags oldOpenState)
 
 bool Zip::deleteFolder(const std::string& folderName)
 {
-	std::string folderToDelete = folderName;
-	if(! boost::algorithm::ends_with(folderName, "/")){
-		folderToDelete += "/";
+	return deleteFolders(std::list<std::string>{folderName});
+}
+
+bool Zip::deleteFolders(const std::list<std::string> & folderNames)
+{
+	std::list<std::string> folderNamesToDelete;
+
+	for(auto folderName : folderNames){
+		if(! boost::algorithm::ends_with(folderName, "/")){
+			folderName += "/";
+		}
+		folderNamesToDelete.push_back(folderName);
 	}
 
 	if(! isOpened()){
@@ -629,7 +668,7 @@ bool Zip::deleteFolder(const std::string& folderName)
 	enum OpenFlags oldOpenFlag = openFlag;
 
 	//check if a file or a folder with the name of fileName exists
-	if(! containsFile(folderToDelete)){
+	if(! containsAnyFile(folderNamesToDelete)){
 		return true;
 	}
 
@@ -643,7 +682,7 @@ bool Zip::deleteFolder(const std::string& folderName)
 	}
 
 	//Copy all files and folders into a new zip file, except the fileName
-	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileName(tempZipFile, folderToDelete, true);
+	bool ok = copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(tempZipFile, folderNamesToDelete, true);
 	cleanUpAfterCopying(ok, tempZipFile);
 
 	//restore the old open status if necessary
