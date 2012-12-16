@@ -628,15 +628,8 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	// make folder which contains the zip read-only
-	//TODO: set the perms with boost, but for this boost 1.49 or higher is required.
-	std::string cmd = "chmod 555 " + tempFolder;
-	system(cmd.c_str());
-
-//	boost::filesystem::file_status folderState = boost::filesystem::status(tempFolder);
-//	boost::filesystem::perms folderPerms = folderState.permissions();
-//	folderState.permissions(
-//			boost::filesystem::perms::remove_perms |
-//			boost::filesystem::owner_write | boost::filesystem::others_write | boost::filesystem::group_write);
+	boost::filesystem::perms savedTempfolderPerms = boost::filesystem::status(tempFolder).permissions();
+	boost::filesystem::permissions(tempFolder, boost::filesystem::owner_read | boost::filesystem::owner_exe);
 
 	zip->open(zipFileName, Zip::APPEND_TO_EXISTING_ZIP);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
@@ -644,9 +637,7 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	zip->close();
 
 	// make the folder writeable again so it can be deleted
-	cmd = "chmod 755 " + tempFolder;
-    system(cmd.c_str());
-//	folderState.permissions(folderPerms);
+	boost::filesystem::permissions(tempFolder, savedTempfolderPerms);
 
     CPPUNIT_ASSERT_EQUAL(expected, actual);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 8, numFilesInZip(zipFileName));
