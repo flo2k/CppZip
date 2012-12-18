@@ -718,10 +718,12 @@ void ZipTest::test_replaceFile_Content(void) {
 void ZipTest::test_addFile_WithPasswordProtection(void) {
 	bool expected = true;
 	zip->open(tempFolder + "/" + zipFile, Zip::CREATE_AND_OVERWRITE, "secret");
-	bool actual = zip->addFile(readMeFileName, false);
+	bool actual = zip->addFile("data/test/" + fileInsideZip , false);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, fileInsideZip));
 }
 
 void ZipTest::test_addFile_Content_WithPasswordProtection(void) {
@@ -732,6 +734,15 @@ void ZipTest::test_addFile_Content_WithPasswordProtection(void) {
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, "test.txt"));
+
+	std::vector<unsigned char> fileContent;
+	fileContent = getFileContent(tempFolder + "/" + zipFile, "test.txt", "secret");
+	std::string fileContentAsString(fileContent.begin(), fileContent.end());
+	std::string contentAsString(content.begin(), content.end());
+
+	CPPUNIT_ASSERT_EQUAL(contentAsString, fileContentAsString);
 }
 
 void ZipTest::test_addFile_Content_FromAString_WithPasswordProtection(void) {
@@ -745,6 +756,8 @@ void ZipTest::test_addFile_Content_FromAString_WithPasswordProtection(void) {
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, "test.txt"));
 }
 
 bool ZipTest::containsFile(const std::string & zipFileName, const std::string & fileName) {
@@ -815,6 +828,17 @@ void ZipTest::copyFile(const std::string& src, const std::string& dest) {
 	std::string cmd = "cp " + src + " " + dest;
 	system(cmd.c_str());
 #endif
+}
+
+std::vector<unsigned char> ZipTest::getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password)
+{
+	Unzip unzip;
+	std::vector<unsigned char> result;
+	if(unzip.open(zipFile, password)){
+		result = unzip.getFileContent(fileName);
+	}
+	unzip.close();
+	return result;
 }
 
 } //cppzip

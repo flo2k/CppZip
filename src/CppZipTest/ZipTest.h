@@ -176,6 +176,7 @@ private:
 	int numFilesInZip(const std::string & zipFileName);
 	void createFolder(const std::string & folderName);
 	void copyFile(const std::string & src, const std::string & dest);
+	std::vector<unsigned char> getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
 
 private:
 	std::shared_ptr<Zip> zip;
