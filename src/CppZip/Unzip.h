@@ -69,10 +69,11 @@ public:
 	 * file is already opened.
 	 *
 	 * \param zipFile is the file (incl. path) to open
+	 * \param password the password which protects the files within the zip files
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */
-	bool open(const std::string & zipFile);
+	bool open(const std::string & zipFile, const std::string & password = "");
 
 	/*!
 	 * \brief Closes a zip file.
@@ -285,6 +286,13 @@ private:
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
 
+	/*
+	 * Formats the password for the use with the minizip api
+	 *
+	 * \param password the password that shall be formatted
+	 */
+	const char* formatPassword(const std::string & password);
+
 private:
 	typedef void * voidp;
 	typedef voidp unzFile;
@@ -296,6 +304,7 @@ private:
 	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
 
 	friend class Zip;
+	std::string password;
 };
 
 } //cppzip

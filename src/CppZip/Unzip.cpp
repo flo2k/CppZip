@@ -30,13 +30,14 @@ Unzip::~Unzip()
 	close();
 }
 
-bool Unzip::open(const std::string & zipFile)
+bool Unzip::open(const std::string & zipFile, const std::string & password)
 {
 	if(isOpened()){ //if already opened, don't open a file
 		return false;
 	}
 
 	zipfile_handle = unzOpen(zipFile.c_str());
+	this->password = password;
 
 	if(isOpened()){
 		getGlobalInfo();
@@ -111,7 +112,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 	}
 
 	//open file
-	if(UNZ_OK != unzOpenCurrentFile(zipfile_handle)){
+	if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, this->formatPassword(this->password))){
 		return fileContent;
 	}
 
@@ -203,7 +204,7 @@ bool Unzip::extractFileTo_Internal(
 		}
 
 		//open file
-		if(UNZ_OK != unzOpenCurrentFile(zipfile_handle)){
+		if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, this->formatPassword(this->password))){
 			return false;
 		}
 
@@ -332,6 +333,15 @@ void Unzip::retrieveAllFileInfos(void)
 std::shared_ptr<InnerZipFileInfo> Unzip::getFileInfoFromLocalFileInfos(	const std::string& fileName)
 {
 	return fileInfos[fileName];
+}
+
+const char* Unzip::formatPassword(const std::string & password)
+{
+	if(password == ""){
+		return NULL;
+	}else{
+		return password.c_str();
+	}
 }
 
 } //cppzip

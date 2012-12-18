@@ -470,6 +470,13 @@ private:
 	 */
 	void restoreTheOldOpenStatus(OpenFlags oldOpenState);
 
+	/*
+	 * Formats the password for the use with the minizip api
+	 *
+	 * \param password the password that shall be formatted
+	 */
+	const char* formatPassword(const std::string & password);
+
 private:
 	typedef void * voidp;
 	typedef voidp zipFile;

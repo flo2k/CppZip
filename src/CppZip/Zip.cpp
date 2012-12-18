@@ -134,7 +134,7 @@ bool Zip::addFile_internal(
 			        -MAX_WBITS,
 			        DEF_MEM_LEVEL,
 			        Z_DEFAULT_STRATEGY,
-			        this->password.c_str(),
+			        this->formatPassword(this->password),
 			        0,
 			        VERSIONMADEBY,
 			        0,
@@ -200,15 +200,26 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 	zip_fileinfo zipFileInfo = convertInnerZipFileInfo_to_zipFileInfo(info);
 
 	//open file inside zip
-	if(ZIP_OK != zipOpenNewFileInZip(
+	if(ZIP_OK != zipOpenNewFileInZip4_64 (
 			zipfile_handle,
 			info->fileName.c_str(),
 			&zipFileInfo,
-			NULL, 0,
-			NULL, 0,
-			info->comment.c_str(),
-			Z_DEFLATED,
-			compressionLevel)){
+	        NULL,
+	        0,
+	        NULL,
+	        0,
+	        info->comment.c_str(),
+	        Z_DEFLATED,
+	        compressionLevel,
+	        0,
+	        -MAX_WBITS,
+	        DEF_MEM_LEVEL,
+	        Z_DEFAULT_STRATEGY,
+	        this->formatPassword(this->password),
+	        0,
+	        VERSIONMADEBY,
+	        0,
+	        0)){
 		return false;
 	}
 
@@ -577,16 +588,26 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 
 	//open the files
 	ok = UNZ_OK == unzOpenCurrentFile3(unzip.zipfile_handle, &method, &level, raw, NULL);
-	ok = ZIP_OK == zipOpenNewFileInZip2(
-					zipfile_handle,
-					info->fileName.c_str(),
-					&zipFileInfo,
-					NULL, 0,
-					NULL, 0,
-					info->comment.c_str(),
-					method,
-					level,
-					raw);
+	ok = ZIP_OK == zipOpenNewFileInZip4_64 (
+			zipfile_handle,
+			info->fileName.c_str(),
+			&zipFileInfo,
+	        NULL,
+	        0,
+	        NULL,
+	        0,
+	        info->comment.c_str(),
+	        Z_DEFLATED,
+	        compressionLevel,
+	        0,
+	        -MAX_WBITS,
+	        DEF_MEM_LEVEL,
+	        Z_DEFAULT_STRATEGY,
+	        this->formatPassword(this->password),
+	        0,
+	        VERSIONMADEBY,
+	        0,
+	        0);
 
 	//read and write the content
 	unsigned char buffer[CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE];
@@ -778,6 +799,15 @@ bool Zip::createFolderIfNotExists(const std::string & path)
 	}
 
 	return ok;
+}
+
+const char* Zip::formatPassword(const std::string & password)
+{
+	if(password == ""){
+		return NULL;
+	}else{
+		return password.c_str();
+	}
 }
 
 } //cppzip
