@@ -102,9 +102,10 @@ int RunPerformanceTests(void) {
 
 	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
 
-	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
+	/*suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
 	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("b", &cppzip::PerformanceTests::testZip_replaceMidSizedFiles));
-	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));
+	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));*/
+	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("c", &cppzip::ZipTest::test_addFile_Content_WithPasswordProtection));
 
 	CppUnit::TestResult result;
 
@@ -134,8 +135,8 @@ int RunPerformanceTests(void) {
 int main(void) {
 	std::cout << "starting tests..." << std::endl;
 
-	int ok = RunAllTests();
-//	int ok = RunPerformanceTests();
+	//int ok = RunAllTests();
+	int ok = RunPerformanceTests();
 
 	return ok;
 }

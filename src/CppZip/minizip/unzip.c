@@ -69,7 +69,7 @@
 #include <string.h>
 
 #ifndef NOUNCRYPT
-        #define NOUNCRYPT
+        //#define NOUNCRYPT // 10.01.2013 Andi Bauer uncrypting eingeschaltet / uncrypting enabled
 #endif
 
 #include "zlib.h"
