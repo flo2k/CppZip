@@ -724,6 +724,11 @@ void ZipTest::test_addFile_WithPasswordProtection(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, fileInsideZip));
+
+	std::vector<unsigned char> fileContent = getFileContent(tempFolder + "/" + zipFile, fileInsideZip, "secret");
+	std::string fileContentAsString(fileContent.begin(), fileContent.end());
+    std::string contentAsString("a\n");
+    CPPUNIT_ASSERT_EQUAL(contentAsString, fileContentAsString);
 }
 
 void ZipTest::test_addFile_Content_WithPasswordProtection(void) {
@@ -758,6 +763,12 @@ void ZipTest::test_addFile_Content_FromAString_WithPasswordProtection(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, "test.txt"));
+
+	std::vector<unsigned char> fileContent;
+	fileContent = getFileContent(tempFolder + "/" + zipFile, "test.txt", "secret");
+	std::string fileContentAsString(fileContent.begin(), fileContent.end());
+
+	CPPUNIT_ASSERT_EQUAL(contentAsString, fileContentAsString);
 }
 
 bool ZipTest::containsFile(const std::string & zipFileName, const std::string & fileName) {
