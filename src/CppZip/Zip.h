@@ -1,4 +1,6 @@
 /*!
+ * \file Zip.h
+ *
  * Zip.h -- IO on .zip files using minizip and zlib
  * Version 0.2, 22.09.2012
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
@@ -41,6 +43,9 @@
 #include <unordered_map>
 #include <memory>
 
+/*!
+ * \brief Contains all classes to zip and unzip files.
+ */
 namespace cppzip {
 //forward declaration
 struct InnerZipFileInfo;

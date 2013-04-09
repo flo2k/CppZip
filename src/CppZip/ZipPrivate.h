@@ -1,4 +1,4 @@
-/*!
+/*
  * ZipPrivate.h -- IO on .zip files using minizip and zlib
  * Version 0.1, 12.12.2012
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
