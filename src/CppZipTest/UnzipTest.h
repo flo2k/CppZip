@@ -65,6 +65,7 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_containsFileWithANonExistingFile);
 		CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
 		CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile);
 
 		CPPUNIT_TEST(test_getFileNames);
 		CPPUNIT_TEST(test_getFileNamesWithNoZipFileIsOpened);
@@ -117,6 +118,7 @@ public:
 	void test_getFileContentWithNoZipFileIsOpened(void);
 	void test_getFileContentAfterCloseZipFiled(void);
 	void test_getFileContentFromANonExistingFile(void);
+	void test_getFileContentFromPasswordProtectedZipFile(void);
 
 	void test_extractFile(void); //TODO: test exceptions: file not writeable, and so on...
 	void test_extractFile_AJpg(void);
@@ -138,9 +140,11 @@ private:
 	std::string zipFileWithUmlaut;
 	std::string anotherZipFile;
 	std::string notExistingZipFile;
+	std::string passwordProtectedZipFile;
 	std::string tempFolder;
 	std::string picsFolder;
 	std::string fileInsideZip;
+	std::string fileInsideZip_ReadMe;
 	std::string fileInsideZipWithUmlaut;
 	std::string fileInsideZipThatDoesNotExist;
 	std::string fileInsideZipJpg;

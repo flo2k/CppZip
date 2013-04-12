@@ -132,11 +132,46 @@ int RunPerformanceTests(void) {
 	return wasSucessful ? 0 : 1;
 }
 
+int RunSpecificTests(void){
+	// Get the top level suite from the registry
+
+	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
+
+	//suite->addTest(new CppUnit::TestCaller<cppzip::UnzipTest>("a", &cppzip::UnzipTest::test_getFileContentFromPasswordProtectedZipFile));
+	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
+
+
+	CppUnit::TestResult result;
+
+	// Add a listener that colllects test result
+	CppUnit::TestResultCollector resultCollector;
+	result.addListener(&resultCollector);
+
+	TimingListener timeListener;
+	result.addListener(&timeListener);
+
+	// Adds the test to the list of test to run
+	CppUnit::TextTestRunner runner;
+	runner.addTest(suite);
+
+	// Run the tests.
+	runner.run(result);
+
+	// Output the result with the CompilerOutputter
+	CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
+
+	bool wasSucessful = resultCollector.wasSuccessful();
+
+	// Return error code 1 if the one of test failed.
+	return wasSucessful ? 0 : 1;
+}
+
 int main(void) {
 	std::cout << "starting tests..." << std::endl;
 
 	int ok = RunAllTests();
 	//int ok = RunPerformanceTests();
+	//int ok = RunSpecificTests();
 
 	return ok;
 }

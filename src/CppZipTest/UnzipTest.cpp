@@ -26,10 +26,12 @@ void UnzipTest::setUp(void){
 	zipFileWithUmlaut = "täst.zip";
 	anotherZipFile = "another_test.zip";
 	notExistingZipFile = "not_existing_file.zip";
+	passwordProtectedZipFile = "passwordProtected.zip";
 	tempFolder = "temp";
 	picsFolder = "pics";
-	fileInsideZipWithUmlaut = "Prüfplan.txt";
 	fileInsideZip = "Pruefplan.txt";
+	fileInsideZip_ReadMe = "readme.txt";
+	fileInsideZipWithUmlaut = "Prüfplan.txt";
 	fileInsideZipThatDoesNotExist = "FileDoesNotExist";
 	fileInsideZipJpg = "matrix.jpg";
 	anotherFileName = "x.txt";
@@ -246,6 +248,21 @@ void UnzipTest::test_getFileContentFromANonExistingFile(void)
 	int actual = content.size();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile(void)
+{
+	bool ok = zip->open(passwordProtectedZipFile, "secret");
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip_ReadMe);
+
+	std::string expected = "hello readme...";
+	std::string actual(content.begin(), content.end());
+
+	std::cout << "expected: " << expected << std::endl;
+	std::cout << "actual: " << actual << std::endl;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
 void UnzipTest::test_extractFile(void)
