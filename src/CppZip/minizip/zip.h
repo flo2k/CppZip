@@ -360,8 +360,3 @@ extern int ZEXPORT zipRemoveExtraInfoBlock OF((char* pData, int* dataLen, short 
 #endif
 
 #endif /* _zip64_H */
-
-/* Placed here to use as default parameter in Zip and Unzip*/
-#ifndef VERSIONMADEBY
-# define VERSIONMADEBY   (0x0) /* platform depedent */
-#endif
