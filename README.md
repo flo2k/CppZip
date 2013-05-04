@@ -17,26 +17,31 @@ _Zip_ compresses and zips files and folders.
  - Adding complete (and recursive) folders from file system
  - Delete files
  - Replace files
+ - Supports Passwords
 
 _Unzip_ uncompresses and unzips zip files.
  - Inspect files inside a zip (e.g. file list)
  - Extract to file system
  - Extract to memory
+ - Supports Passwords
 
 ###Author:
 _Florian Künzner_ and _Andreas Bauer_
 
 ### Version:
-0.2 alpha state
+0.3.0.1 alpha state
+
+### Date:
+04.05.2013
 
 ### License:
 
 CppZip -- IO on .zip files using minizip and zlib  
-Version 0.2, 12.12.2012  
+Version 0.3.0.1, 04.05.2013
 CppZip project - (https://github.com/flo2k/CppZip)  
 
-Copyright (C) 2011 Florian Künzner (CppZip)  
-Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+Copyright (C) 2011      Florian Künzner (CppZip)  
+Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
 
 ---------------------------------------------------------------------------
 

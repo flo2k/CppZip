@@ -2,13 +2,13 @@
  * \file Zip.h
  *
  * Zip.h -- IO on .zip files using minizip and zlib
- * Version 0.2, 22.09.2012
+ * Version 0.3.0.1, 04.05.2013
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 13.11.2011, Florian Künzner
  *
- * Copyright (C) 2011 Florian Künzner (CppZip)
- * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2011      Florian Künzner (CppZip)
+ * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -56,17 +56,13 @@ class Unzip;
  *
  * Zip is a c++ wrapper for zip.h (minizip). It provides a c++ interface for
  * working with zip files.
- *
- * \author Florian Künzner
- * \date 22.09.2012
- * \version 0.2
  */
 class Zip {
 public:
 	Zip(void);
 	virtual ~Zip();
 
-	/*! Open flags */
+	/*! \brief Open flags */
 	enum OpenFlags {
 		CREATE_AND_OVERWRITE,   //!< Creates an new zip file, if exists overwrites.
 		APPEND_TO_EXISTING_ZIP  /*!< Append new files to the existing zip file.
@@ -272,7 +268,7 @@ public:
 	 *
 	 * \attention The delete operation may be slow on big zip files.
 	 *
-	 * \param     fileName is the file that should be removed from the zip file.
+	 * \param     fileNames is a list of files that should be removed from the zip file.
 	 *
 	 * \return    true if the files are deleted, otherwise false.
 	 */
@@ -497,9 +493,4 @@ private:
 } //cppzip
 
 #endif /* ZIP_H_ */
-
-/* Defined already in minizip's zip.c. Placed here to use as default parameter in Zip and Unzip*/
-#ifndef VERSIONMADEBY
-# define VERSIONMADEBY   (0x0) /* platform depedent */
-#endif
 

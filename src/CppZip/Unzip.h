@@ -2,13 +2,13 @@
  * \file Unzip.h
  *
  * Unzip.h -- IO on .zip files using minizip and zlib
- * Version 0.2, 22.09.2012
+ * Version 0.3.0.1, 04.05.2013
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 05.11.2011, Florian Künzner
  *
- * Copyright (C) 2011 Florian Künzner (CppZip)
- * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2011      Florian Künzner (CppZip)
+ * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -55,8 +55,6 @@ struct InnerZipFileInfo;
  * working with existing zip files.
  *
  * \author Florian Künzner
- * \date 22.09.2012
- * \version 0.2
  */
 class Unzip {
 public:
@@ -213,24 +211,28 @@ public:
 
 public:
 	/*!
-	 * This signal is emitted, before a file will be extracted. The parameter
-	 * std::string& describes the path (incl. file name) of the files
-	 * destination. The value can be changed to a new one.
+	 * \brief   This signal is emitted, before a file will be extracted.
 	 *
-	 * std::string & is the destination
+	 * \details The parameter destination describes the path (incl. file name)
+	 *          of the files destination. The value can be changed to a new one.
+	 *
+	 * \param   destination is the destination.
 	 */
-	boost::signal<void (std::string &)> beforeFileExtraction;
+	boost::signal<void (std::string & destination)> beforeFileExtraction;
 
 	/*!
-	 * This signal is emitted, after a file is extracted. The parameter
-	 * std::string describes the path (incl. file name) of the files
-	 * destination. The value can be changed to a new one.
+	 * \brief   This signal is emitted, after a file is extracted.
 	 *
-	 * std::string & is the destination
-	 * unsigned int is the maximum number of files to extract
-	 * unsigned int is the current file that is extracted (begins with 1)
+	 * \details The parameter std::string describes the path (incl. file name)
+	 *          of the files destination. The value can be changed to a new one.
+	 *
+	 * \param   destination is the destination.
+	 * \param   maxFiles    is the maximum number of files to extract.
+	 * \param   currentFile is the current file that is extracted (counting begins with 1).
 	 */
-	boost::signal<void (const std::string, unsigned int, unsigned int)> fileExtracted;
+	boost::signal<void (const std::string & destination,
+			            const unsigned int & maxFiles,
+			            const unsigned int & currentFile)> fileExtracted;
 
 private:
 	/*!
@@ -288,10 +290,10 @@ private:
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
 
-	/*
-	 * Formats the password for the use with the minizip api
+	/*!
+	 * \brief Formats the password for the use with the minizip api.
 	 *
-	 * \param password the password that shall be formatted
+	 * \param password is the password that shall be formatted.
 	 */
 	const char* formatPassword(const std::string & password);
 

@@ -1,11 +1,11 @@
 /*
  * ZipPrivate.h -- IO on .zip files using minizip and zlib
- * Version 0.1, 12.12.2012
+ * Version 0.3.0.1, 04.05.2013
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 12.12.2012, Florian Künzner
  *
- * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -41,8 +41,25 @@
 
 namespace cppzip{
 
-	zip_fileinfo convertInnerZipFileInfo_to_zipFileInfo(std::shared_ptr<InnerZipFileInfo> innerZipFileInfo);
-	std::shared_ptr<InnerZipFileInfo> convertInnerZipFileInfo_to_zipFileInfo(zip_fileinfo zipInfo);
+	/*!
+	 * \brief  Converts a InnerZipFileInfo to a zip_fileinfo.
+	 *
+	 * \param  innerZipFileInfo is the element to convert.
+	 *
+	 * \return the zip_fileinfo.
+	 */
+	zip_fileinfo convertInnerZipFileInfo_to_zipFileInfo(
+			std::shared_ptr<InnerZipFileInfo> innerZipFileInfo);
+
+	/*!
+	 * \brief  Converts a zip_fileinfo to a zip_fileinfo.
+	 *
+	 * \param  zipInfo is the element to convert.
+	 *
+	 * \return the InnerZipFileInfo.
+	 */
+	std::shared_ptr<InnerZipFileInfo> convertInnerZipFileInfo_to_zipFileInfo(
+			zip_fileinfo zipInfo);
 
 } //cppzip
 

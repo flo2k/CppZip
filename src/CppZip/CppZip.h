@@ -5,8 +5,9 @@
  * and some funtions of the boost libraries.
  *
  * It's implementation focus is
- *  - on easy to use - a clear and well documented API
- *  - and to run on multiple platforms (Windows, Linux, ...).
+ *  - on easy to use - a clear and well documented API,
+ *  - to run on multiple platforms (Windows, Linux, ...),
+ *  - and well tested.
  *
  * There are two classes in the library:
  *
@@ -24,7 +25,7 @@
  *  - Supports Passwords
  *
  * \author Florian Künzner and Andreas Bauer
- * \version 0.3
+ * \version 0.3.0.1 alpha state
  * \date 04.05.2013
  *
  * \note At the moment there are problems with special chars (ä, ö, ü, ß, ...):
@@ -141,11 +142,11 @@
  * \page license License
  *
  * CppZip -- IO on .zip files using minizip and zlib\n
- * Version 0.2, 13.12.2012\n
+ * Version 0.3.0.1, 04.05.2013\n
  * part of the CppZip project - (https://github.com/flo2k/CppZip)\n
  *
- * Copyright (C) 2011 Florian Künzner (CppZip)\n
- * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)\n
+ * Copyright (C) 2011      Florian Künzner (CppZip)\n
+ * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)\n
  *
  * ---------------------------------------------------------------------------
  *
@@ -166,6 +167,7 @@
  * 2. Altered source versions must be plainly marked as such, and must not be\n
  *    misrepresented as being the original software.\n
  * 3. This notice may not be removed or altered from any source distribution.\n
+ *
  *
  * ---------------------------------------------------------------------------
  *
