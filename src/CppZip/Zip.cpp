@@ -66,7 +66,7 @@ bool Zip::open(const std::string & fileName,
 	}
 
 	switch (openFlag) {
-		case APPEND_TO_EXISTING_ZIP:
+		case OPEN_EXISTING:
 			fileInfos = retrieveFileInfos(fileName);
 			zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_ADDINZIP);
 			break;
@@ -662,9 +662,9 @@ bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
 
 void Zip::restoreTheOldOpenStatus(Zip::OpenFlags oldOpenState)
 {
-	if(oldOpenState == APPEND_TO_EXISTING_ZIP){
+	if(oldOpenState == OPEN_EXISTING){
 		close();
-		open(zipFileName, APPEND_TO_EXISTING_ZIP);
+		open(zipFileName, OPEN_EXISTING);
 	}
 }
 

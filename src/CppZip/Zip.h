@@ -64,10 +64,8 @@ public:
 
 	/*! \brief Open flags */
 	enum OpenFlags {
-		CREATE_AND_OVERWRITE,   //!< Creates an new zip file, if exists overwrites.
-		APPEND_TO_EXISTING_ZIP  /*!< Append new files to the existing zip file.
-		                         *   Overwriting files and deleting files are not possible.
-		                         */
+		CREATE_AND_OVERWRITE,   //!< \brief Creates an new zip file, if exists overwrites.
+		OPEN_EXISTING           //!< \brief Opens an existing zip file
 	};
 
 	/*!
@@ -80,7 +78,7 @@ public:
 	 *            be created first, if necessary. After that "file.zip" will be created.
 	 *
 	 *            If the fileName already exists, open() overrides the existing file.
-	 *  - flag == \ref APPEND_TO_EXISTING_ZIP it opens an existing file. This is used
+	 *  - flag == \ref OPEN_EXISTING it opens an existing file. This is used
 	 *            to delete, replace or add files from/to an existing zip file.
 	 *
 	 * \param fileName is the file (incl. path) to open.
