@@ -366,24 +366,28 @@ public:
 
 public:
 	/*!
-	 * This signal is emitted, before a file will be extracted. The parameter
-	 * std::string& describes the path (incl. file name) of the files
-	 * destination inside the zip. The value can be changed to a new one.
+	 * \brief   This signal is emitted, before a file will be zipped.
 	 *
-	 * std::string & is the destination inside the zip file
+	 * \details The parameter destination is the path (incl. file name) of the files
+	 *          destination inside the zip. The value can be changed to a new one.
+	 *
+	 * \param   destination is the destination inside the zip file.
 	 */
-	boost::signal<void (std::string &)> beforeFileZipping;
+	//boost::signal<void (std::string & destination)> beforeFileZipping;
 
 	/*!
-	 * This signal is emitted, after a file is extracted. The parameter
-	 * std::string describes the path (incl. file name) of the files
-	 * destination. The value can be changed to a new one.
+	 * \brief   This signal is emitted, after a file is zipped.
 	 *
-	 * std::string & is the destination
-	 * unsigned int is the maximum number of files to extract
-	 * unsigned int is the current file that is extracted (begins with 1)
+	 * \details The parameter the path (incl. file name) of the files
+	 *          destination. The value can be changed to a new one.
+	 *
+	 * \param   destination is the destination inside the zip file.
+	 * \param   maxFiles    is the maximum number of files to extract.
+	 * \param   currentFile is is the current file that is extracted (counting begins with 1).
 	 */
-	boost::signal<void (const std::string, unsigned int, unsigned int)> fileZipped;
+	//boost::signal<void (const std::string destination,
+	//		            const unsigned int & maxFiles,
+	//		            const unsigned int & currentFile)> fileZipped;
 
 private:
 	/*!

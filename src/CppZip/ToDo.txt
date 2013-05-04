@@ -8,12 +8,8 @@
 
 - Document:
 	- More examples in the documentation, like a tutorial.
-	- Document license on the github description and in the doxygen doc. 
 	
 - Implement:
-	- Zip::fastDelete() with not creating a new zip file (maybe is a little bit tricky and needs
-	                                                      deeper knowledge of the zip specification.
-	                                                      Maybe, this needs also an shrink method.)
     - Signals implement + test
     - Set timestamps correct.
     - Zip files with passwords.
@@ -21,9 +17,10 @@
     - Filters: for extensions, file names, directories, ... 
       (example1: files that match the filters are added)
       (example2: files that doesn't match the filters are added)
-    - Zip::deleteFiles()
     - Zip::replaceFiles()
-    - Unzip::extractFilesTo()
+	- Zip::fastDelete() with not creating a new zip file (maybe is a little bit tricky and needs
+	                                                      deeper knowledge of the zip specification.
+	                                                      Maybe, this needs also an shrink method.)
     
 - Bug:
 	- Zip files with umlauts (ä, ö, ü, ..): (Help: result42.com /projects/ZipFileLayout, ...)
@@ -33,7 +30,7 @@
     
 - Building:
 	- cmake
-	- VisualStudio 2010 Solutions
+	- VisualStudio 2010, 2012 Solutions
 	- Continuous Integration + Delivery
 	- linux packages: .deb, .rpm
 	- windows libs: shared (dll) + static (lib)

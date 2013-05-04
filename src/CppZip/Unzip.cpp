@@ -243,7 +243,7 @@ bool Unzip::extractFileTo_Internal(
 	return extraction_ok;
 }
 
-bool Unzip::extractAllTo(const std::string & path)
+bool Unzip::extractAllFilesTo(const std::string & path)
 {
 	std::string dest_path = path;
 	bool extraction_ok = true;

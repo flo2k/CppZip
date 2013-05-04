@@ -111,6 +111,8 @@ public:
 	 *
 	 * If no zip file is opened containsFile() == false
 	 *
+	 * \param fileName is the file name to check.
+	 *
 	 * \return true if the file is inside the zip
 	 */
 	bool containsFile(const std::string & fileName);
@@ -118,7 +120,8 @@ public:
 	/*!
 	 * \brief Checks if path is a file.
 	 *
-	 * \param path to check
+	 * \param path is the path to check.
+	 *
 	 * \return true if path is a file, otherwise false.
 	 */
 	bool isFile(const std::string & path);
@@ -128,7 +131,8 @@ public:
 	 *
 	 * \note Inside a zip file, a folder ends with "/"
 	 *
-	 * \param path to check
+	 * \param path is the path to check.
+	 *
 	 * \return true if path is a folder, otherwise false.
 	 */
 	bool isFolder(const std::string & path);
@@ -167,6 +171,8 @@ public:
 	 *  zip.close();
 	 * \endcode
 	 *
+	 * \param fileName is the file inside the zip whose content should be loaded.
+	 *
 	 * \return the content of a file as vector of unsigned char
 	 */
 	std::vector<unsigned char> getFileContent(const std::string & fileName);
@@ -191,8 +197,8 @@ public:
 	 *  zip.close();
 	 * \endcode
 	 *
-	 * \param fileName file that should be extracted
-	 * \param path is the destination
+	 * \param fileName is the file that should be extracted.
+	 * \param path is the destination.
 	 *
 	 * \return true if extraction was successful, otherwise false.
 	 */
@@ -201,13 +207,14 @@ public:
 	/*!
 	 * \brief Extracts the contents of zip file to the given path.
 	 *
-	 * \note If the path doesn't exists, extractAllTo() tries to
+	 * \note If the path doesn't exists, extractAllFilesTo() tries to
 	 * create the paths and all subdirs.
 	 *
-	 * \param path is a folder
+	 * \param path is the folder where the files should be extracted.
+	 *
 	 * \return true if all is extracted, otherwise false
 	 */
-	bool extractAllTo(const std::string & path);
+	bool extractAllFilesTo(const std::string & path);
 
 public:
 	/*!

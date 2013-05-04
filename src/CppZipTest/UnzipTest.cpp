@@ -366,7 +366,7 @@ void UnzipTest::test_extractAllTo(void)
 	bool expected = true;
 	zip->open(zipFile);
 	std::string path = tempFolder;
-	bool actual = zip->extractAllTo(path);
+	bool actual = zip->extractAllFilesTo(path);
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -376,7 +376,7 @@ void UnzipTest::test_extractAllToWithUmlaut(void)
 	bool expected = true;
 	zip->open(zipFile);
 	std::string path = tempFolder;
-	bool actual = zip->extractAllTo(path);
+	bool actual = zip->extractAllFilesTo(path);
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
