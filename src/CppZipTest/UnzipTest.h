@@ -65,7 +65,6 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_containsFileWithANonExistingFile);
 		CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
 		CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile);
 
 		CPPUNIT_TEST(test_getFileNames);
 		CPPUNIT_TEST(test_getFileNamesWithNoZipFileIsOpened);
@@ -75,6 +74,7 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_getFileContentWithNoZipFileIsOpened);
 		CPPUNIT_TEST(test_getFileContentAfterCloseZipFiled);
 		CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile);
 
 		CPPUNIT_TEST(test_extractFile);
 		CPPUNIT_TEST(test_extractFile_AJpg);
