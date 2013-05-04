@@ -41,7 +41,6 @@ namespace cppzip {
 
 /*
  * InnerZipFileInfo contains all Infos to save a file into zip.
- * The informations are very similar to zip_fileinfo from zip.h
  */
 struct InnerZipFileInfo{
 	InnerZipFileInfo(void){
