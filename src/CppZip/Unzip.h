@@ -70,8 +70,8 @@ public:
 	 * then open() returns false, because another zip
 	 * file is already opened.
 	 *
-	 * \param zipFile is the file (incl. path) to open
-	 * \param password the password which protects the files within the zip files
+	 * \param zipFile is the file (incl. path) to open.
+	 * \param password is the password which protects the files within the zip.
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */

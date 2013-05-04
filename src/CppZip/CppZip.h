@@ -16,14 +16,16 @@
  *  - Adding complete (and recursive) folders from file system
  *  - Delete files
  *  - Replace files
+ *  - Supports Passwords
  * - \ref cppzip::Unzip "Unzip" uncompresses and unzips zip files.
  *  - Inspect files inside a zip (e.g. file list)
  *  - Extract to file system
  *  - Extract to memory
+ *  - Supports Passwords
  *
  * \author Florian Künzner and Andreas Bauer
- * \version 0.2
- * \date 13.12.2012
+ * \version 0.3
+ * \date 04.05.2013
  *
  * \note At the moment there are problems with special chars (ä, ö, ü, ß, ...):
  * When zipping and unzipping files with special chars inside zip files then

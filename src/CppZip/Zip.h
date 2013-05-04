@@ -89,7 +89,7 @@ public:
 	 *
 	 * \param fileName is the file (incl. path) to open.
 	 * \param flag     is the flag that controls, how the zip class works.
-	 * \param password the password which protects the files within the zip files
+	 * \param password is the password which protects the files within the zip.
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */
