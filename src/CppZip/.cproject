@@ -68,6 +68,13 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.cross.so.debug.410983520.2127965172" name="iowin32.c" rcbsApplicability="disable" resourcePath="minizip/iowin32.c" toolsToInvoke="cdt.managedbuild.tool.gnu.c.compiler.base.503941831.1256201882">
+						<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.503941831.1256201882" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.503941831"/>
+					</fileInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.cross.so.debug.410983520.1655972370" name="iowin32.h" rcbsApplicability="disable" resourcePath="minizip/iowin32.h" toolsToInvoke=""/>
+					<sourceEntries>
+						<entry excluding="minizip/iowin32.c|minizip/iowin32.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
