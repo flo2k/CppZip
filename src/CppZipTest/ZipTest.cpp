@@ -83,10 +83,17 @@ void ZipTest::test_openAExistingZipFile(void) {
 void ZipTest::test_openAExistingWriteProtectedZipFile(void) {
 	bool expected = false;
 
+	//make the file write protected
+	boost::filesystem::perms savedFilePerms = boost::filesystem::status(writeProtectedZipFile).permissions();
+	boost::filesystem::permissions(writeProtectedZipFile, boost::filesystem::owner_read);
+
 	bool openOk = zip->open(writeProtectedZipFile);
 	bool isOpened = zip->isOpened();
 
-	CPPUNIT_ASSERT_EQUAL(expected, openOk);
+	//make the file writeable again
+    boost::filesystem::permissions(writeProtectedZipFile, savedFilePerms);
+
+    CPPUNIT_ASSERT_EQUAL(expected, openOk);
 	CPPUNIT_ASSERT_EQUAL(expected, isOpened);
 }
 
