@@ -74,7 +74,11 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_getFileContentWithNoZipFileIsOpened);
 		CPPUNIT_TEST(test_getFileContentAfterCloseZipFiled);
 		CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux32bit);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux64bit);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win32bit);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip);
+		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar);
 
 		CPPUNIT_TEST(test_extractFile);
 		CPPUNIT_TEST(test_extractFile_AJpg);
@@ -118,7 +122,11 @@ public:
 	void test_getFileContentWithNoZipFileIsOpened(void);
 	void test_getFileContentAfterCloseZipFiled(void);
 	void test_getFileContentFromANonExistingFile(void);
-	void test_getFileContentFromPasswordProtectedZipFile(void);
+	void test_getFileContentFromPasswordProtectedZipFile_linux32bit(void);
+	void test_getFileContentFromPasswordProtectedZipFile_linux64bit(void);
+	void test_getFileContentFromPasswordProtectedZipFile_win32bit(void);
+	void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void);
+	void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void);
 
 	void test_extractFile(void); //TODO: test exceptions: file not writeable, and so on...
 	void test_extractFile_AJpg(void);
@@ -140,7 +148,11 @@ private:
 	std::string zipFileWithUmlaut;
 	std::string anotherZipFile;
 	std::string notExistingZipFile;
-	std::string passwordProtectedZipFile;
+	std::string passwordProtectedZipFile_linux32bit;
+	std::string passwordProtectedZipFile_linux64bit;
+	std::string passwordProtectedZipFile_win32bit;
+	std::string passwordProtectedZipFile_win64bit_7zip;
+	std::string passwordProtectedZipFile_win64bit_winrar;
 	std::string tempFolder;
 	std::string picsFolder;
 	std::string fileInsideZip;

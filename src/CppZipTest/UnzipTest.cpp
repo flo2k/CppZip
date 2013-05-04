@@ -26,7 +26,11 @@ void UnzipTest::setUp(void){
 	zipFileWithUmlaut = "täst.zip";
 	anotherZipFile = "another_test.zip";
 	notExistingZipFile = "not_existing_file.zip";
-	passwordProtectedZipFile = "passwordProtected.zip";
+	passwordProtectedZipFile_linux32bit = "passwordProtected_linux_32bit.zip";
+	passwordProtectedZipFile_linux64bit = "passwordProtected_linux_64bit.zip";
+	passwordProtectedZipFile_win32bit = "passwordProtected_win_32bit.zip";
+	passwordProtectedZipFile_win64bit_7zip = "passwordProtected_win_64bit_7zip.zip";
+	passwordProtectedZipFile_win64bit_winrar = "passwordProtected_win_64bit_winrar.zip";
 	tempFolder = "temp";
 	picsFolder = "pics";
 	fileInsideZip = "Pruefplan.txt";
@@ -250,9 +254,69 @@ void UnzipTest::test_getFileContentFromANonExistingFile(void)
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getFileContentFromPasswordProtectedZipFile(void)
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux32bit(void)
 {
-	bool ok = zip->open(passwordProtectedZipFile, "secret");
+	bool ok = zip->open(passwordProtectedZipFile_linux32bit, "secret");
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
+
+	std::string expected = "this is a string";
+	std::string actual(content.begin(), content.end());
+
+	std::cout << "expected: " << expected << std::endl;
+	std::cout << "actual: " << actual << std::endl;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
+}
+
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux64bit(void)
+{
+	bool ok = zip->open(passwordProtectedZipFile_linux64bit, "secret");
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
+
+	std::string expected = "this is a string";
+	std::string actual(content.begin(), content.end());
+
+	std::cout << "expected: " << expected << std::endl;
+	std::cout << "actual: " << actual << std::endl;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
+}
+
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win32bit(void)
+{
+	bool ok = zip->open(passwordProtectedZipFile_win32bit, "secret");
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
+
+	std::string expected = "this is a string";
+	std::string actual(content.begin(), content.end());
+
+	std::cout << "expected: " << expected << std::endl;
+	std::cout << "actual: " << actual << std::endl;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
+}
+
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void)
+{
+	bool ok = zip->open(passwordProtectedZipFile_win64bit_7zip, "secret");
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
+	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
+
+	std::string expected = "this is a string";
+	std::string actual(content.begin(), content.end());
+
+	std::cout << "expected: " << expected << std::endl;
+	std::cout << "actual: " << actual << std::endl;
+
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
+}
+
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void)
+{
+	bool ok = zip->open(passwordProtectedZipFile_win64bit_winrar, "secret");
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
 
