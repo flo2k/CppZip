@@ -7,6 +7,7 @@
 
 #include "Unzip.h"
 #include "ZipCommon.h"
+#include "ZipPrivate.h"
 #include "minizip/unzip.h"
 
 #include <algorithm>
@@ -112,7 +113,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 	}
 
 	//open file
-	if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, this->formatPassword(this->password))){
+	if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, formatPassword(this->password))){
 		return fileContent;
 	}
 
@@ -204,7 +205,7 @@ bool Unzip::extractFileTo_Internal(
 		}
 
 		//open file
-		if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, this->formatPassword(this->password))){
+		if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, formatPassword(this->password))){
 			return false;
 		}
 
@@ -333,15 +334,6 @@ void Unzip::retrieveAllFileInfos(void)
 std::shared_ptr<InnerZipFileInfo> Unzip::getFileInfoFromLocalFileInfos(	const std::string& fileName)
 {
 	return fileInfos[fileName];
-}
-
-const char* Unzip::formatPassword(const std::string & password)
-{
-	if(password == ""){
-		return NULL;
-	}else{
-		return password.c_str();
-	}
 }
 
 } //cppzip

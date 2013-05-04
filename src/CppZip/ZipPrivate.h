@@ -61,6 +61,13 @@ namespace cppzip{
 	std::shared_ptr<InnerZipFileInfo> convertInnerZipFileInfo_to_zipFileInfo(
 			zip_fileinfo zipInfo);
 
+	/*!
+	 * \brief Formats the password for the use with the minizip api.
+	 *
+	 * \param password is the password that shall be formatted.
+	 */
+	const char* formatPassword(const std::string & password);
+
 } //cppzip
 
 

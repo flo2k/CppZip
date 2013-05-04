@@ -297,13 +297,6 @@ private:
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
 
-	/*!
-	 * \brief Formats the password for the use with the minizip api.
-	 *
-	 * \param password is the password that shall be formatted.
-	 */
-	const char* formatPassword(const std::string & password);
-
 private:
 	typedef void * voidp;
 	typedef voidp unzFile;

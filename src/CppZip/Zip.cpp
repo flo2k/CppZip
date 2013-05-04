@@ -137,7 +137,7 @@ bool Zip::addFile_internal(
 			        -MAX_WBITS,
 			        DEF_MEM_LEVEL,
 			        Z_DEFAULT_STRATEGY,
-			        this->formatPassword(this->password),
+			        formatPassword(this->password),
 			        0,
 			        VERSIONMADEBY,
 			        0,
@@ -218,7 +218,7 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 	        -MAX_WBITS,
 	        DEF_MEM_LEVEL,
 	        Z_DEFAULT_STRATEGY,
-	        this->formatPassword(this->password),
+	        formatPassword(this->password),
 	        0,
 	        VERSIONMADEBY,
 	        0,
@@ -606,7 +606,7 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	        -MAX_WBITS,
 	        DEF_MEM_LEVEL,
 	        Z_DEFAULT_STRATEGY,
-	        this->formatPassword(this->password),
+	        formatPassword(this->password),
 	        0,
 	        VERSIONMADEBY,
 	        0,
@@ -802,15 +802,6 @@ bool Zip::createFolderIfNotExists(const std::string & path)
 	}
 
 	return ok;
-}
-
-const char* Zip::formatPassword(const std::string & password)
-{
-	if(password == ""){
-		return NULL;
-	}else{
-		return password.c_str();
-	}
 }
 
 } //cppzip
