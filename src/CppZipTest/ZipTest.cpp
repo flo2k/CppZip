@@ -742,15 +742,15 @@ void ZipTest::test_addFile_Content_WithPasswordProtection(void) {
 	std::vector<unsigned char> content = { 'a', 'z', '7' };
 	bool expected = true;
 	zip->open(tempFolder + "/" + zipFile, Zip::CREATE_AND_OVERWRITE, "secret");
-	bool actual = zip->addFile("test.txt", content);
+	bool actual = zip->addFile(fileInsideZip, content);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, "test.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, fileInsideZip));
 
 	std::vector<unsigned char> fileContent;
-	fileContent = getFileContent(tempFolder + "/" + zipFile, "test.txt", "secret");
+	fileContent = getFileContent(tempFolder + "/" + zipFile, fileInsideZip, "secret");
 	std::string fileContentAsString(fileContent.begin(), fileContent.end());
 	std::string contentAsString(content.begin(), content.end());
 
@@ -764,15 +764,15 @@ void ZipTest::test_addFile_Content_FromAString_WithPasswordProtection(void) {
 			contentAsString.end());
 	bool expected = true;
 	zip->open(tempFolder + "/" + zipFile, Zip::CREATE_AND_OVERWRITE, "secret");
-	bool actual = zip->addFile("test.txt", content);
+	bool actual = zip->addFile(fileInsideZip, content);
 	zip->close();
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 1, numFilesInZip(tempFolder + "/" + zipFile));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, "test.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(tempFolder + "/" + zipFile, fileInsideZip));
 
 	std::vector<unsigned char> fileContent;
-	fileContent = getFileContent(tempFolder + "/" + zipFile, "test.txt", "secret");
+	fileContent = getFileContent(tempFolder + "/" + zipFile, fileInsideZip, "secret");
 	std::string fileContentAsString(fileContent.begin(), fileContent.end());
 
 	CPPUNIT_ASSERT_EQUAL(contentAsString, fileContentAsString);

@@ -254,9 +254,9 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile(void)
 {
 	bool ok = zip->open(passwordProtectedZipFile, "secret");
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
-	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip_ReadMe);
+	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
 
-	std::string expected = "hello readme...";
+	std::string expected = "this is a string";
 	std::string actual(content.begin(), content.end());
 
 	std::cout << "expected: " << expected << std::endl;
