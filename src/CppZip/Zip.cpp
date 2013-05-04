@@ -36,7 +36,8 @@ namespace cppzip {
 #define CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE 65536
 
 Zip::Zip()
-	: zipfile_handle(NULL), openFlag(CREATE_AND_OVERWRITE), compressionLevel(Z_DEFAULT_COMPRESSION)
+	: zipfile_handle(NULL), openFlag(CREATE_AND_OVERWRITE),
+	  compressionLevel(Z_DEFAULT_COMPRESSION)
 {
 
 }
@@ -46,7 +47,9 @@ Zip::~Zip()
 	close();
 }
 
-bool Zip::open(const std::string & fileName, OpenFlags flag, const std::string & password)
+bool Zip::open(const std::string & fileName,
+			   const OpenFlags & flag,
+			   const std::string & password)
 {
 	if(isOpened()){ //if already opened, don't open a file
 		return false;

@@ -73,15 +73,15 @@ public:
 	/*!
 	 * \brief Opens a zip file.
 	 *
-	 * Opens a new zip given in fileName. If open() is called and
-	 * isOpened() == true, then open() returns false, because
-	 * another zip file is already opened.
+	 * If
+	 *  - flag == \ref CREATE_AND_OVERWRITE then open() opens a new zip given in fileName.
+	 *            open() creates the zip file in fileName. If the fileName contains
+	 *            a path and a file name (eg. "path/to/file.zip") then "path/to" will
+	 *            be created first, if necessary. After that "file.zip" will be created.
 	 *
-	 * open() creates the zip file in fileName. If the fileName contains
-	 * a path and a file name (eg. "path/to/file.zip") then "path/to" will
-	 * be created first. After that "file.zip" will be created.
-	 *
-	 * If the fileName already exists, open() overrides the existing file.
+	 *            If the fileName already exists, open() overrides the existing file.
+	 *  - flag == \ref APPEND_TO_EXISTING_ZIP it opens an existing file. This is used
+	 *            to delete, replace or add files from/to an existing zip file.
 	 *
 	 * \param fileName is the file (incl. path) to open.
 	 * \param flag     is the flag that controls, how the zip class works.
@@ -89,7 +89,9 @@ public:
 	 *
 	 * \return true if the zip file is opened, otherwise false.
 	 */
-	bool open(const std::string & fileName, OpenFlags flag = CREATE_AND_OVERWRITE, const std::string & password = "");
+	bool open(const std::string & fileName,
+			  const OpenFlags & flag = CREATE_AND_OVERWRITE,
+			  const std::string & password = "");
 
 	/*!
 	 * \brief Gets the opened status.
