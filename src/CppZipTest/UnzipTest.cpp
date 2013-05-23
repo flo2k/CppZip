@@ -179,10 +179,6 @@ void UnzipTest::test_getFileNames(void)
 	zip->open(zipFile);
 	std::list<std::string> actualfileNames = zip->getFileNames();
 
-//	BOOST_FOREACH(std::string fileName, fileNames){
-//		std::cout << fileName << std::endl;
-//	}
-
 	CPPUNIT_ASSERT_EQUAL(expectedFileNames.size(), actualfileNames.size());
 
 	//assert the file names..
@@ -217,9 +213,6 @@ void UnzipTest::test_getFileContent(void)
 	zip->open(zipFile);
 	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
 	int actual = content.size();
-
-//	std::string x(content.begin(), content.end());
-//	std::cout << "Prüfplan: " << x << std::endl;
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
@@ -263,9 +256,6 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux32bit(void)
 	std::string expected = "this is a string";
 	std::string actual(content.begin(), content.end());
 
-	std::cout << "expected: " << expected << std::endl;
-	std::cout << "actual: " << actual << std::endl;
-
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
@@ -277,9 +267,6 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux64bit(void)
 
 	std::string expected = "this is a string";
 	std::string actual(content.begin(), content.end());
-
-	std::cout << "expected: " << expected << std::endl;
-	std::cout << "actual: " << actual << std::endl;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
@@ -293,9 +280,6 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win32bit(void)
 	std::string expected = "this is a string";
 	std::string actual(content.begin(), content.end());
 
-	std::cout << "expected: " << expected << std::endl;
-	std::cout << "actual: " << actual << std::endl;
-
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
@@ -308,9 +292,6 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(vo
 	std::string expected = "this is a string";
 	std::string actual(content.begin(), content.end());
 
-	std::cout << "expected: " << expected << std::endl;
-	std::cout << "actual: " << actual << std::endl;
-
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
@@ -322,9 +303,6 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(
 
 	std::string expected = "this is a string";
 	std::string actual(content.begin(), content.end());
-
-	std::cout << "expected: " << expected << std::endl;
-	std::cout << "actual: " << actual << std::endl;
 
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
