@@ -361,24 +361,80 @@ void UnzipTest::test_extractFile_AJpg(void)
 	CPPUNIT_ASSERT_EQUAL(expectedFileSizeInBytes, actualFileSizeInBytes);
 }
 
-void UnzipTest::test_extractAllTo(void)
+void UnzipTest::test_extractFile_WithOverwriteAExistingFile(void)
+{
+	zip->open(zipFile);
+
+	bool actual = zip->extractFileTo(
+			fileInsideZip,
+			tempFolder + "/" + fileInsideZip);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract not existing", true, actual);
+
+	actual = zip->extractFileTo(
+			fileInsideZipWithUmlaut,
+			tempFolder + "/" + fileInsideZip,
+			true);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", true, actual);
+}
+
+void UnzipTest::test_extractFile_WithNotOverwriteAExistingFile(void)
+{
+	zip->open(zipFile);
+
+	bool actual = zip->extractFileTo(
+			fileInsideZip,
+			tempFolder + "/" + fileInsideZip);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract not existing", true, actual);
+
+	actual = zip->extractFileTo(
+			fileInsideZipWithUmlaut,
+			tempFolder + "/" + fileInsideZip,
+			false);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", false, actual);
+}
+
+void UnzipTest::test_extractAllFilesTo(void)
 {
 	bool expected = true;
 	zip->open(zipFile);
 	std::string path = tempFolder;
-	bool actual = zip->extractAllFilesTo(path);
 
+	bool actual = zip->extractAllFilesTo(path);
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_extractAllToWithUmlaut(void)
+void UnzipTest::test_extractAllFilesToWithUmlaut(void)
 {
 	bool expected = true;
 	zip->open(zipFile);
 	std::string path = tempFolder;
-	bool actual = zip->extractAllFilesTo(path);
 
+	bool actual = zip->extractAllFilesTo(path);
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
+}
+
+void UnzipTest::test_extractAllFiles_WithOverwriteAExistingFile(void)
+{
+	zip->open(zipFile);
+	std::string path = tempFolder;
+
+	bool actual = zip->extractAllFilesTo(path);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract not existing", true, actual);
+
+	actual = zip->extractAllFilesTo(path, true);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", true, actual);
+}
+
+void UnzipTest::test_extractAllFiles_WithNotOverwriteAExistingFile(void)
+{
+	zip->open(zipFile);
+	std::string path = tempFolder;
+
+	bool actual = zip->extractAllFilesTo(path);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract not existing", true, actual);
+
+	actual = zip->extractAllFilesTo(path, false);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", false, actual);
 }
 
 bool actualFileExtracted = false;

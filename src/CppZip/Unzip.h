@@ -180,9 +180,7 @@ public:
 	/*!
 	 * \brief Extracts the file in fileName to the path.
 	 *
-	 * path = "/path/to/file"
-	 *
-	 * If path doesn't exist, extractFileTo trys to create it
+	 * If path doesn't exist, extractFileTo() trys to create it.
 	 *
 	 * This is a usage example of extractFileTo():
 	 * \code
@@ -198,11 +196,18 @@ public:
 	 * \endcode
 	 *
 	 * \param fileName is the file that should be extracted.
-	 * \param path is the destination.
+	 * \param path is the destination (example: "/path/to/file")
+	 * \param overwriteExistingFile is a flag that controls, if the file specified
+	 *                              in path should be overwritten if it exists or not.
+	 *                              If overwriteExistingFile == false and the file
+	 *                              does exist on file system, then extractFileTo()
+	 *                              returns false.
 	 *
 	 * \return true if extraction was successful, otherwise false.
 	 */
-	bool extractFileTo(const std::string & fileName, const std::string & path);
+	bool extractFileTo(const std::string & fileName,
+					   const std::string & path,
+					   const bool & overwriteExistingFile = true);
 
 	/*!
 	 * \brief Extracts the contents of zip file to the given path.
@@ -211,10 +216,17 @@ public:
 	 * create the paths and all subdirs.
 	 *
 	 * \param path is the folder where the files should be extracted.
+	 * \param overwriteExistingFile is a flag that controls, if the file specified
+	 *                              in path should be overwritten if it exists or not.
+	 *                              If overwriteExistingFile == false and one of the
+	 *                              files exist on file system, then extractFileTo()
+	 *                              returns false, but tries to extract each file in
+	 *                              the zip.
 	 *
 	 * \return true if all is extracted, otherwise false
 	 */
-	bool extractAllFilesTo(const std::string & path);
+	bool extractAllFilesTo(const std::string & path,
+						   const bool & overwriteExistingFile = true);
 
 public:
 	/*!
@@ -293,9 +305,12 @@ private:
 			const std::string & fileName,
 			const std::string & path,
 			int max,
-			int current);
+			int current,
+			const bool & overwriteExistingFile);
 
 	std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
+
+	bool doesFileExistOnFileSystem(const std::string & fileName);
 
 private:
 	typedef void * voidp;

@@ -173,18 +173,26 @@ bool Unzip::isFolder(const std::string & path)
 	return boost::algorithm::ends_with(path, "/");
 }
 
-bool Unzip::extractFileTo(const std::string & fileName, const std::string & path)
+bool Unzip::extractFileTo(
+		const std::string & fileName,
+		const std::string & path,
+		const bool & overwriteExistingFile)
 {
-	return extractFileTo_Internal(fileName, path, 1, 1);
+	return extractFileTo_Internal(fileName, path, 1, 1, overwriteExistingFile);
 }
 
 bool Unzip::extractFileTo_Internal(
 		const std::string & fileName,
 		const std::string & path,
 		int max,
-		int current)
+		int current,
+		const bool & overwriteExistingFile)
 {
 	if(! containsFile(fileName)){
+		return false;
+	}
+
+	if(!overwriteExistingFile && doesFileExistOnFileSystem(path)){
 		return false;
 	}
 
@@ -244,7 +252,12 @@ bool Unzip::extractFileTo_Internal(
 	return extraction_ok;
 }
 
-bool Unzip::extractAllFilesTo(const std::string & path)
+bool Unzip::doesFileExistOnFileSystem(const std::string& fileName) {
+
+	return boost::filesystem::exists(fileName);
+}
+
+bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteExistingFile)
 {
 	std::string dest_path = path;
 	bool extraction_ok = true;
@@ -258,7 +271,10 @@ bool Unzip::extractAllFilesTo(const std::string & path)
 		std::string fileName = iter->first;
 
 		if(isFile(fileName)){
-			bool ok = extractFileTo_Internal(fileName, dest_path + fileName, fileInfos.size(), current++);
+			bool ok = extractFileTo_Internal(fileName,
+					                         dest_path + fileName,
+					                         fileInfos.size(), current++,
+					                         overwriteExistingFile);
 			if(!ok){
 				extraction_ok = false;
 			}
@@ -337,4 +353,3 @@ std::shared_ptr<InnerZipFileInfo> Unzip::getFileInfoFromLocalFileInfos(	const st
 }
 
 } //cppzip
-

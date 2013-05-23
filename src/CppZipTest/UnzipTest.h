@@ -82,9 +82,13 @@ class UnzipTest : public CppUnit::TestFixture {
 
 		CPPUNIT_TEST(test_extractFile);
 		CPPUNIT_TEST(test_extractFile_AJpg);
+		CPPUNIT_TEST(test_extractFile_WithOverwriteAExistingFile);
+		CPPUNIT_TEST(test_extractFile_WithNotOverwriteAExistingFile);
 
-		CPPUNIT_TEST(test_extractAllTo);
-		CPPUNIT_TEST(test_extractAllToWithUmlaut);
+		CPPUNIT_TEST(test_extractAllFilesTo);
+		CPPUNIT_TEST(test_extractAllFilesToWithUmlaut);
+		CPPUNIT_TEST(test_extractAllFiles_WithOverwriteAExistingFile);
+		CPPUNIT_TEST(test_extractAllFiles_WithNotOverwriteAExistingFile);
 
 		CPPUNIT_TEST(test_signalFileExtracted);
 		CPPUNIT_TEST(test_signalBeforeFileExtracted);
@@ -130,9 +134,13 @@ public:
 
 	void test_extractFile(void); //TODO: test exceptions: file not writeable, and so on...
 	void test_extractFile_AJpg(void);
+	void test_extractFile_WithOverwriteAExistingFile(void);
+	void test_extractFile_WithNotOverwriteAExistingFile(void);
 
-	void test_extractAllTo(void);
-	void test_extractAllToWithUmlaut(void);
+	void test_extractAllFilesTo(void);
+	void test_extractAllFilesToWithUmlaut(void);
+	void test_extractAllFiles_WithOverwriteAExistingFile(void);
+	void test_extractAllFiles_WithNotOverwriteAExistingFile(void);
 
 	void test_signalFileExtracted(void);
 	void test_signalBeforeFileExtracted(void);
