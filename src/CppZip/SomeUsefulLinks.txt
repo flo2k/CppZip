@@ -8,6 +8,7 @@ some others:
 - http://code.google.com/p/microzip/source/browse/
 - http://code.google.com/p/miniz/ (deflate Algorithmus)
 - https://github.com/mattconnolly/ZipArchive (for Cocoa: iPhone and OS X)
+- http://www.codeproject.com/Articles/4135/XZip-and-XUnzip-Add-zip-and-or-unzip-to-your-app-w
 
 Zip-Standard:
 - http://www.pkware.com/documents/casestudies/APPNOTE.TXT
