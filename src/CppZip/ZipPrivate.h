@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef ZIPPRIVATE_H_
-#define ZIPPRIVATE_H_
+#ifndef CPPZIP_ZIPPRIVATE_H_
+#define CPPZIP_ZIPPRIVATE_H_
 
 #include <memory>
 
@@ -71,4 +71,4 @@ namespace cppzip{
 } //cppzip
 
 
-#endif /* ZIPPRIVATE_H_ */
+#endif /* CPPZIP_ZIPPRIVATE_H_ */

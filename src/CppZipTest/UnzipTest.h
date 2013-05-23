@@ -32,8 +32,8 @@
  *
  */
 
-#ifndef UNZIPTEST_H_
-#define UNZIPTEST_H_
+#ifndef CPPZIP_UNZIPTEST_H_
+#define CPPZIP_UNZIPTEST_H_
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -173,4 +173,4 @@ private:
 
 } //cppzip
 
-#endif /* UNZIPTEST_H_ */
+#endif /* CPPZIP_UNZIPTEST_H_ */

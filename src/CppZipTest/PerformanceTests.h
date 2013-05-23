@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef PERFORMANCETESTS_H_
-#define PERFORMANCETESTS_H_
+#ifndef CPPZIP_PERFORMANCETESTS_H_
+#define CPPZIP_PERFORMANCETESTS_H_
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -80,4 +80,4 @@ private:
 
 } //cppzip
 
-#endif /* PERFORMANCETESTS_H_ */
+#endif /* CPPZIP_PERFORMANCETESTS_H_ */

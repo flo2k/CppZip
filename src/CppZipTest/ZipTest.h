@@ -32,8 +32,8 @@
  *
  */
 
-#ifndef ZIPTEST_H_
-#define ZIPTEST_H_
+#ifndef CPPZIP_ZIPTEST_H_
+#define CPPZIP_ZIPTEST_H_
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -201,4 +201,4 @@ private:
 
 } //cppzip
 
-#endif /* ZIPTEST_H_ */
+#endif /* CPPZIP_ZIPTEST_H_ */

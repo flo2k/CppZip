@@ -34,8 +34,8 @@
  *
  */
 
-#ifndef UNZIP_H_
-#define UNZIP_H_
+#ifndef CPPZIP_UNZIP_H_
+#define CPPZIP_UNZIP_H_
 
 #include <string>
 #include <list>
@@ -328,4 +328,4 @@ private:
 
 } //cppzip
 
-#endif /* UNZIP_H_ */
+#endif /* CPPZIP_UNZIP_H_ */

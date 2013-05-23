@@ -34,8 +34,8 @@
  *
  */
 
-#ifndef ZIP_H_
-#define ZIP_H_
+#ifndef CPPZIP_ZIP_H_
+#define CPPZIP_ZIP_H_
 
 #include <string>
 #include <boost/signals.hpp>
@@ -489,5 +489,5 @@ private:
 
 } //cppzip
 
-#endif /* ZIP_H_ */
+#endif /* CPPZIP_ZIP_H_ */
 

@@ -31,8 +31,8 @@
  *
  */
 
-#ifndef ZIPCOMMON_H_
-#define ZIPCOMMON_H_
+#ifndef CPPZIP_ZIPCOMMON_H_
+#define CPPZIP_ZIPCOMMON_H_
 
 #include <string>
 
@@ -83,4 +83,4 @@ struct InnerZipFileInfo{
 
 } //cppzip
 
-#endif /* ZIPCOMMON_H_ */
+#endif /* CPPZIP_ZIPCOMMON_H_ */
