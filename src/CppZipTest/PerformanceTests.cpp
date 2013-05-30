@@ -1,4 +1,4 @@
-/*
+﻿/*
  * PerformanceTests.cpp
  *
  *  Created on: 12.12.2012
@@ -30,12 +30,14 @@ void PerformanceTests::setUp(void) {
 	zip = std::shared_ptr<Zip>(new Zip());
 	unzip = std::shared_ptr<Unzip>(new Unzip());
 
-	//boost::filesystem::remove_all(tempFolder);
+	boost::filesystem::remove_all(tempFolder);
 }
 
 void PerformanceTests::tearDown(void)
 {
-	//boost::filesystem::remove_all(tempFolder);
+	zip->close();
+	unzip->close();
+	boost::filesystem::remove_all(tempFolder);
 }
 
 void PerformanceTests::testZip_addMidSizedFiles(void) {
@@ -56,9 +58,9 @@ void PerformanceTests::testZip_addMidSizedFiles(void) {
 
 void PerformanceTests::testZip_replaceMidSizedFiles(void)
 {
-	//testZip_addMidSizedFiles();
+	testZip_addMidSizedFiles();
 
-	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::OPEN_EXISTING);
+	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::OpenExisting);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 
 	ok = zip->replaceFile(midSizedFilesFolder + "/" + midSizeFile2, midSizedFilesFolder + "/" + midSizeFile2);
@@ -69,7 +71,9 @@ void PerformanceTests::testZip_replaceMidSizedFiles(void)
 }
 
 void PerformanceTests::testZip_deleteMidSizedFile(void) {
-	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::OPEN_EXISTING);
+	testZip_addMidSizedFiles();
+
+	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::OpenExisting);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 
 	ok = zip->deleteFile(midSizedFilesFolder + "/" + midSizeFile2);

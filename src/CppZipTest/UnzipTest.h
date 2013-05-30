@@ -62,6 +62,7 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_getNumFilesAfterCloseZipFiled);
 
 		CPPUNIT_TEST(test_containsFile);
+		CPPUNIT_TEST(test_containsFileWithUmlautInFileName);
 		CPPUNIT_TEST(test_containsFileWithANonExistingFile);
 		CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
 		CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
@@ -81,6 +82,7 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar);
 
 		CPPUNIT_TEST(test_extractFile);
+		CPPUNIT_TEST(test_extractFileWithUmlautInFileName);
 		CPPUNIT_TEST(test_extractFile_AJpg);
 		CPPUNIT_TEST(test_extractFile_WithOverwriteAExistingFile);
 		CPPUNIT_TEST(test_extractFile_WithNotOverwriteAExistingFile);
@@ -114,6 +116,7 @@ public:
 	void test_getNumFilesAfterCloseZipFiled(void);
 
 	void test_containsFile(void);
+	void test_containsFileWithUmlautInFileName(void);
 	void test_containsFileWithANonExistingFile(void);
 	void test_containsFileWithNoZipFileIsOpened(void);
 	void test_containsFileAfterCloseZipFiled(void);
@@ -132,7 +135,8 @@ public:
 	void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void);
 	void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void);
 
-	void test_extractFile(void); //TODO: test exceptions: file not writeable, and so on...
+	void test_extractFile(void);
+	void test_extractFileWithUmlautInFileName(void);
 	void test_extractFile_AJpg(void);
 	void test_extractFile_WithOverwriteAExistingFile(void);
 	void test_extractFile_WithNotOverwriteAExistingFile(void);

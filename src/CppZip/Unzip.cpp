@@ -91,8 +91,8 @@ std::list<std::string> Unzip::getFileNames(void)
 {
 	std::list<std::string> fileNames;
 
-	for(auto iter = fileInfos.begin(); iter != fileInfos.end(); ++iter){
-		std::string fileName = iter->first;
+	for(auto & iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
+		const std::string & fileName = iter->first;
 		fileNames.push_back(fileName);
 	}
 
@@ -119,9 +119,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 
 	//read content
 	unsigned char buffer[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
-//	for(int i = 0; i < UNZIP_WRAPPER_CHAR_ARRAY_BUFFER_SIZE; ++i){
-//		buffer[i] = 9;
-//	}
+
 	unsigned int len = 0;
 	while((len = unzReadCurrentFile(
 			zipfile_handle,
@@ -267,8 +265,8 @@ bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteEx
 	}
 
 	int current = 1;
-	for(auto iter = fileInfos.begin(); iter != fileInfos.end(); ++iter){
-		std::string fileName = iter->first;
+	for(auto & iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
+		const std::string & fileName = iter->first;
 
 		if(isFile(fileName)){
 			bool ok = extractFileTo_Internal(fileName,

@@ -173,5 +173,8 @@ int main(void) {
 	//int ok = RunPerformanceTests();
 	//int ok = RunSpecificTests();
 
+	std::string x;
+	std::cin >> x;
+
 	return ok;
 }

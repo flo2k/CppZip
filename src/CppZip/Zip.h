@@ -64,8 +64,8 @@ public:
 
 	/*! \brief Open flags */
 	enum OpenFlags {
-		CREATE_AND_OVERWRITE,   //!< \brief Creates an new zip file, if exists overwrites.
-		OPEN_EXISTING           //!< \brief Opens an existing zip file
+		CreateAndOverwrite	//!< \brief Creates an new zip file, if exists overwrites.
+	,	OpenExisting		//!< \brief Opens an existing zip file
 	};
 
 	/*!
@@ -88,7 +88,7 @@ public:
 	 * \return true if the zip file is opened, otherwise false.
 	 */
 	bool open(const std::string & fileName,
-			  const OpenFlags & flag = CREATE_AND_OVERWRITE,
+			  const OpenFlags & flag = CreateAndOverwrite,
 			  const std::string & password = "");
 
 	/*!

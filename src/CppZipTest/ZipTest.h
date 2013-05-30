@@ -55,7 +55,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_openAExistingWriteProtectedZipFile);
 		CPPUNIT_TEST(test_openAppendToZip);
 		CPPUNIT_TEST(test_openAppendToZipWithFileAlreadyExisting);
-
+		
 		CPPUNIT_TEST(test_closeAZipFile);
 		CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
 
@@ -67,7 +67,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WithFileNameIsEmpty);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNameAlreadyExists);
-
+		
 		CPPUNIT_TEST(test_addFile_Content);
 		CPPUNIT_TEST(test_addFile_Content_FromAString);
 		CPPUNIT_TEST(test_addFile_Content_WithEmptyContent);
@@ -175,6 +175,7 @@ private:
 	bool containsFolder(const std::string & zipFileName, const std::string & folderName);
 	int numFilesInZip(const std::string & zipFileName);
 	void createFolder(const std::string & folderName);
+	void createFile(const std::string & fileName, const std::string & content);
 	void copyFile(const std::string & src, const std::string & dest);
 	std::vector<unsigned char> getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
 
