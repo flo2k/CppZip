@@ -340,7 +340,8 @@ bool Zip::addFiles(const std::list<std::string> & fileNames, bool preservePath)
 {
 	bool ok = true;
 
-	for(auto & fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
+	std::list<std::string>::const_iterator fileNameIter;
+	for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
 		const std::string & fileName = *fileNameIter;
 		if(! addFile(fileName, preservePath)){
 			ok = false;
@@ -505,7 +506,8 @@ bool Zip::deleteFiles(const std::list<std::string> & fileNames)
 
 bool Zip::containsAnyFile(const std::list<std::string> & fileNames)
 {
-	for(auto & fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
+	std::list<std::string>::const_iterator fileNameIter;
+	for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
 		const std::string & fileName = *fileNameIter;
 
 		if(containsFile(fileName)){
@@ -547,13 +549,15 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
 	open(zipFileName, CreateAndOverwrite);
 
 	std::list<std::string> zipFileNames = unzip.getFileNames();
-	for(auto & zipFileIter = zipFileNames.cbegin(); zipFileIter != zipFileNames.cend(); ++zipFileIter){
+	std::list<std::string>::const_iterator zipFileIter;
+	for(zipFileIter = zipFileNames.cbegin(); zipFileIter != zipFileNames.cend(); ++zipFileIter){
 		const std::string & zipFileName = *zipFileIter;
 
 		if(areFileNamesFolders){
 			//copy all files except the folder and the files in the folder
 			bool equals = false;
-			for(auto & fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
+			std::list<std::string>::const_iterator fileNameIter;
+			for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
 				const std::string & fileName = *fileNameIter;
 
 				if(boost::algorithm::starts_with(zipFileName, fileName)){
@@ -566,7 +570,8 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
 			}
 		} else{
 			bool equals = false;
-			for(auto & fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
+			std::list<std::string>::const_iterator fileNameIter;
+			for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
 				const std::string & fileName = *fileNameIter;
 
 				if(zipFileName == fileName){
@@ -698,7 +703,8 @@ bool Zip::deleteFolders(const std::list<std::string> & folderNames)
 {
 	std::list<std::string> folderNamesToDelete;
 
-	for(auto & folderNameIter = folderNames.cbegin(); folderNameIter != folderNames.cend(); ++folderNameIter){
+	std::list<std::string>::const_iterator folderNameIter;
+	for(folderNameIter = folderNames.cbegin(); folderNameIter != folderNames.cend(); ++folderNameIter){
 		std::string folderName = *folderNameIter;
 
 		if(! boost::algorithm::ends_with(folderName, "/")){

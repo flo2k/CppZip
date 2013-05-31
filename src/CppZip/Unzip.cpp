@@ -91,7 +91,8 @@ std::list<std::string> Unzip::getFileNames(void)
 {
 	std::list<std::string> fileNames;
 
-	for(auto & iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >::const_iterator iter;
+	for(iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
 		const std::string & fileName = iter->first;
 		fileNames.push_back(fileName);
 	}
@@ -265,7 +266,8 @@ bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteEx
 	}
 
 	int current = 1;
-	for(auto & iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
+	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >::const_iterator iter;
+	for(iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
 		const std::string & fileName = iter->first;
 
 		if(isFile(fileName)){
