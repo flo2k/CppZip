@@ -93,9 +93,9 @@ void ZipTest::test_openAExistingWriteProtectedZipFile(void) {
 	bool isOpened = zip->isOpened();
 
 	//make the file writeable again
-    boost::filesystem::permissions(writeProtectedZipFile, savedFilePerms);
+	boost::filesystem::permissions(writeProtectedZipFile, savedFilePerms);
 
-    CPPUNIT_ASSERT_EQUAL(expected, openOk);
+	CPPUNIT_ASSERT_EQUAL(expected, openOk);
 	CPPUNIT_ASSERT_EQUAL(expected, isOpened);
 }
 
@@ -683,7 +683,8 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	zip->close();
 
 #ifdef WIN32
-
+	// make the file writeable again so it can be deleted
+	boost::filesystem::permissions(tempZipFileName, savedTempfolderPerms);
 #else
 	// make the folder writeable again so it can be deleted
 	boost::filesystem::permissions(tempFolder, savedTempfolderPerms);

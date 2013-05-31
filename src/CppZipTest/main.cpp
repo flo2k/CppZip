@@ -173,8 +173,10 @@ int main(void) {
 	//int ok = RunPerformanceTests();
 	//int ok = RunSpecificTests();
 
+#ifdef WIN32
 	std::string x;
 	std::cin >> x;
+#endif
 
 	return ok;
 }
