@@ -136,7 +136,7 @@ public:
 	 * \return true if the content could be added to the spezified fileName,
 	 *         otherwise false.
 	 */
-	bool addFile(const std::string & fileName, std::vector<unsigned char> & content);
+	bool addFile(const std::string & fileName, const std::vector<unsigned char> & content);
 
 	/*!
 	 * \brief Adds a file from fileName into the zip.
@@ -427,7 +427,7 @@ private:
 
 	bool addFile_internal(
 			std::shared_ptr<InnerZipFileInfo> info,
-			std::vector<unsigned char> & content);
+			const std::vector<unsigned char> & content);
 
 	bool addFile_internal(
 				std::shared_ptr<InnerZipFileInfo> info,

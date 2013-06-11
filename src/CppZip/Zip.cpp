@@ -107,7 +107,7 @@ std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
 	return fileInfos_;
 }
 
-bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> & content)
+bool Zip::addFile(const std::string & fileName, const std::vector<unsigned char> & content)
 {
 	std::shared_ptr<InnerZipFileInfo> info = getFileInfoForANewFile(fileName);
 
@@ -115,7 +115,7 @@ bool Zip::addFile(const std::string & fileName, std::vector<unsigned char> & con
 }
 
 bool Zip::addFile_internal(
-		std::shared_ptr<InnerZipFileInfo> info, std::vector<unsigned char> & content)
+		std::shared_ptr<InnerZipFileInfo> info, const std::vector<unsigned char> & content)
 {
 	if(containsFile(info->fileName) || info->fileName.length() == 0){
 		return false;
