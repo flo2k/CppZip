@@ -96,6 +96,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_deleteFolders);
 		CPPUNIT_TEST(test_deleteFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_deleteFile_WhenTemparyFileCouldntCreated);
+		CPPUNIT_TEST(test_deleteFile_CheckOtherFileContent);
 
 		CPPUNIT_TEST(test_replaceFile);
 		CPPUNIT_TEST(test_replaceFile_WhenFileNotExistsInZip);
@@ -160,6 +161,7 @@ public:
 	void test_deleteFolders(void);
 	void test_deleteFile_WhenFileNotExists(void);
 	void test_deleteFile_WhenTemparyFileCouldntCreated(void);
+	void test_deleteFile_CheckOtherFileContent(void);
 
 	void test_replaceFile(void);
 	void test_replaceFile_WhenFileNotExistsInZip(void);
@@ -178,6 +180,7 @@ private:
 	void createFile(const std::string & fileName, const std::string & content);
 	void copyFile(const std::string & src, const std::string & dest);
 	std::vector<unsigned char> getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
+	std::string getFileContentAsString(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
 
 private:
 	std::shared_ptr<Zip> zip;

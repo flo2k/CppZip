@@ -695,6 +695,29 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, fileToDelete));
 }
 
+void ZipTest::test_deleteFile_CheckOtherFileContent(void) {
+	bool expected = true;
+	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
+
+	createFolder(tempFolder);
+	copyFile(zipFileFor_deleteAndReplace, zipFileName);
+
+	zip->open(zipFileName, Zip::OpenExisting);
+	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
+	bool actual  = zip->deleteFile(fileToDelete);
+	zip->close();
+
+	CPPUNIT_ASSERT_EQUAL(expected, actual);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", false, containsFile(zipFileName, fileToDelete));
+
+	std::string fileNameToCheckContent = folderNameInsideZip + "/file2.txt";
+	std::string fileContent = getFileContentAsString(zipFileName, fileNameToCheckContent, "");
+
+	CPPUNIT_ASSERT_MESSAGE("FileContent begin",
+			boost::algorithm::starts_with(fileContent, "Lorem ipsum dolor"));
+}
+
 void ZipTest::test_replaceFile(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
@@ -913,7 +936,8 @@ void ZipTest::copyFile(const std::string& src, const std::string& dest) {
 #endif
 }
 
-std::vector<unsigned char> ZipTest::getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password)
+std::vector<unsigned char> ZipTest::getFileContent(
+		const std::string & zipFile, const std::string & fileName, const std::string & password)
 {
 	Unzip unzip;
 	std::vector<unsigned char> result;
@@ -922,6 +946,13 @@ std::vector<unsigned char> ZipTest::getFileContent(const std::string & zipFile, 
 	}
 	unzip.close();
 	return result;
+}
+
+std::string ZipTest::getFileContentAsString(
+		const std::string & zipFile, const std::string & fileName, const std::string & password)
+{
+	std::vector<unsigned char> content = getFileContent(zipFile, fileName, password);
+	return std::string(content.begin(), content.end());
 }
 
 } //cppzip

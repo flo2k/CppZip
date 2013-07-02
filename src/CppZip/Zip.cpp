@@ -625,7 +625,7 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	        info->comment.c_str(),
 	        Z_DEFLATED,
 	        compressionLevel,
-	        0,
+	        raw,
 	        -MAX_WBITS,
 	        DEF_MEM_LEVEL,
 	        Z_DEFAULT_STRATEGY,
