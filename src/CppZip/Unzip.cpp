@@ -11,10 +11,10 @@
 #include "minizip/unzip.h"
 
 #include <algorithm>
+#include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/algorithm/string.hpp>
-#include <fstream>
 
 #define CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE 1000
 

@@ -42,7 +42,7 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
-#include <boost/signal.hpp>
+#include <boost/signals2.hpp>
 
 namespace cppzip {
 //forward declaration
@@ -237,7 +237,7 @@ public:
 	 *
 	 * \param   destination is the destination.
 	 */
-	boost::signal<void (std::string & destination)> beforeFileExtraction;
+	boost::signals2::signal<void (std::string & destination)> beforeFileExtraction;
 
 	/*!
 	 * \brief   This signal is emitted, after a file is extracted.
@@ -249,7 +249,7 @@ public:
 	 * \param   maxFiles    is the maximum number of files to extract.
 	 * \param   currentFile is the current file that is extracted (counting begins with 1).
 	 */
-	boost::signal<void (const std::string & destination,
+	boost::signals2::signal<void (const std::string & destination,
 			            const unsigned int & maxFiles,
 			            const unsigned int & currentFile)> fileExtracted;
 

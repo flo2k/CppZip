@@ -38,10 +38,10 @@
 #define CPPZIP_ZIP_H_
 
 #include <string>
-#include <boost/signals.hpp>
 #include <vector>
 #include <unordered_map>
 #include <memory>
+#include <boost/signals2.hpp>
 
 /*!
  * \brief Contains all classes to zip and unzip files.
@@ -373,7 +373,7 @@ public:
 	 *
 	 * \param   destination is the destination inside the zip file.
 	 */
-	//boost::signal<void (std::string & destination)> beforeFileZipping;
+	//boost::signals2::signal<void (std::string & destination)> beforeFileZipping;
 
 	/*!
 	 * \brief   This signal is emitted, after a file is zipped.
@@ -385,7 +385,7 @@ public:
 	 * \param   maxFiles    is the maximum number of files to extract.
 	 * \param   currentFile is is the current file that is extracted (counting begins with 1).
 	 */
-	//boost::signal<void (const std::string destination,
+	//boost::signals2::signal<void (const std::string destination,
 	//		            const unsigned int & maxFiles,
 	//		            const unsigned int & currentFile)> fileZipped;
 

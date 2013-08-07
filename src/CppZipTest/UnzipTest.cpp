@@ -11,11 +11,11 @@
 
 #include <list>
 #include <string>
+#include <algorithm>
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/bind.hpp>
 #include <boost/lambda/lambda.hpp>
-#include <algorithm>
 
 namespace cppzip {
 
