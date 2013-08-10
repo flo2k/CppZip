@@ -44,7 +44,9 @@
 								<option id="gnu.c.compiler.option.debugging.level.912615281" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.misc.pic.1403324106" name="Position Independent Code (-fPIC)" superClass="gnu.c.compiler.option.misc.pic" value="true" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.misc.other.164403665" name="Other flags" superClass="gnu.c.compiler.option.misc.other" value="-c -fmessage-length=0" valueType="string"/>
-								<option id="gnu.c.compiler.option.include.paths.1517123932" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths"/>
+								<option id="gnu.c.compiler.option.include.paths.1517123932" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/zlib}&quot;"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1691875086" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.886551629" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base">
@@ -68,9 +70,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.cross.so.debug.410983520.2127965172" name="iowin32.c" rcbsApplicability="disable" resourcePath="minizip/iowin32.c" toolsToInvoke="cdt.managedbuild.tool.gnu.c.compiler.base.503941831.1256201882">
-						<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.503941831.1256201882" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.503941831"/>
-					</fileInfo>
 					<fileInfo id="cdt.managedbuild.config.gnu.cross.so.debug.410983520.1655972370" name="iowin32.h" rcbsApplicability="disable" resourcePath="minizip/iowin32.h" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry excluding="minizip/iowin32.c|minizip/iowin32.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
