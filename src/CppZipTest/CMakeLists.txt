@@ -2,6 +2,10 @@
 # CMake file for CppZipTest
 #####################################
 
+add_test(NAME cppziptest COMMAND cppziptest)
+#to execute tests: make test
+#to execute tests with output from cppziptest: make test ARGS="-V"
+
 #Includes
 include_directories(
     ${CMAKE_SOURCE_DIR}/src/CppZip

@@ -10,7 +10,6 @@ set (CPPZIP_VERSION_MINOR 3)
 set (CPPZIP_VERSION_PATCH 0)
 
 cmake_minimum_required(VERSION 2.8)
-enable_testing()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(LIB_DIR lib${LIB_SUFFIX})
@@ -69,6 +68,7 @@ find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
 find_package(CppUnit)
 
 if(CPPUNIT_FOUND AND Boost_FOUND)
+    enable_testing()    
     option(BUILD_TESTS "Build unit tests" ON)
 
     if(BUILD_TESTS)
