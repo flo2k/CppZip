@@ -1,3 +1,4 @@
+
 #
 # spec file for package [spectemplate]
 #
@@ -17,10 +18,10 @@
 
 # norootforbuild
 
-Name:           libcppzip
+Name:           libcppzip0_3_0
 Version:
 Release:
-Summary:        Library for ...
+Summary:        Library for creating zip archives
 
 License:        Apache 2.0
 URL:            http://github.com/uboot/CppZip
@@ -31,7 +32,7 @@ BuildRequires:  cmake gcc-c++ zlib-devel boost-devel doxygen cppunit-devel
 # Requires:       
 
 %description
-This package contains the cppzip library for...
+This package contains the cppzip library for creating zip archives.
 
 
 %package        -n cppzip-devel
@@ -69,6 +70,9 @@ cmake -DCMAKE_INSTALL_PREFIX='%{_prefix}' \
 
 make %{?_smp_mflags}
 make %{?_smp_mflags} doc
+
+
+%check
 make test ARGS="-V"
 
 
