@@ -73,6 +73,7 @@ make %{?_smp_mflags} doc
 
 
 %check
+cd build
 make test ARGS="-V"
 
 
