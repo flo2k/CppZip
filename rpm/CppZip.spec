@@ -27,7 +27,7 @@ URL:            http://github.com/uboot/CppZip
 Source0:        %{name}-%{version}.tar.bz2
 # BuildArch:      noarch
 
-BuildRequires:  cmake gcc-c++ libz-devel boost-devel doxygen cppunit-devel
+BuildRequires:  cmake gcc-c++ zlib boost-devel doxygen cppunit-devel
 # Requires:       
 
 %description
