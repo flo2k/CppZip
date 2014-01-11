@@ -49,6 +49,15 @@ target_link_libraries(cppzip
     #minizip
 )
 
+set(VERSION_STRING "${CPPZIP_VERSION_MAJOR}.${CPPZIP_VERSION_MINOR}.${CPPZIP_VERSION_PATCH}")
+
+set_target_properties(cppzip PROPERTIES
+    VERSION ${VERSION_STRING}
+    SOVERSION ${VERSION_STRING}
+    FOLDER "library"
+)
+
+
 #####################################
 #INSTALL
 #####################################
