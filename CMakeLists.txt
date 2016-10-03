@@ -1,15 +1,14 @@
 #####################################
 # Main CMake file for CppZip
 #####################################
+cmake_minimum_required(VERSION 2.8)
 
 project(CppZip)
 
 #Version informations
 set (CPPZIP_VERSION_MAJOR 0)
 set (CPPZIP_VERSION_MINOR 3)
-set (CPPZIP_VERSION_PATCH 0)
-
-cmake_minimum_required(VERSION 2.8)
+set (CPPZIP_VERSION_PATCH 1)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(LIB_DIR lib${LIB_SUFFIX})
@@ -19,13 +18,17 @@ if(NOT DOC_INSTALL_DIR)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -fPIC")
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wall -fPIC -Wextra")
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 if(MSVC)
     add_definitions(/DBOOST_ALL_DYN_LINK)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif(MSVC)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 #if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 #    add_definitions(-DDEBUG)
@@ -76,3 +79,9 @@ if(CPPUNIT_FOUND AND Boost_FOUND)
         add_subdirectory(src/CppZipTest)
     endif()
 endif()
+
+#####################################
+# Installing files: output
+#####################################
+
+

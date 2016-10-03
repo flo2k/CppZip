@@ -62,20 +62,21 @@ set_target_properties(cppzip PROPERTIES
 #INSTALL
 #####################################
 
-#set(LIB_DIR lib${LIB_SUFFIX})
+set(LIB_DIR lib${LIB_SUFFIX})
 
-#if(WIN32)
-#    install (TARGETS cppzip 
-#        RUNTIME DESTINATION .
-#        LIBRARY DESTINATION ${LIB_DIR}
-#        ARCHIVE DESTINATION ${LIB_DIR}
-#    )
-#else()
-#    install (TARGETS cppzip
-#        RUNTIME DESTINATION bin
-#        LIBRARY DESTINATION ${LIB_DIR}
-#        ARCHIVE DESTINATION ${LIB_DIR}
-#endif()
+if(WIN32)
+    install (TARGETS cppzip 
+        RUNTIME DESTINATION .
+        LIBRARY DESTINATION ${LIB_DIR}
+        ARCHIVE DESTINATION ${LIB_DIR}
+    )
+else()
+    install (TARGETS cppzip
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION ${LIB_DIR}
+        ARCHIVE DESTINATION ${LIB_DIR}
+    )
+endif()
 
 install(FILES CppZip.h  Unzip.h Zip.h ZipCommon.h
     DESTINATION include/cppzip

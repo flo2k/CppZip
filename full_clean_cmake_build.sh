@@ -5,3 +5,7 @@ mkdir build
 cmake -H. -Bbuild
 cmake --build build -- -j
 ls -al build
+
+#start tests
+#cd build
+#make test ARGS="-V"
