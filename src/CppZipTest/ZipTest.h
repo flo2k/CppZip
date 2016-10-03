@@ -176,7 +176,7 @@ private:
 	bool containsFile(const std::string & zipFileName, const std::string & fileName);
 	bool containsFolder(const std::string & zipFileName, const std::string & folderName);
 	int numFilesInZip(const std::string & zipFileName);
-	void createFolder(const std::string & folderName);
+	void createFolder(const std::string & fileName);
 	void createFile(const std::string & fileName, const std::string & content);
 	void copyFile(const std::string & src, const std::string & dest);
 	std::vector<unsigned char> getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
@@ -185,6 +185,7 @@ private:
 private:
 	std::shared_ptr<Zip> zip;
 
+	std::string testZipsFolder;
 	std::string zipFile;
 	std::string zipFileWithUmlaut;
 	std::string anotherZipFile;

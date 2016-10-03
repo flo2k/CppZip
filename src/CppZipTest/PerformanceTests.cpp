@@ -17,8 +17,9 @@ namespace cppzip {
 CPPUNIT_TEST_SUITE_REGISTRATION(PerformanceTests);
 
 void PerformanceTests::setUp(void) {
-	zipFile = "test.zip";
-	zipFileWithMidSizedFiles = "zipWithMidSizedFiles.zip";
+	testZipsFolder = "testZips";
+	zipFile = testZipsFolder + "/" + "test.zip";
+	zipFileWithMidSizedFiles = testZipsFolder + "/" + "zipWithMidSizedFiles.zip";
 	tempFolder = "temp";
 	dataFolder = "data";
 	midSizedFilesFolder = dataFolder + "/midSizedFiles";

@@ -156,6 +156,7 @@ private:
 private:
 	std::shared_ptr<Unzip> zip;
 
+	std::string testZipsFolder;
 	std::string zipFile;
 	std::string zipFileWithUmlaut;
 	std::string anotherZipFile;

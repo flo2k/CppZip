@@ -22,15 +22,16 @@ namespace cppzip {
 CPPUNIT_TEST_SUITE_REGISTRATION(UnzipTest);
 
 void UnzipTest::setUp(void){
-	zipFile = "test.zip";
-	zipFileWithUmlaut = "täst.zip";
-	anotherZipFile = "another_test.zip";
-	notExistingZipFile = "not_existing_file.zip";
-	passwordProtectedZipFile_linux32bit = "passwordProtected_linux_32bit.zip";
-	passwordProtectedZipFile_linux64bit = "passwordProtected_linux_64bit.zip";
-	passwordProtectedZipFile_win32bit = "passwordProtected_win_32bit.zip";
-	passwordProtectedZipFile_win64bit_7zip = "passwordProtected_win_64bit_7zip.zip";
-	passwordProtectedZipFile_win64bit_winrar = "passwordProtected_win_64bit_winrar.zip";
+	testZipsFolder = "testZips";
+	zipFile = testZipsFolder + "/" + "test.zip";
+	zipFileWithUmlaut = testZipsFolder + "/" + "täst.zip";
+	anotherZipFile = testZipsFolder + "/" + "another_test.zip";
+	notExistingZipFile = testZipsFolder + "/" + "not_existing_file.zip";
+	passwordProtectedZipFile_linux32bit = testZipsFolder + "/" + "passwordProtected_linux_32bit.zip";
+	passwordProtectedZipFile_linux64bit = testZipsFolder + "/" + "passwordProtected_linux_64bit.zip";
+	passwordProtectedZipFile_win32bit = testZipsFolder + "/" + "passwordProtected_win_32bit.zip";
+	passwordProtectedZipFile_win64bit_7zip = testZipsFolder + "/" + "passwordProtected_win_64bit_7zip.zip";
+	passwordProtectedZipFile_win64bit_winrar = testZipsFolder + "/" + "passwordProtected_win_64bit_winrar.zip";
 	tempFolder = "temp";
 	picsFolder = "pics";
 	fileInsideZip = "Pruefplan.txt";

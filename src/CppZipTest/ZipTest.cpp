@@ -24,11 +24,12 @@ namespace cppzip {
 CPPUNIT_TEST_SUITE_REGISTRATION(ZipTest);
 
 void ZipTest::setUp(void) {
-	zipFile = "test.zip";
-	zipFileWithUmlaut = "täst.zip";
-	anotherZipFile = "another_test.zip";
-	notExistingZipFile = "not_existing_file.zip";
-	writeProtectedZipFile = "write_protected_file.zip";
+	testZipsFolder = "testZips";
+	zipFile = testZipsFolder + "/" + "test.zip";
+	zipFileWithUmlaut = testZipsFolder + "/" + "täst.zip";
+	anotherZipFile = testZipsFolder + "/" + "another_test.zip";
+	notExistingZipFile = testZipsFolder + "/" + "not_existing_file.zip";
+	writeProtectedZipFile = testZipsFolder + "/" + "write_protected_file.zip";
 	tempFolder = "temp";
 	picsFolder = "pics";
 	fileInsideZipWithUmlaut = "Prüfplan.txt";
@@ -38,7 +39,7 @@ void ZipTest::setUp(void) {
 	anotherFileName = "x.txt";
 	readMeFileName = "data/ReadMe";
 	notExistingFileName = "fileDoesNotExist";
-	zipFileFor_deleteAndReplace = "zipFileFor_deleteAndReplaceTests.zip";
+	zipFileFor_deleteAndReplace = testZipsFolder + "/" + "zipFileFor_deleteAndReplaceTests.zip";
 	folderNameInsideZip = "rootFolder";
 
 	zip = std::shared_ptr<Zip> (new Zip());
@@ -72,7 +73,7 @@ void ZipTest::test_openAExistingZipFile(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFile;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFile, zipFileName);
 
 	bool actual = zip->open(zipFileName);
@@ -103,7 +104,7 @@ void ZipTest::test_openAppendToZip(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFile;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFile, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -122,7 +123,7 @@ void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
 	bool expected = false;
 	std::string zipFileName = tempFolder + "/" + zipFile;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFile, zipFileName);
 
 	//first open
@@ -567,7 +568,7 @@ void ZipTest::test_deleteFile(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -584,7 +585,7 @@ void ZipTest::test_deleteFiles(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -607,7 +608,7 @@ void ZipTest::test_deleteFolder(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -624,7 +625,7 @@ void ZipTest::test_deleteFolders(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -647,7 +648,7 @@ void ZipTest::test_deleteFile_WhenFileNotExists(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -663,7 +664,7 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 	std::string tempZipFileName = tempFolder + "/" + ".~" + zipFileFor_deleteAndReplace;
 	
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 	
 #ifdef WIN32
@@ -673,8 +674,8 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	boost::filesystem::permissions(tempZipFileName, boost::filesystem::owner_read);
 #else
 	// make folder which contains the zip read-only
-	boost::filesystem::perms savedTempfolderPerms = boost::filesystem::status(tempFolder).permissions();
-	boost::filesystem::permissions(tempFolder, boost::filesystem::owner_read | boost::filesystem::owner_exe);
+	boost::filesystem::perms savedTempfolderPerms = boost::filesystem::status(tempFolder + "/" + testZipsFolder).permissions();
+	boost::filesystem::permissions(tempFolder + "/" + testZipsFolder, boost::filesystem::owner_read | boost::filesystem::owner_exe);
 #endif
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -687,7 +688,7 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	boost::filesystem::permissions(tempZipFileName, savedTempfolderPerms);
 #else
 	// make the folder writeable again so it can be deleted
-	boost::filesystem::permissions(tempFolder, savedTempfolderPerms);
+	boost::filesystem::permissions(tempFolder + "/" + testZipsFolder, savedTempfolderPerms);
 #endif
 
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
@@ -699,7 +700,7 @@ void ZipTest::test_deleteFile_CheckOtherFileContent(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -722,7 +723,7 @@ void ZipTest::test_replaceFile(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	bool actual = false;
@@ -741,7 +742,7 @@ void ZipTest::test_replaceFile_WhenFileNotExistsInZip(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -758,7 +759,7 @@ void ZipTest::test_replaceFile_WhenFileNotExistsOnFileSystem(void){
 	bool expected = false;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -780,7 +781,7 @@ void ZipTest::test_replaceFile_Content(void) {
 	bool expected = true;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
 
-	createFolder(tempFolder);
+	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
 	zip->open(zipFileName, Zip::OpenExisting);
@@ -914,8 +915,8 @@ int ZipTest::numFilesInZip(const std::string & zipFileName) {
 	return numFilesFromZip;
 }
 
-void ZipTest::createFolder(const std::string & folderName) {
-	boost::filesystem::create_directory(folderName);
+void ZipTest::createFolder(const std::string & fileName) {
+	boost::filesystem::create_directories(boost::filesystem::path(fileName).parent_path());
 }
 
 void ZipTest::createFile(const std::string & fileName, const std::string & content)

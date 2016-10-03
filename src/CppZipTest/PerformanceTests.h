@@ -66,6 +66,8 @@ private:
 	std::shared_ptr<Zip> zip;
 	std::shared_ptr<Unzip> unzip;
 
+	std::string testZipsFolder;
+
 	std::string midSizeFile1;
 	std::string midSizeFile2;
 	std::string midSizeFile3;

@@ -62,22 +62,29 @@ set_target_properties(cppzip PROPERTIES
 #INSTALL
 #####################################
 
-set(LIB_DIR lib${LIB_SUFFIX})
+#set(LIB_DIR lib${LIB_SUFFIX})
 
-if(WIN32)
-    install (TARGETS cppzip 
-        RUNTIME DESTINATION .
-        LIBRARY DESTINATION ${LIB_DIR}
-        ARCHIVE DESTINATION ${LIB_DIR}
-    )
-else()
-    install (TARGETS cppzip
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION ${LIB_DIR}
-        ARCHIVE DESTINATION ${LIB_DIR}
-    )
-endif()
+#if(WIN32)
+#    install (TARGETS cppzip 
+#        RUNTIME DESTINATION .
+#        LIBRARY DESTINATION ${LIB_DIR}
+#        ARCHIVE DESTINATION ${LIB_DIR}
+#    )
+#else()
+#    install (TARGETS cppzip
+#        RUNTIME DESTINATION bin
+#        LIBRARY DESTINATION ${LIB_DIR}
+#        ARCHIVE DESTINATION ${LIB_DIR}
+#endif()
 
-install(FILES CppZip.h  Unzip.h ZipCommon.h  Zip.h  ZipPrivate.h 
+install(FILES CppZip.h  Unzip.h Zip.h ZipCommon.h
     DESTINATION include/cppzip
 )
+
+#copy to build include dir
+set(CPPZIP_BUILD_INCLUDE_DIR ${CMAKE_BINARY_DIR}/include/cppzip)
+file(COPY CppZip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
+file(COPY Unzip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
+file(COPY Zip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
+file(COPY ZipCommon.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
+
