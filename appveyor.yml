@@ -3,24 +3,30 @@ version: '{build}'
 # Build worker image (VM template)
 os: Visual Studio 2015
 
+# specify custom environment variables
+environment:
+    MSVC_DEFAULT_OPTIONS: ON
+    BOOST_ROOT: C:\Libraries\boost_1_59_0
+    BOOST_LIBRARYDIR: C:\Libraries\boost_1_59_0\lib32-msvc-14.0
+    ZLIB_DIR: C:\projects\zlib
+    DOXYGEN_DIR: C:\projects\doxygen
+
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
 
 install:
-    - nuget install zlib -outputdirectory "C:\projects\zlib"
+    - nuget install zlib -outputdirectory "%ZLIB_DIR%"
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
-    - nuget install Doxygen -outputdirectory "C:\projects\doxygen"
-    #- nuget install boost -outputdirectory "C:\projects\boost"
-    #- dir "C:\projects\boost\boost.1.62.0.0"
+    - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
 
 before_build:
     - md build
-    - dir C:\Libraries\boost_1_62_0
+    - cmake --help-policy CMP0045
     - cmake -H. -Bbuild
-        -DBOOST_ROOT="C:\Libraries\boost_1_62_0" -DBOOST_LIBRARYDIR="C:\Libraries\boost_1_62_0\lib32-msvc-14.0"
-        -DZLIB_INCLUDE_DIR="C:\projects\zlib" -DZLIB_LIBRARY="C:\projects\zlib"
-        -DDOXYGEN_EXECUTABLE="C:\projects\doxygen"
+        -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
+        -DZLIB_INCLUDE_DIR="%ZLIB_DIR%" -DZLIB_LIBRARY="%ZLIB_DIR%"
+        -DDOXYGEN_EXECUTABLE="%DOXYGEN_DIR%"
 
 build_script:
 - cmake --build build --
