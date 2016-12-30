@@ -1,0 +1,14 @@
+#Programming language
+language: cpp
+
+# Compilers
+compiler:
+    - gcc
+
+before_script:
+    - mkdir build
+    - cmake -H. -Bbuild
+
+# Build steps
+script:
+  - cmake --build build -- -j
