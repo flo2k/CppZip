@@ -51,7 +51,7 @@ endif()
 
 #Boost stuff
 set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem signals)
 
 #CppZip
@@ -71,7 +71,7 @@ find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
 find_package(CppUnit)
 
 if(CPPUNIT_FOUND AND Boost_FOUND)
-    enable_testing()    
+    enable_testing()
     option(BUILD_TESTS "Build unit tests" ON)
 
     if(BUILD_TESTS)
@@ -83,5 +83,3 @@ endif()
 #####################################
 # Installing files: output
 #####################################
-
-

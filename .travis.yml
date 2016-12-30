@@ -1,0 +1,31 @@
+#Programming language
+language: cpp
+
+# Compilers
+compiler:
+    - gcc
+
+# Linux dist
+dist: trusty
+
+# Dependencies
+addons:
+  apt:
+    sources:
+      - boost-latest
+    packages:
+      - build-essential
+      - libboost-all-dev
+      - zlib1g
+      - zlib1g-dev
+      - doxygen
+      - cmake
+
+# Create build env
+before_script:
+    - mkdir build
+    - cmake -H. -Bbuild
+
+# Build steps
+script:
+  - cmake --build build -- -j

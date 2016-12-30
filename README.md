@@ -1,7 +1,10 @@
 CppZip
 ======
 
-CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with 
+[![Build Status](https://travis-ci.org/flo2k/CppZip.svg?branch=cmake)](https://travis-ci.org/flo2k/CppZip)
+[![Build Status](https://ci.appveyor.com/api/projects/status/qlctko1hvennty1h?svg=true)](https://ci.appveyor.com/project/flo2k/cppzip)
+
+CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with
 standard C++ (C++11) and some functions of the boost libraries.
 
 It's implementation focus is
@@ -34,6 +37,20 @@ _Florian Künzner_ and _Andreas Bauer_
 ### Date:
 04.05.2013
 
+### Compilation:
+Compiles with cmake into the directory "build":
+
+#### Compile on Linux
+
+    mkdir build
+
+    cmake -H. -Bbuild
+    cmake --build build -- -j
+
+#### Compile on Windows
+
+    xx
+
 ### License:
 
 CppZip -- IO on .zip files using minizip and zlib  
@@ -42,7 +59,7 @@ CppZip project - (https://github.com/flo2k/CppZip)
 
 Copyright (C) 2011      Florian Künzner (CppZip)  
 Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
-
+Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
 ---------------------------------------------------------------------------
 
 Condition of use and distribution are the same than minizip and zlib :
