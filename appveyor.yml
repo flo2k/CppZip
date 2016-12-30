@@ -8,7 +8,7 @@ install:
 
 before_build:
     - md build
-    - cmake -H. -Bbuild -DBOOST_ROOT=C:\Libraries\boost
+    - cmake -H. -Bbuild -DBOOST_ROOT=C:\Libraries\boost -D CPPUNIT_INCLUDE_DIR="C:\projects\cppzip\include" -D CPPUNIT_LIBRARY="C:\projects\cppzip"
 
 build_script:
 - cmake --build build --
