@@ -34,7 +34,7 @@ _Florian Künzner_ and _Andreas Bauer_
 ### Date:
 04.05.2013
 
-### Compile:
+### Compilation:
 Compiles with cmake into the directory "build":
 
 #### Compile on Linux
