@@ -4,14 +4,16 @@ version: '{build}'
 image: Visual Studio 2015
 
 install:
-    - nuget install zlib
-    - nuget install cppunit
+    - nuget install zlib -outputdirectory "C:\projects\zlib"
+    - nuget install cppunit -outputdirectory "C:\projects\cppunit"
+    - nuget install Doxygen -outputdirectory "C:\projects\doxygen"
 
 before_build:
     - md build
     - cmake -H. -Bbuild
         -DBOOST_ROOT=C:\Libraries\boost
-        -DZLIB_INCLUDE_DIR="C:\projects\cppzip" -DZLIB_LIBRARY="C:\projects\cppzip"
+        -DZLIB_INCLUDE_DIR="C:\projects\zlib" -DZLIB_LIBRARY="C:\projects\zlib"
+        -DDOXYGEN_EXECUTABLE="C:\projects\doxygen"
 
 build_script:
 - cmake --build build --
