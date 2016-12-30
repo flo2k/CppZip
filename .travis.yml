@@ -5,6 +5,10 @@ language: cpp
 compiler:
     - gcc
 
+# Linux dist
+dist: trusty
+
+# Dependencies
 addons:
   apt:
     sources:
@@ -17,6 +21,7 @@ addons:
       - doxygen
       - cmake
 
+# Create build env
 before_script:
     - mkdir build
     - cmake -H. -Bbuild
