@@ -11,9 +11,11 @@ include(UseDoxygen OPTIONAL)
 #Includes
 include_directories(
     ${Boost_INCLUDE_DIRS}
- 
-    ${ZLIB_INCLUDE_DIR} #minizip
+    ${ZLIB_INCLUDE_DIRS} #for minizip
+	${CMAKE_BINARY_DIR}/src/CppZip/zlib #if build in zlib was build
 )
+
+MESSAGE(STATUS "cppzip lib: ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
 
 #Sources
 set(SOURCES
@@ -30,6 +32,13 @@ set(SOURCES
     ZipPrivate.cpp
 )
 
+if(WIN32)
+	set(SOURCES
+		#minizip
+		minizip/iowin32.c
+	)   
+endif()
+
 #####################################
 #Library
 #####################################
@@ -37,14 +46,14 @@ set(SOURCES
 #static version
 #add_library(cppzip ${SOURCES})
 
+link_directories(${Boost_LIBRARY_DIRS})
+
 #shared version
 add_library(cppzip SHARED ${SOURCES})
 
 #add_dependencies(cppzip minizip)
-
-#addidtional dependencies
 target_link_libraries(cppzip
-    ${ZLIB_LIBRARY}
+    ${ZLIB_LIBRARIES}
     ${Boost_LIBRARIES}
     #minizip
 )
