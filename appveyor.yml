@@ -8,13 +8,13 @@ install:
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "C:\projects\doxygen"
     - nuget install boost -outputdirectory "C:\projects\boost"
-    - cd "C:\projects\boost"
+    - dir "C:\projects\boost"
 
 before_build:
     - md build
     - dir C:\Libraries\boost
     - cmake -H. -Bbuild
-        -DBOOST_ROOT="C:\Libraries\boost" -DBOOST_LIBRARYDIR="C:\Libraries\stage\lib"
+        -DBOOST_ROOT="C:\Libraries\boost" -DBOOST_INCLUDEDIR="C:\Libraries\boost"
         -DZLIB_INCLUDE_DIR="C:\projects\zlib" -DZLIB_LIBRARY="C:\projects\zlib"
         -DDOXYGEN_EXECUTABLE="C:\projects\doxygen"
 
