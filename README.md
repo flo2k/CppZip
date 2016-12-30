@@ -37,10 +37,16 @@ _Florian Künzner_ and _Andreas Bauer_
 ### Compile:
 Compiles with cmake into the directory "build":
 
+* Compile on Linux
+
     mkdir build
 
     cmake -H. -Bbuild
     cmake --build build -- -j
+
+* Compile on Windows
+
+    xx
 
 ### License:
 
