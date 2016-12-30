@@ -5,6 +5,19 @@ language: cpp
 compiler:
     - gcc
 
+addons:
+  apt:
+    sources:
+      - boost-latest
+    packages:
+      - build-essential
+      - libboost-all-dev
+      - zlib1g
+      - zlib1g-dbg
+      - zlib1g-dev
+      - doxygen
+      - cmake
+
 before_script:
     - mkdir build
     - cmake -H. -Bbuild
