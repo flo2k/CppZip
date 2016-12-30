@@ -4,12 +4,13 @@ version: '{build}'
 image: Visual Studio 2015
 
 install:
-    - nuget install zlib cppunit
+    - nuget install zlib
+    - nuget install cppunit
 
 before_build:
     - md build
-    - cmake -H. -Bbuild \
-        -DBOOST_ROOT=C:\Libraries\boost \
+    - cmake -H. -Bbuild
+        -DBOOST_ROOT=C:\Libraries\boost
         -DZLIB_INCLUDE_DIR="C:\projects\cppzip" -DZLIB_LIBRARY="C:\projects\cppzip"
 
 build_script:
