@@ -1,2 +1,11 @@
+version: '{build}'
+
 # Build worker image (VM template)
 image: Visual Studio 2015
+
+before_build:
+    - md build
+    - cmake -H. -Bbuild
+
+build_script:
+- cmake --build build --
