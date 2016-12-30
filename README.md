@@ -36,6 +36,7 @@ _Florian Künzner_ and _Andreas Bauer_
 
 ### Compile:
 Compiles with cmake into the directory "build":
+
     mkdir build
 
     cmake -H. -Bbuild
