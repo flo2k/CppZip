@@ -8,7 +8,7 @@ install:
 
 before_build:
     - md build
-    - cmake -H. -Bbuild -DBOOST_ROOT=C:\Libraries\boost -DZLIB_INCLUDE_DIRS="C:\projects\cppzip" -DZLIB_LIBRARIES="C:\projects\cppzip"
+    - cmake -H. -Bbuild -DBOOST_ROOT=C:\Libraries\boost -DZLIB_INCLUDE_DIR="C:\projects\cppzip" -DZLIB_LIBRARY="C:\projects\cppzip"
 
 build_script:
 - cmake --build build --
