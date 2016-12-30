@@ -3,6 +3,9 @@ version: '{build}'
 # Build worker image (VM template)
 image: Visual Studio 2015
 
+install:
+    - nuget install zlib
+
 before_build:
     - md build
     - cmake -H. -Bbuild -DBOOST_ROOT=C:\Libraries\boost
