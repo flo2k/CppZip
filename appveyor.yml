@@ -8,7 +8,7 @@ install:
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "C:\projects\doxygen"
     - nuget install boost -outputdirectory "C:\projects\boost"
-    - dir "C:\projects\boost"
+    - dir "C:\projects\boost\boost.1.62.0.0"
 
 before_build:
     - md build
