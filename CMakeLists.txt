@@ -39,11 +39,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #####################################
 
 #zlib
+#zlib
 #find_package(ZLIB 1.2.8)
 find_package(ZLIB)
 
 if(NOT ZLIB_FOUND)
     add_subdirectory(src/CppZip/zlib)
+	set(ZLIB_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/CppZip/zlib)
+	MESSAGE(STATUS "ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
+	MESSAGE(STATUS "CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
+	#MESSAGE(STATUS "LIB SUFFIX: " ${LIB_SUFFIX})
+	#MESSAGE(STATUS "ZLIB_DLL: " ${ZLIB_DLL})
 endif()
 
 #minizip
@@ -64,22 +70,23 @@ add_subdirectory(doc)
 # External additionally dependencies for CppZipTest
 #####################################
 
-#Boost
-find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
+if(BUILD_TESTS)
+	#Boost
+	find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
 
-#CppUnit
-find_package(CppUnit)
+	#CppUnit
+	find_package(CppUnit REQUIRED)
 
-if(CPPUNIT_FOUND AND Boost_FOUND)
-    enable_testing()
-    option(BUILD_TESTS "Build unit tests" ON)
+	if(CPPUNIT_FOUND AND Boost_FOUND)
+		enable_testing()
+		option(BUILD_TESTS "Build unit tests" ON)
 
-    if(BUILD_TESTS)
-        #CppZipTest
-        add_subdirectory(src/CppZipTest)
-    endif()
+		#CppZipTest
+		add_subdirectory(src/CppZipTest)
+		
+	endif()
+
 endif()
-
 #####################################
 # Installing files: output
 #####################################
