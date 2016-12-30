@@ -15,7 +15,7 @@ addons:
       - boost-latest
     packages:
       - build-essential
-      - libboost1.55-all-dev
+      - libboost-all-dev
       - zlib1g
       - zlib1g-dev
       - doxygen
