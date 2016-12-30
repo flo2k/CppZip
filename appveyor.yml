@@ -5,7 +5,7 @@ image: Visual Studio 2015
 
 before_build:
     - md build
-    - cmake -H. -Bbuild
+    - cmake -H. -Bbuild -DBOOST_ROOT=C:\Libraries\boost
 
 build_script:
 - cmake --build build --
