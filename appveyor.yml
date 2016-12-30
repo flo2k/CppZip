@@ -8,7 +8,7 @@ environment:
     MSVC_DEFAULT_OPTIONS: ON
     BOOST_ROOT: C:\Libraries\boost_1_62_0
     BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib32-msvc-14.0
-    ZLIB_DIR: C:\projects\zlib
+    ZLIB_DIR: C:\projects\zlib\zlib.1.2.8.8
     DOXYGEN_DIR: C:\projects\doxygen
 
 init:
