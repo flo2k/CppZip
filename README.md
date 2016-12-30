@@ -1,7 +1,7 @@
 CppZip
 ======
 
-CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with 
+CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with
 standard C++ (C++11) and some functions of the boost libraries.
 
 It's implementation focus is
@@ -34,6 +34,13 @@ _Florian Künzner_ and _Andreas Bauer_
 ### Date:
 04.05.2013
 
+### Compile:
+Compiles with cmake into the directory "build":
+    mkdir build
+
+    cmake -H. -Bbuild
+    cmake --build build -- -j
+
 ### License:
 
 CppZip -- IO on .zip files using minizip and zlib  
@@ -42,7 +49,7 @@ CppZip project - (https://github.com/flo2k/CppZip)
 
 Copyright (C) 2011      Florian Künzner (CppZip)  
 Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
-
+Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
 ---------------------------------------------------------------------------
 
 Condition of use and distribution are the same than minizip and zlib :
