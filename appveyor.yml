@@ -1,13 +1,14 @@
 version: '{build}'
 
 # Build worker image (VM template)
-image: Visual Studio 2015
+os: Visual Studio 2015
 
 install:
     - nuget install zlib -outputdirectory "C:\projects\zlib"
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "C:\projects\doxygen"
-    #- nuget install boost -outputdirectory "C:\projects\boost"
+    - nuget install boost -outputdirectory "C:\projects\boost"
+    - cd "C:\projects\boost"
 
 before_build:
     - md build
