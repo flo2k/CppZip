@@ -1,6 +1,8 @@
 CppZip
 ======
 
+|travis|
+
 CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with
 standard C++ (C++11) and some functions of the boost libraries.
 
