@@ -18,8 +18,8 @@ init:
     - cmd: msbuild /version
 
 install:
-    - nuget install zlib -outputdirectory "%ZLIB_DIR%"
-    - tree /A /F C:\projects\zlib
+    - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
+    - tree /A /F "%ZLIB_ROOT%"
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
 
