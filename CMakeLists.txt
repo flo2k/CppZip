@@ -89,15 +89,11 @@ if(BUILD_TESTS)
 	#CppUnit
 	find_package(CppUnit REQUIRED)
 
-	if(CPPUNIT_FOUND AND Boost_FOUND)
-		enable_testing()
-		option(BUILD_TESTS "Build unit tests" ON)
+	enable_testing()
+	option(BUILD_TESTS "Build unit tests" ON)
 
-		#CppZipTest
-		add_subdirectory(src/CppZipTest)
-
-	endif()
-
+	#CppZipTest
+	add_subdirectory(src/CppZipTest)
 endif()
 #####################################
 # Installing files: output
