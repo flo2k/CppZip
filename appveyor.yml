@@ -10,8 +10,8 @@ environment:
     BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib32-msvc-14.0
     ZLIB_ROOT: C:\projects\zlib
     ZLIB_INCLUDE: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\include
-    ZLIB_LIBRARYDIR: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
-    DOXYGEN_DIR: C:\projects\doxygen
+    ZLIB_LIBRARY: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
+    DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.9.2\tools\doxygen.exe
 
 init:
     - cmd: cmake --version
@@ -28,8 +28,8 @@ before_build:
     - md build
     - cmake -H. -Bbuild
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
-        -DDOXYGEN_EXECUTABLE="%DOXYGEN_DIR%"
-        -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARYDIR%"
+        -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
+        -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
 
 build_script:
     - cmake --build build --config Release
