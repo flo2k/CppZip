@@ -37,6 +37,8 @@
 #ifndef CPPZIP_ZIP_H_
 #define CPPZIP_ZIP_H_
 
+#include "CppZip_Global.h"
+
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -57,7 +59,8 @@ class Unzip;
  * Zip is a c++ wrapper for zip.h (minizip). It provides a c++ interface for
  * working with zip files.
  */
-class Zip {
+class CPPZIP_SHARED_EXPORT Zip
+{
 public:
 	Zip(void);
 	virtual ~Zip();
@@ -490,4 +493,3 @@ private:
 } //cppzip
 
 #endif /* CPPZIP_ZIP_H_ */
-

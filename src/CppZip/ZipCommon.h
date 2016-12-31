@@ -34,6 +34,8 @@
 #ifndef CPPZIP_ZIPCOMMON_H_
 #define CPPZIP_ZIPCOMMON_H_
 
+#include "CppZip_Global.h"
+
 #include <string>
 
 /* Defined already in minizip's zip.c. Placed here to use as default parameter in Zip and Unzip*/
@@ -47,7 +49,8 @@ namespace cppzip {
 /*
  * InnerZipFileInfo contains all Infos to save a file into zip.
  */
-struct InnerZipFileInfo{
+struct CPPZIP_SHARED_EXPORT InnerZipFileInfo
+{
 	InnerZipFileInfo(void){
 		time_sec = 0;
 		time_min = 0;

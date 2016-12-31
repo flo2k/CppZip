@@ -37,6 +37,8 @@
 #ifndef CPPZIP_UNZIP_H_
 #define CPPZIP_UNZIP_H_
 
+#include "CppZip_Global.h"
+
 #include <string>
 #include <list>
 #include <unordered_map>
@@ -56,7 +58,7 @@ struct InnerZipFileInfo;
  *
  * \author Florian Künzner
  */
-class Unzip {
+class CPPZIP_SHARED_EXPORT Unzip {
 public:
 	Unzip(void);
 	~Unzip();
