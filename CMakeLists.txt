@@ -86,6 +86,9 @@ if(BUILD_TESTS)
 	#Boost
 	find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
 
+    MESSAGE(STATUS "CPPUNIT_INCLUDE_DIR: " ${CPPUNIT_INCLUDE_DIR})
+    MESSAGE(STATUS "CPPUNIT_LIBRARY: " ${CPPUNIT_LIBRARY})
+
 	#CppUnit
 	find_package(CppUnit REQUIRED)
 
