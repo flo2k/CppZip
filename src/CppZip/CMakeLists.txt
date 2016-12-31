@@ -17,6 +17,9 @@ include_directories(
 
 MESSAGE(STATUS "cppzip lib: ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
 
+#set definition for import/export for windows dll
+add_definitions(-DCPPZIP_LIBRARY)
+
 #Sources
 set(SOURCES
 
