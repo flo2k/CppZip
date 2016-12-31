@@ -20,4 +20,4 @@ REM	-DZLIB_LIBRARY="%ZLIB_DIR%"
 REM cmake -G "Visual Studio 10 2010" -D BOOST_ROOT="C:\Libs\boost\boost_1_53_0" -D BOOST_LIBRARYDIR="C:\Libs\boost\boost_1_53_0\stage\lib" -H. -Bbuild
 
 REM build
-rem cmake --build build --config Release
+cmake --build build --config Release

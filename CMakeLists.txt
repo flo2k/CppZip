@@ -30,29 +30,41 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-#if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-#    add_definitions(-DDEBUG)
-#endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+
+MESSAGE(STATUS "CMAKE_LIBRARY_OUTPUT_DIRECTORY: " ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+MESSAGE(STATUS "LIBRARY_OUTPUT_PATH: " ${LIBRARY_OUTPUT_PATH})
+MESSAGE(STATUS "CMAKE_LIBRARY_PATH: " ${CMAKE_LIBRARY_PATH})
+
+#debugging: enables this snippet to print all known variables...
+# get_cmake_property(_variableNames VARIABLES)
+# foreach (_variableName ${_variableNames})
+#     message(STATUS "${_variableName}=${${_variableName}}")
+# endforeach()
 
 #####################################
 # External Dependencies for CppZip
 #####################################
 
 #zlib
-#zlib
-#find_package(ZLIB 1.2.8)
-find_package(ZLIB)
+find_package(ZLIB 1.2.8)
 
 if(NOT ZLIB_FOUND)
-    add_subdirectory(src/CppZip/zlib)
-	set(ZLIB_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src/CppZip/zlib)
-	MESSAGE(STATUS "ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
-	MESSAGE(STATUS "CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR})
-	#MESSAGE(STATUS "LIB SUFFIX: " ${LIB_SUFFIX})
-	#MESSAGE(STATUS "ZLIB_DLL: " ${ZLIB_DLL})
+    MESSAGE(STATUS "Use zlib provided by cppzip, because it is not found on the system.")
+	
+	add_subdirectory(src/CppZip/zlib)
+	set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/CppZip/zlib)
+	set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/zlib${CMAKE_IMPORT_LIBRARY_SUFFIX})
+	find_package(ZLIB 1.2.8)
 endif()
 
-#minizip
+#minizip: currently, minizip sources are included in CppZip lib directly
 #add_subdirectory(src/CppZip/minizip)
 
 #Boost stuff

@@ -50,6 +50,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 #shared version
 add_library(cppzip SHARED ${SOURCES})
+add_dependencies(cppzip zlib)
 
 #add_dependencies(cppzip minizip)
 target_link_libraries(cppzip
