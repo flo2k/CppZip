@@ -34,7 +34,8 @@ set(SOURCES
 
 if(WIN32)
 	set(SOURCES
-		#minizip
+        ${SOURCES}
+        #minizip
 		minizip/iowin32.c
 	)
 endif()
