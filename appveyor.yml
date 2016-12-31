@@ -19,7 +19,7 @@ init:
 
 install:
     - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
-    - tree /A /F "%ZLIB_ROOT%"
+    - tree /A /F "%ZLIB_ROOT%" #for debug
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
 
