@@ -32,4 +32,4 @@ before_build:
 
 build_script:
     - cmake --build build --config Release
-    - cmake --build build --target doc
+    - cmake --build build --config Release --target doc
