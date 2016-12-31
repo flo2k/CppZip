@@ -22,7 +22,7 @@ set(SOURCES
 
     #minizip
     minizip/ioapi.c
-    minizip/mztools.c  
+    minizip/mztools.c
     minizip/unzip.c
     minizip/zip.c
 
@@ -36,7 +36,7 @@ if(WIN32)
 	set(SOURCES
 		#minizip
 		minizip/iowin32.c
-	)   
+	)
 endif()
 
 #####################################
@@ -50,7 +50,10 @@ link_directories(${Boost_LIBRARY_DIRS})
 
 #shared version
 add_library(cppzip SHARED ${SOURCES})
-add_dependencies(cppzip zlib)
+
+if(TARGET zlib)
+    add_dependencies(cppzip zlib)
+endif()
 
 #add_dependencies(cppzip minizip)
 target_link_libraries(cppzip
@@ -75,7 +78,7 @@ set_target_properties(cppzip PROPERTIES
 set(LIB_DIR lib${LIB_SUFFIX})
 
 if(WIN32)
-    install (TARGETS cppzip 
+    install (TARGETS cppzip
         RUNTIME DESTINATION .
         LIBRARY DESTINATION ${LIB_DIR}
         ARCHIVE DESTINATION ${LIB_DIR}
@@ -98,4 +101,3 @@ file(COPY CppZip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
 file(COPY Unzip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
 file(COPY Zip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
 file(COPY ZipCommon.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
-
