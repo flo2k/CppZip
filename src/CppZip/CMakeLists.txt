@@ -29,6 +29,7 @@ set(SOURCES
     #cppzip
     Unzip.cpp
     Zip.cpp
+    ZipCommon.cpp
     ZipPrivate.cpp
 )
 
