@@ -27,7 +27,6 @@ set(SOURCES
 
 #CppZipTest Executable
 add_executable(cppziptest ${SOURCES})
-
 add_dependencies(cppziptest cppzip)
 
 #addidtional dependencies
