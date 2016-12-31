@@ -14,7 +14,6 @@ environment:
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
-    -
 
 install:
     - nuget install zlib -outputdirectory "%ZLIB_DIR%"
@@ -24,12 +23,13 @@ install:
     - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8"
     - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build"
     - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib"
+    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native"
+    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native"
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
 
 before_build:
     - md build
-    - cmake --help-policy CMP0045
     - cmake -H. -Bbuild
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_DIR%"
