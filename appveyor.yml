@@ -11,6 +11,7 @@ environment:
     ZLIB_ROOT: C:\projects\zlib
     ZLIB_INCLUDE: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\include
     ZLIB_LIBRARY: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
+    DOXYGEN_ROOT: C:\projects\doxygen
     DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.9.2\tools\doxygen.exe
 
 init:
@@ -21,7 +22,7 @@ install:
     - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
     #- tree /A /F "%ZLIB_ROOT%" #for debug
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
-    - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
+    - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
 before_build:
     - md build
