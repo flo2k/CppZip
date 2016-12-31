@@ -57,10 +57,11 @@ find_package(ZLIB 1.2.8)
 
 if(NOT ZLIB_FOUND)
     MESSAGE(STATUS "Use zlib provided by cppzip, because it is not found on the system.")
-	
+
 	add_subdirectory(src/CppZip/zlib)
 	set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/CppZip/zlib)
-	set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/zlib${CMAKE_IMPORT_LIBRARY_SUFFIX})
+	#set(ZLIB_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/zlib${CMAKE_IMPORT_LIBRARY_SUFFIX})
+    set(ZLIB_LIBRARY zlib)
 	find_package(ZLIB 1.2.8)
 endif()
 
@@ -95,7 +96,7 @@ if(BUILD_TESTS)
 
 		#CppZipTest
 		add_subdirectory(src/CppZipTest)
-		
+
 	endif()
 
 endif()
