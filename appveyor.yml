@@ -14,7 +14,7 @@ environment:
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
-    - @echo.
+    - 
 
 install:
     - nuget install zlib -outputdirectory "%ZLIB_DIR%"
