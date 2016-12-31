@@ -8,7 +8,9 @@ environment:
     MSVC_DEFAULT_OPTIONS: ON
     BOOST_ROOT: C:\Libraries\boost_1_62_0
     BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib32-msvc-14.0
-    ZLIB_DIR: C:\projects\zlib
+    ZLIB_ROOT: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8
+    ZLIB_INCLUDE: %ZLIB_ROOT%\build\native\include
+    ZLIB_LIBRARYDIR: %ZLIB_ROOT%\lib\native\v140\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
     DOXYGEN_DIR: C:\projects\doxygen
 
 init:
@@ -17,14 +19,6 @@ init:
 
 install:
     - nuget install zlib -outputdirectory "%ZLIB_DIR%"
-    - dir "%ZLIB_DIR%"
-    - dir "%ZLIB_DIR%\zlib.1.2.8.8"
-    - dir "%ZLIB_DIR%\zlib.1.2.8.8\zlib.1.2.8.8.nupkg"
-    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8"
-    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build"
-    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib"
-    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native"
-    - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native"
     - tree /A /F "%ZLIB_DIR%"
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
@@ -34,8 +28,7 @@ before_build:
     - cmake -H. -Bbuild
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_DIR%"
-
-        #-DZLIB_INCLUDE_DIR="%ZLIB_DIR%" -DZLIB_LIBRARY="%ZLIB_DIR%"
+        -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARYDIR%"
 
 build_script:
-    - cmake --build build --config Debug
+    - cmake --build build --config Release
