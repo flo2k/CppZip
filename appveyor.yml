@@ -30,7 +30,12 @@ before_build:
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
+        -DBUILD_TESTS=1
 
 build_script:
     - cmake --build build --config Release
     - cmake --build build --config Release --target doc
+
+test_script:
+    - cd build
+    - ctest -V
