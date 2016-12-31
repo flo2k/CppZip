@@ -15,7 +15,10 @@ cmake -H. -Bbuild
 ##start build
 # --build set build dir
 # -j parallel build
-cmake --build build -- -j
+cmake --build build -- -j all build
+
+#or
+#make -C build -j all doc
 
 #show files in build dir
 ls -al build

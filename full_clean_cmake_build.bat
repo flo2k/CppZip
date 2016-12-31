@@ -13,11 +13,11 @@ cmake ^
 	-DCPPUNIT_INCLUDE_DIR="C:\Libs\cppunit\cppunit-1.12.1\include" ^
 	-DCPPUNIT_LIBRARY="C:\Libs\cppunit\cppunit-1.12.1\lib" ^
 	-H. -Bbuild
-	
+
 REM	-DZLIB_INCLUDE_DIR="%ZLIB_DIR%" ^
 REM	-DZLIB_LIBRARY="%ZLIB_DIR%"
-	
+
 REM cmake -G "Visual Studio 10 2010" -D BOOST_ROOT="C:\Libs\boost\boost_1_53_0" -D BOOST_LIBRARYDIR="C:\Libs\boost\boost_1_53_0\stage\lib" -H. -Bbuild
 
 REM build
-cmake --build build --config Release
+cmake --build build --config Release -- all doc
