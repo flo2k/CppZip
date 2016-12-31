@@ -43,8 +43,9 @@ before_build:
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
         -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%"
         -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
-        #-DCPPUNIT_ROOT_DIR="%CPPUNIT_ROOT%\cppunit-1.13.2"
         -DBUILD_TESTS=1
+
+#-DCPPUNIT_ROOT_DIR="%CPPUNIT_ROOT%\cppunit-1.13.2"
 
 build_script:
     - cmake --build build --config Release
