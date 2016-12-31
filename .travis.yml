@@ -29,7 +29,8 @@ before_script:
 
 # Build steps
 script:
-    - cmake --build build -- -j all doc
+    #- cmake --build build -- -j all doc
+    - cmake --build build -- -j
 
 after_success:
     - cd build
