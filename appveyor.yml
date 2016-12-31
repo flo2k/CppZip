@@ -10,7 +10,7 @@ environment:
     BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib32-msvc-14.0
     ZLIB_ROOT: C:\projects\zlib
     ZLIB_INCLUDE: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\include
-    ZLIB_LIBRARYDIR: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
+    ZLIB_LIBRARYDIR: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
     DOXYGEN_DIR: C:\projects\doxygen
 
 init:
