@@ -14,7 +14,7 @@ environment:
     DOXYGEN_ROOT: C:\projects\doxygen
     DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.9.2\tools\doxygen.exe
     CPPUNIT_ROOT: C:\projects\cppunit
-    CPPUNIT_INCLUDE_DIR: C:\projects\cppunit\cppunit.1.12.1.4\build\native\include
+    CPPUNIT_INCLUDE_DIR: %CPPUNIT_ROOT%\cppunit-1.13.2\include
     CPPUNIT_LIBRARY: C:\projects\cppunit\cppunit.1.12.1.4\build\native\lib\v120\Win32\Release\cppunit.lib
 
 init:
@@ -24,11 +24,14 @@ init:
 install:
     - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
     #- tree /A /F "%ZLIB_ROOT%" #for debug
-    #- nuget install cppunit -outputdirectory "%CPPUNIT_ROOT%"
+
+    #- nuget install cppunit -outputdirectory "%CPPUNIT_ROOT%" #there is no VS2015 version
     - md %CPPUNIT_ROOT%
     - curl -o %CPPUNIT_ROOT%\cppunit.tar.gz http://dev-www.libreoffice.org/src/cppunit-1.13.2.tar.gz
     - 7z x %CPPUNIT_ROOT%\cppunit.tar.gz -so | 7z x -si -ttar -o%CPPUNIT_ROOT%
+    - msbuild %CPPUNIT_ROOT%\cppunit-1.13.2\src\CppUnitLibraries.sln /p:Configuration=Release /target:cppunit
     - tree /A /F "%CPPUNIT_ROOT%" #for debug
+
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
 before_build:
@@ -37,7 +40,7 @@ before_build:
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
-        -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY="%CPPUNIT_LIBRARY%"
+        -DCPPUNIT_ROOT_DIR="%CPPUNIT_ROOT%\cppunit-1.13.2"
         -DBUILD_TESTS=1
 
 build_script:
