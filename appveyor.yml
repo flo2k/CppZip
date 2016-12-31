@@ -29,8 +29,9 @@ install:
     - md %CPPUNIT_ROOT%
     - curl -o %CPPUNIT_ROOT%\cppunit.tar.gz http://dev-www.libreoffice.org/src/cppunit-1.13.2.tar.gz
     - 7z x %CPPUNIT_ROOT%\cppunit.tar.gz -so | 7z x -si -ttar -o%CPPUNIT_ROOT%
-    - msbuild %CPPUNIT_ROOT%\cppunit-1.13.2\src\CppUnitLibraries.sln /p:Configuration=Release /target:cppunit
     - tree /A /F "%CPPUNIT_ROOT%" #for debug
+    - msbuild %CPPUNIT_ROOT%\cppunit-1.13.2\src\CppUnitLibraries.sln /p:Configuration=Release /target:cppunit
+
 
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
