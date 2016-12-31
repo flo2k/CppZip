@@ -25,6 +25,7 @@ install:
     - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib"
     - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native"
     - dir "%ZLIB_DIR%\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native"
+    - tree "%ZLIB_DIR%"
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
 
