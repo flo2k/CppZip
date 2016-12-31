@@ -14,7 +14,7 @@ add_test(NAME cppziptest COMMAND cppziptest
 include_directories(
     ${CMAKE_SOURCE_DIR}/src/CppZip
     ${Boost_INCLUDE_DIRS}
-    ${CPPUNIT_INCLUDE_DIR}
+    ${CPPUNIT_INCLUDE_DIRS}
 )
 
 #Sources
@@ -32,7 +32,7 @@ add_dependencies(cppziptest cppzip)
 #addidtional dependencies
 target_link_libraries(cppziptest
     ${Boost_LIBRARIES}
-    ${CPPUNIT_LIBRARY}
+    ${CPPUNIT_LIBRARIES}
     cppzip
 )
 

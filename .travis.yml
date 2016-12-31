@@ -25,7 +25,12 @@ addons:
 before_script:
     - mkdir build
     - cmake -H. -Bbuild
+        -DBUILD_TESTS=1
 
 # Build steps
 script:
-  - cmake --build build -- -j all doc
+    - cmake --build build -- -j all doc
+
+after_success:
+    - cd build
+    - ctest -V #run tests
