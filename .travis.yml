@@ -28,4 +28,4 @@ before_script:
 
 # Build steps
 script:
-  - cmake --build build -- -j
+  - cmake --build build -- -j all doc

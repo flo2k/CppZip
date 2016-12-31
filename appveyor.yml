@@ -31,4 +31,4 @@ before_build:
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARYDIR%"
 
 build_script:
-    - cmake --build build --config Release
+    - cmake --build build --config Release -- all doc
