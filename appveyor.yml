@@ -22,6 +22,7 @@ install:
     #- tree /A /F "%ZLIB_ROOT%" #for debug
     - nuget install cppunit -outputdirectory "C:\projects\cppunit"
     - nuget install Doxygen -outputdirectory "%DOXYGEN_DIR%"
+    - tree /F /A "%DOXYGEN_DIR%"
 
 before_build:
     - md build
