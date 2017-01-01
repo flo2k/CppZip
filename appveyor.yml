@@ -64,4 +64,4 @@ test_script:
     #- ctest -V
     - cd bin
     - tree /A /F .
-    - cpptest.exe
+    - cppziptest.exe
