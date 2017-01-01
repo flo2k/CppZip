@@ -18,5 +18,10 @@ ExportTester::~ExportTester() {
 	// TODO Auto-generated destructor stub
 }
 
+std::string ExportTester::getString()
+{
+	return "";
+}
+
 } //cppzip
 

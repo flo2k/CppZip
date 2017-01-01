@@ -25,7 +25,7 @@ void ExportTesterTest::tearDown(void)
 
 void ExportTesterTest::test(void)
 {
-
+	std::string x = et->getString();
 }
 
 } //cppzip
