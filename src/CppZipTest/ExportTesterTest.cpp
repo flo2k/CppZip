@@ -15,7 +15,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(ExportTesterTest);
 
 void ExportTesterTest::setUp(void)
 {
-	//et = std::shared_ptr<ExportTester>(new ExportTester());
+	et = std::shared_ptr<ExportTester>(new ExportTester());
 }
 
 void ExportTesterTest::tearDown(void)
