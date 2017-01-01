@@ -10,9 +10,11 @@
 
 #include <string>
 
+#include "CppZip_Global.h"
+
 namespace cppzip {
 
-class ExportTester {
+class CPPZIP_SHARED_EXPORT ExportTester {
 public:
 	ExportTester();
 	virtual ~ExportTester();
