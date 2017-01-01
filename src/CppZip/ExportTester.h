@@ -22,7 +22,7 @@ public:
 	std::string getString();
 
 private:
-	std::string test;
+	//std::string test;
 };
 
 } //cppzip
