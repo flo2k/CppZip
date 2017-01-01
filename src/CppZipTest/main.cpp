@@ -3,23 +3,23 @@
 #include <stdexcept>
 #include <time.h>
 
-//#include <boost/timer/timer.hpp>
-//
-//#include <cppunit/extensions/TestFactoryRegistry.h>
-//#include <cppunit/TestResult.h>
-//#include <cppunit/TestResultCollector.h>
-//#include <cppunit/TestRunner.h>
-//#include <cppunit/TextTestRunner.h>
-//#include <cppunit/TestCaller.h>
-//
-////outputter
-//#include <cppunit/CompilerOutputter.h>
-//#include <cppunit/TextOutputter.h>
-//
-////listener
-//#include <cppunit/TestListener.h>
-//#include <cppunit/TextTestProgressListener.h>
-//#include <cppunit/BriefTestProgressListener.h>
+#include <boost/timer/timer.hpp>
+
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/TestResult.h>
+#include <cppunit/TestResultCollector.h>
+#include <cppunit/TestRunner.h>
+#include <cppunit/TextTestRunner.h>
+#include <cppunit/TestCaller.h>
+
+//outputter
+#include <cppunit/CompilerOutputter.h>
+#include <cppunit/TextOutputter.h>
+
+//listener
+#include <cppunit/TestListener.h>
+#include <cppunit/TextTestProgressListener.h>
+#include <cppunit/BriefTestProgressListener.h>
 
 //#include "ZipTest.h"
 //#include "UnzipTest.h"
@@ -68,34 +68,34 @@
 //	bool wasTestOk;
 //};
 //
-//int RunAllTests(void) {
-//	// Get the top level suite from the registry
-//	CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
-//
-//	CppUnit::TestResult result;
-//
-//	// Add a listener that collects test result
-//	CppUnit::TestResultCollector resultCollector;
-//	result.addListener(&resultCollector);
-//
+int RunAllTests(void) {
+	// Get the top level suite from the registry
+	CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+
+	CppUnit::TestResult result;
+
+	// Add a listener that collects test result
+	CppUnit::TestResultCollector resultCollector;
+	result.addListener(&resultCollector);
+
 //	TimingListener timeListener;
 //	result.addListener(&timeListener);
-//
-//	// Adds the test to the list of test to run
-//	CppUnit::TextTestRunner runner;
-//	runner.addTest(suite);
-//
-//	// Run the tests.
-//	runner.run(result);
-//
-//	// Output the result with the CompilerOutputter
-//	CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
-//
-//	bool wasSucessful = resultCollector.wasSuccessful();
-//
-//	// Return error code 1 if the one of test failed.
-//	return wasSucessful ? 0 : 1;
-//}
+
+	// Adds the test to the list of test to run
+	CppUnit::TextTestRunner runner;
+	runner.addTest(suite);
+
+	// Run the tests.
+	runner.run(result);
+
+	// Output the result with the CompilerOutputter
+	CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
+
+	bool wasSucessful = resultCollector.wasSuccessful();
+
+	// Return error code 1 if the one of test failed.
+	return wasSucessful ? 0 : 1;
+}
 //
 //int RunPerformanceTests(void) {
 //	// Get the top level suite from the registry
@@ -169,17 +169,15 @@
 int main(void) {
 	std::cout << "starting tests..." << std::endl;
 
-//	int ok = RunAllTests();
-//	//int ok = RunPerformanceTests();
-//	//int ok = RunSpecificTests();
-//
+	int ok = RunAllTests();
+	//int ok = RunPerformanceTests();
+	//int ok = RunSpecificTests();
+
 //#ifdef WIN32
 //	std::string x;
 //	std::cin >> x;
 //#endif
-//
-//	return ok;
 
-	return true;
+	return ok;
 }
 
