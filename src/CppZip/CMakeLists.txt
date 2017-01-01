@@ -11,8 +11,9 @@ include(UseDoxygen OPTIONAL)
 #Includes
 include_directories(
     ${Boost_INCLUDE_DIRS}
-    ${ZLIB_INCLUDE_DIRS} #for minizip
-	${CMAKE_BINARY_DIR}/src/CppZip/zlib #if build in zlib was build
+    ${ZLIB_INCLUDE_DIRS}
+    ../external
+	${CMAKE_BINARY_DIR}/src/external/zlib #if build in zlib was build
 )
 
 MESSAGE(STATUS "cppzip lib: ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
@@ -27,10 +28,10 @@ endif()
 #Sources
 set(SOURCES
     #minizip
-    minizip/ioapi.c
-    minizip/mztools.c
-    minizip/unzip.c
-    minizip/zip.c
+    ../external/minizip/ioapi.c
+    ../external/minizip/mztools.c
+    ../external/minizip/unzip.c
+    ../external/minizip/zip.c
 
     #cppzip
     Unzip.cpp
@@ -42,7 +43,7 @@ set(SOURCES
 if(WIN32)
 	set(SOURCES
         ${SOURCES}
-		minizip/iowin32.c
+		../external/minizip/iowin32.c
 	)
 endif()
 
