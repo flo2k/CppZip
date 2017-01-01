@@ -20,7 +20,7 @@ public:
 	virtual ~ExportTester();
 
 private:
-	std::string test;
+	//std::string test;
 };
 
 } //cppzip
