@@ -57,11 +57,11 @@ build_script:
     - cmake --build build --config Release
 #    - cmake --build build --config Release --target doc
 
-#test_script:
+test_script:
     - cd build
     - cmd: set PATH=%PATH%;C:\Libraries\boost_1_62_0\lib32-msvc-14.0
     - tree /A /F .
-    - ctest -V
+    #- ctest -V
     - cd bin
     - tree /A /F .
     - cpptest.exe
