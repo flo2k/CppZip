@@ -7,7 +7,7 @@
 
 #include "ExportTesterTest.h"
 
-//#include <ExportTester.h>
+#include <ExportTester.h>
 
 namespace cppzip {
 
