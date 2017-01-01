@@ -34,7 +34,7 @@ add_dependencies(cppziptest cppzip)
 target_link_libraries(cppziptest
     ${Boost_LIBRARIES}
     ${CPPUNIT_LIBRARIES}
-    #cppzip
+    cppzip
 )
 
 #Resources for executing the tests
