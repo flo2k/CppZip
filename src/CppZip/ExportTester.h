@@ -19,6 +19,8 @@ public:
 	ExportTester();
 	virtual ~ExportTester();
 
+	std::string getString();
+
 private:
 	std::string test;
 };
