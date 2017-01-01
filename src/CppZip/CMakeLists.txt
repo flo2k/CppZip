@@ -20,9 +20,12 @@ MESSAGE(STATUS "cppzip lib: ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
 #set definition for import/export for windows dll
 add_definitions(-DCPPZIP_LIBRARY)
 
+if(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4669")
+endif()
+
 #Sources
 set(SOURCES
-
     #minizip
     minizip/ioapi.c
     minizip/mztools.c
@@ -39,7 +42,6 @@ set(SOURCES
 if(WIN32)
 	set(SOURCES
         ${SOURCES}
-        #minizip
 		minizip/iowin32.c
 	)
 endif()
