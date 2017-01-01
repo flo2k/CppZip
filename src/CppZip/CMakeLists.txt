@@ -28,10 +28,10 @@ endif()
 #Sources
 set(SOURCES
     #minizip
-    ../external/minizip/ioapi.c
-    ../external/minizip/mztools.c
-    ../external/minizip/unzip.c
-    ../external/minizip/zip.c
+    #../external/minizip/ioapi.c
+    #../external/minizip/mztools.c
+    #../external/minizip/unzip.c
+    #../external/minizip/zip.c
 
     #cppzip
     #Unzip.cpp
@@ -44,7 +44,7 @@ set(SOURCES
 if(WIN32)
 	set(SOURCES
         ${SOURCES}
-		../external/minizip/iowin32.c
+		#../external/minizip/iowin32.c
 	)
 endif()
 
