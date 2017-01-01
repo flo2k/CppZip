@@ -23,7 +23,7 @@ set(SOURCES
 #    PerformanceTests.cpp
 #    UnzipTest.cpp
 #    ZipTest.cpp
-    ExportTesterTest.cpp
+#    ExportTesterTest.cpp
 )
 
 #CppZipTest Executable
