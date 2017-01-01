@@ -32,7 +32,7 @@ public:
 	void test(void);
 
 private:
-	std::shared_ptr<ExportTester> et;
+	//std::shared_ptr<ExportTester> et;
 };
 
 } //cppzip
