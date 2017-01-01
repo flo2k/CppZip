@@ -82,22 +82,22 @@ add_subdirectory(src/CppZip)
 # External additionally dependencies for CppZipTest
 #####################################
 
-#if(BUILD_TESTS)
-#	#Boost
-#	find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
-#
-#    MESSAGE(STATUS "CPPUNIT_INCLUDE_DIR: " ${CPPUNIT_INCLUDE_DIR})
-#    MESSAGE(STATUS "CPPUNIT_LIBRARY: " ${CPPUNIT_LIBRARY})
-#
-#	#CppUnit
-#	find_package(CppUnit REQUIRED)
-#
-#	enable_testing()
-#	option(BUILD_TESTS "Build unit tests" ON)
-#
-#	#CppZipTest
-#	add_subdirectory(src/CppZipTest)
-#endif()
+if(BUILD_TESTS)
+	#Boost
+	find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
+
+    MESSAGE(STATUS "CPPUNIT_INCLUDE_DIR: " ${CPPUNIT_INCLUDE_DIR})
+    MESSAGE(STATUS "CPPUNIT_LIBRARY: " ${CPPUNIT_LIBRARY})
+
+	#CppUnit
+	find_package(CppUnit REQUIRED)
+
+	enable_testing()
+	option(BUILD_TESTS "Build unit tests" ON)
+
+	#CppZipTest
+	add_subdirectory(src/CppZipTest)
+endif()
 #####################################
 # Installing files: output
 #####################################
