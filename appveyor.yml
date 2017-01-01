@@ -60,4 +60,8 @@ build_script:
 #test_script:
     - cd build
     - cmd: set PATH=%PATH%;C:\Libraries\boost_1_62_0\lib32-msvc-14.0
+    - tree /A /F .
     - ctest -V
+    - cd bin
+    - tree /A /F .
+    - cpptest.exe
