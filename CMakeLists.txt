@@ -76,7 +76,7 @@ find_package(Boost 1.53.0 REQUIRED COMPONENTS system filesystem signals)
 add_subdirectory(src/CppZip)
 
 #Documentation with Doxygen
-add_subdirectory(doc)
+#add_subdirectory(doc)
 
 #####################################
 # External additionally dependencies for CppZipTest
