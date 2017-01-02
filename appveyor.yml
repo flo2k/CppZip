@@ -42,7 +42,7 @@ install:
 #- cmd: msbuild %CPPUNIT_ROOT%\cppunit-1.12.1\src\CppUnitLibraries2010.sln /m /p:Configuration=Release /target:cppunit
 
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
-    - copy /y %BOOST_LIBRARYDIR%\*.dll %APPVEYOR_BUILD_FOLDER%
+    - copy /y %BOOST_LIBRARYDIR%\*.dll C:\Projects\cppzip\build\bin
 
 before_build:
     - md build
