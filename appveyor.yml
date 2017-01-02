@@ -42,7 +42,7 @@ install:
 #- cmd: msbuild %CPPUNIT_ROOT%\cppunit-1.12.1\src\CppUnitLibraries2010.sln /m /p:Configuration=Release /target:cppunit
 
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
-    - copy /y %BOOST_LIBRARYDIR% %APPVEYOR_BUILD_FOLDER%
+    - copy /y %BOOST_LIBRARYDIR%\*.dll %APPVEYOR_BUILD_FOLDER%
 
 before_build:
     - md build
@@ -62,8 +62,8 @@ build_script:
 test_script:
     - cd build
     - cmd: set PATH=%PATH%;C:\Libraries\boost_1_62_0\lib32-msvc-14.0
-    - tree /A /F .
+    #- tree /A /F .
     #- ctest -V
     - cd bin
-    #- tree /A /F .
+    - tree /A /F .
     - cppziptest.exe
