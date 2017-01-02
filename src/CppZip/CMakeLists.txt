@@ -34,8 +34,8 @@ set(SOURCES
     ../external/minizip/zip.c
 
     #cppzip
-    #Unzip.cpp
-    Zip.cpp
+    Unzip.cpp
+    #Zip.cpp
     ZipCommon.cpp
     ZipPrivate.cpp
     ExportTester.cpp
