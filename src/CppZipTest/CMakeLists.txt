@@ -20,9 +20,9 @@ include_directories(
 #Sources
 set(SOURCES
     main.cpp
-    PerformanceTests.cpp
-    UnzipTest.cpp
-    ZipTest.cpp
+    #PerformanceTests.cpp
+    #UnzipTest.cpp
+    #ZipTest.cpp
     ExportTesterTest.cpp
 )
 

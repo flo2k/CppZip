@@ -21,9 +21,9 @@
 #include <cppunit/TextTestProgressListener.h>
 #include <cppunit/BriefTestProgressListener.h>
 
-#include "ZipTest.h"
-#include "UnzipTest.h"
-#include "PerformanceTests.h"
+//#include "ZipTest.h"
+//#include "UnzipTest.h"
+//#include "PerformanceTests.h"
 
 class TimingListener: public CppUnit::TestListener {
 public:
@@ -102,9 +102,9 @@ int RunPerformanceTests(void) {
 
 	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
 
-	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
-	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("b", &cppzip::PerformanceTests::testZip_replaceMidSizedFiles));
-	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));
+//	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
+//	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("b", &cppzip::PerformanceTests::testZip_replaceMidSizedFiles));
+//	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));
 	//suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("c", &cppzip::ZipTest::test_addFile_Content_WithPasswordProtection));
 
 	CppUnit::TestResult result;
@@ -138,7 +138,7 @@ int RunSpecificTests(void){
 	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
 
 	//suite->addTest(new CppUnit::TestCaller<cppzip::UnzipTest>("a", &cppzip::UnzipTest::test_getFileContentFromPasswordProtectedZipFile));
-	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
+//	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
 
 
 	CppUnit::TestResult result;
