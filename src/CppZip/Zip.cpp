@@ -36,8 +36,7 @@ namespace cppzip {
 #define CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE 65536
 
 Zip::Zip()
-	: zipfile_handle(NULL), openFlag(CreateAndOverwrite),
-	  compressionLevel(Z_DEFAULT_COMPRESSION)
+	: p(new ZipPrivate())
 {
 
 }
@@ -45,18 +44,20 @@ Zip::Zip()
 Zip::~Zip()
 {
 	close();
+	delete p;
+	p = NULL;
 }
 
 bool Zip::open(const std::string & fileName,
-			   const OpenFlags & flag,
+			   const OpenFlags::Flags & flag,
 			   const std::string & password)
 {
 	if(isOpened()){ //if already opened, don't open a file
 		return false;
 	}
 
-	this->openFlag = flag;
-	this->password = password;
+	this->p->openFlag = flag;
+	this->p->password = password;
 
 	boost::filesystem::path path(fileName);
 	path = path.remove_filename();
@@ -65,20 +66,20 @@ bool Zip::open(const std::string & fileName,
 		return false;
 	}
 
-	switch (this->openFlag) {
-		case Zip::OpenExisting:{
-			this->fileInfos = retrieveFileInfos(fileName);
-			this->zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_ADDINZIP);
+	switch (this->p->openFlag) {
+		case OpenFlags::OpenExisting:{
+			this->p->fileInfos = retrieveFileInfos(fileName);
+			this->p->zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_ADDINZIP);
 			break;
 		}
 		default:{
-			this->zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_CREATE);
+			this->p->zipfile_handle = zipOpen(fileName.c_str(), APPEND_STATUS_CREATE);
 			break;
 		}
 	}
 
 	if(isOpened()){
-		this->zipFileName = fileName;
+		this->p->zipFileName = fileName;
 	}
 
 	return isOpened();
@@ -86,7 +87,7 @@ bool Zip::open(const std::string & fileName,
 
 bool Zip::isOpened(void)
 {
-	return zipfile_handle != NULL;
+	return this->p->zipfile_handle != NULL;
 }
 
 std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
@@ -100,7 +101,7 @@ std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
 		return fileInfos_;
 	}
 
-	fileInfos_ = unzip.fileInfos;
+	fileInfos_ = unzip.p->fileInfos;
 
 	unzip.close();
 
@@ -125,7 +126,7 @@ bool Zip::addFile_internal(
 
 	//open file inside zip
 	if(ZIP_OK != zipOpenNewFileInZip4_64 (
-					zipfile_handle,
+					this->p->zipfile_handle,
 					info->fileName.c_str(),
 					&zipFileInfo,
 			        NULL,
@@ -134,12 +135,12 @@ bool Zip::addFile_internal(
 			        0,
 			        info->comment.c_str(),
 			        Z_DEFLATED,
-			        compressionLevel,
+					this->p->compressionLevel,
 			        0,
 			        -MAX_WBITS,
 			        DEF_MEM_LEVEL,
 			        Z_DEFAULT_STRATEGY,
-			        formatPassword(this->password),
+			        formatPassword(this->p->password),
 			        0,
 			        VERSIONMADEBY,
 			        0,
@@ -148,16 +149,16 @@ bool Zip::addFile_internal(
 	}
 
 	//write content
-	if(ZIP_OK != zipWriteInFileInZip(zipfile_handle, content.data(), content.size())){
+	if(ZIP_OK != zipWriteInFileInZip(this->p->zipfile_handle, content.data(), content.size())){
 		//try to close...
-		zipCloseFileInZip(zipfile_handle);
+		zipCloseFileInZip(this->p->zipfile_handle);
 		return false;
 	}
 
-	fileInfos[info->fileName] = info;
+	this->p->fileInfos[info->fileName] = info;
 
 	//close file
-	if(ZIP_OK != zipCloseFileInZip(zipfile_handle)){
+	if(ZIP_OK != zipCloseFileInZip(this->p->zipfile_handle)){
 		return false;
 	}
 
@@ -166,7 +167,7 @@ bool Zip::addFile_internal(
 
 bool Zip::containsFile(const std::string & fileName)
 {
-	int count = fileInfos.count(fileName);
+	int count = this->p->fileInfos.count(fileName);
 	return count == 1;
 }
 
@@ -206,7 +207,7 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 
 	//open file inside zip
 	if(ZIP_OK != zipOpenNewFileInZip4_64 (
-			zipfile_handle,
+			this->p->zipfile_handle,
 			info->fileName.c_str(),
 			&zipFileInfo,
 	        NULL,
@@ -215,12 +216,12 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 	        0,
 	        info->comment.c_str(),
 	        Z_DEFLATED,
-	        compressionLevel,
+			this->p->compressionLevel,
 	        0,
 	        -MAX_WBITS,
 	        DEF_MEM_LEVEL,
 	        Z_DEFAULT_STRATEGY,
-	        formatPassword(this->password),
+	        formatPassword(this->p->password),
 	        0,
 	        VERSIONMADEBY,
 	        0,
@@ -235,10 +236,10 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 		unsigned int len = static_cast<unsigned int>(ifs.gcount());
 
 		if(len > 0){
-			bool ok = ZIP_OK == zipWriteInFileInZip(zipfile_handle, buffer, len);
+			bool ok = ZIP_OK == zipWriteInFileInZip(this->p->zipfile_handle, buffer, len);
 			if(!ok){
 				//try to close...
-				zipCloseFileInZip(zipfile_handle);
+				zipCloseFileInZip(this->p->zipfile_handle);
 				return false;
 			}
 		}
@@ -246,10 +247,10 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
 
 	ifs.close();
 
-	fileInfos[info->fileName] = info;
+	this->p->fileInfos[info->fileName] = info;
 
 	//close file
-	if(ZIP_OK != zipCloseFileInZip(zipfile_handle)){
+	if(ZIP_OK != zipCloseFileInZip(this->p->zipfile_handle)){
 		return false;
 	}
 
@@ -314,7 +315,7 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::st
 
 std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromLocalFileInfos(const std::string & fileName)
 {
-	return fileInfos[fileName];
+	return this->p->fileInfos[fileName];
 }
 
 unsigned long Zip::getExternalFileAttributesFromExistingFile(
@@ -476,7 +477,7 @@ bool Zip::deleteFiles(const std::list<std::string> & fileNames)
 	}
 
 	//remember the openFlag
-	enum OpenFlags oldOpenFlag = openFlag;
+	enum OpenFlags::Flags oldOpenFlag = this->p->openFlag;
 
 	//check if a file or a folder with a name in fileNames exists
 	if(! containsAnyFile(fileNames)){
@@ -520,14 +521,14 @@ bool Zip::containsAnyFile(const std::list<std::string> & fileNames)
 
 std::string Zip::moveTheCurrentZipToAnTempZip(void)
 {
-	boost::filesystem::path p(zipFileName);
+	boost::filesystem::path p(this->p->zipFileName);
 	std::string folderName = p.parent_path().string();
 	std::string fileName = p.filename().string();
 
 	std::string tempZipFileName(folderName + "/" + ".~" + fileName);
 
 	try {
-		boost::filesystem::rename(zipFileName, tempZipFileName);
+		boost::filesystem::rename(this->p->zipFileName, tempZipFileName);
 	} catch (boost::filesystem::filesystem_error & e) {
 		std::string emptyString;
 		return emptyString;
@@ -546,7 +547,7 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
 		return false;
 	}
 
-	open(zipFileName, CreateAndOverwrite);
+	open(this->p->zipFileName, OpenFlags::CreateAndOverwrite);
 
 	std::list<std::string> zipFileNames = unzip.getFileNames();
 	std::list<std::string>::const_iterator zipFileIter;
@@ -613,9 +614,9 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	int level;
 
 	//open the files
-	ok = UNZ_OK == unzOpenCurrentFile3(unzip.zipfile_handle, &method, &level, raw, NULL);
+	ok = UNZ_OK == unzOpenCurrentFile3(unzip.p->zipfile_handle, &method, &level, raw, NULL);
 	ok = ZIP_OK == zipOpenNewFileInZip4_64 (
-			zipfile_handle,
+			this->p->zipfile_handle,
 			info->fileName.c_str(),
 			&zipFileInfo,
 	        NULL,
@@ -624,12 +625,12 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 	        0,
 	        info->comment.c_str(),
 	        Z_DEFLATED,
-	        compressionLevel,
+			this->p->compressionLevel,
 	        raw,
 	        -MAX_WBITS,
 	        DEF_MEM_LEVEL,
 	        Z_DEFAULT_STRATEGY,
-	        formatPassword(this->password),
+	        formatPassword(this->p->password),
 	        0,
 	        VERSIONMADEBY,
 	        0,
@@ -640,16 +641,16 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
 
 	unsigned int len = 0;
 	while((len = unzReadCurrentFile(
-			unzip.zipfile_handle,
+			unzip.p->zipfile_handle,
 			buffer,
 			CPPZIP_ZIP_CHAR_ARRAY_BUFFER_SIZE))
 	){
-		ok = ZIP_OK == zipWriteInFileInZip(zipfile_handle, buffer, len);
+		ok = ZIP_OK == zipWriteInFileInZip(this->p->zipfile_handle, buffer, len);
 	}
 
 	//close the files
-	ok = UNZ_OK == unzCloseCurrentFile(unzip.zipfile_handle);
-	ok = ZIP_OK == zipCloseFileInZipRaw(zipfile_handle, info->uncompressed_size, info->crc);
+	ok = UNZ_OK == unzCloseCurrentFile(unzip.p->zipfile_handle);
+	ok = ZIP_OK == zipCloseFileInZipRaw(this->p->zipfile_handle, info->uncompressed_size, info->crc);
 
 	return ok;
 }
@@ -661,13 +662,13 @@ bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
 
 		//remove the corrupt copy
 		try{
-			boost::filesystem::remove(zipFileName);
+			boost::filesystem::remove(this->p->zipFileName);
 		} catch(boost::filesystem::filesystem_error & e){
 			//nothing todo..
 		}
 
 		try{
-			boost::filesystem::rename(tempZipFile, zipFileName);
+			boost::filesystem::rename(tempZipFile, this->p->zipFileName);
 		} catch(boost::filesystem::filesystem_error & e){
 			//nothing todo..
 		}
@@ -683,11 +684,11 @@ bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
 	return true; //TODO: check the return type!!
 }
 
-void Zip::restoreTheOldOpenStatus(Zip::OpenFlags oldOpenState)
+void Zip::restoreTheOldOpenStatus(OpenFlags::Flags oldOpenState)
 {
-	if(oldOpenState == OpenExisting){
+	if(oldOpenState == OpenFlags::OpenExisting){
 		close();
-		open(zipFileName, oldOpenState);
+		open(this->p->zipFileName, oldOpenState);
 	}
 }
 
@@ -718,7 +719,7 @@ bool Zip::deleteFolders(const std::list<std::string> & folderNames)
 	}
 
 	//remember the openFlag
-	enum OpenFlags oldOpenFlag = openFlag;
+	enum OpenFlags::Flags oldOpenFlag = this->p->openFlag;
 
 	//check if a file or a folder with the name of fileName exists
 	if(! containsAnyFile(folderNamesToDelete)){
@@ -784,7 +785,7 @@ bool Zip::close(void)
 		return true;
 	}
 
-	if(ZIP_OK == zipClose(zipfile_handle, NULL)){
+	if(ZIP_OK == zipClose(this->p->zipfile_handle, NULL)){
 		clear();
 		return true;
 	} else{
@@ -794,8 +795,8 @@ bool Zip::close(void)
 
 void Zip::clear(void)
 {
-	zipfile_handle = NULL;
-	fileInfos.clear();
+	this->p->zipfile_handle = NULL;
+	this->p->fileInfos.clear();
 }
 
 bool Zip::setCompressionLevel(int compressionLevel)
@@ -804,14 +805,14 @@ bool Zip::setCompressionLevel(int compressionLevel)
 		return false;
 	}
 
-	this->compressionLevel = compressionLevel;
+	this->p->compressionLevel = compressionLevel;
 
 	return true;
 }
 
 size_t Zip::getCompressionLevel(void)
 {
-	return compressionLevel;
+	return this->p->compressionLevel;
 }
 
 bool Zip::createFolderIfNotExists(const std::string & path)

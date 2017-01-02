@@ -38,6 +38,7 @@
 #define CPPZIP_UNZIP_H_
 
 #include "CppZip_Global.h"
+#include "ZipDefines.h"
 
 #include <string>
 #include <list>
@@ -49,6 +50,7 @@
 namespace cppzip {
 //forward declaration
 struct InnerZipFileInfo;
+class UnzipPrivate;
 
 /*!
  * \brief Unzip allows reading files inside a zip file
@@ -315,17 +317,9 @@ private:
 	bool doesFileExistOnFileSystem(const std::string & fileName);
 
 private:
-	typedef void * voidp;
-	typedef voidp unzFile;
-
-	unzFile zipfile_handle;
-	int numFiles;
-
-	typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
-	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+	UnzipPrivate* p;
 
 	friend class Zip;
-	std::string password;
 };
 
 } //cppzip

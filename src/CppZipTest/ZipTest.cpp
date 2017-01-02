@@ -107,7 +107,7 @@ void ZipTest::test_openAppendToZip(void) {
 	createFolder(zipFileName);
 	copyFile(zipFile, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string theString("Lorem Ipsum...");
 	std::vector<unsigned char> content;
 	content.insert(content.end(), theString.begin(), theString.end());
@@ -127,7 +127,7 @@ void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
 	copyFile(zipFile, zipFileName);
 
 	//first open
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string theString("Lorem Ipsum...");
 	std::vector<unsigned char> content;
 	content.insert(content.end(), theString.begin(), theString.end());
@@ -135,7 +135,7 @@ void ZipTest::test_openAppendToZipWithFileAlreadyExisting(void) {
 	zip->close();
 
 	//second open
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	theString = "Lorem Ipsum Number 2...";
 	content.insert(content.end(), theString.begin(), theString.end());
 	bool actual = zip->addFile("file1.txt", content);
@@ -571,7 +571,7 @@ void ZipTest::test_deleteFile(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
 	bool actual  = zip->deleteFile(fileToDelete);
 	zip->close();
@@ -588,7 +588,7 @@ void ZipTest::test_deleteFiles(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToDelete1 = folderNameInsideZip + "/file1.txt";
 	std::string fileToDelete2 = folderNameInsideZip + "/file2.txt";
 	std::list<std::string> filesToDelete;
@@ -611,7 +611,7 @@ void ZipTest::test_deleteFolder(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string folderToDelete = folderNameInsideZip + "/folder1";
 	bool actual = zip->deleteFolder(folderToDelete);
 	zip->close();
@@ -628,7 +628,7 @@ void ZipTest::test_deleteFolders(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string folderToDelete1 = folderNameInsideZip + "/folder1";
 	std::string folderToDelete2 = folderNameInsideZip + "/folder2";
 	std::list<std::string> foldersToDelete;
@@ -651,7 +651,7 @@ void ZipTest::test_deleteFile_WhenFileNotExists(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	bool actual = zip->deleteFile(notExistingFileName);
 	zip->close();
 
@@ -678,7 +678,7 @@ void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	boost::filesystem::permissions(tempFolder + "/" + testZipsFolder, boost::filesystem::owner_read | boost::filesystem::owner_exe);
 #endif
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
 	bool actual = zip->deleteFile(fileToDelete);
 	zip->close();
@@ -703,7 +703,7 @@ void ZipTest::test_deleteFile_CheckOtherFileContent(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToDelete = folderNameInsideZip + "/file1.txt";
 	bool actual  = zip->deleteFile(fileToDelete);
 	zip->close();
@@ -728,7 +728,7 @@ void ZipTest::test_replaceFile(void) {
 
 	bool actual = false;
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
 	actual = zip->replaceFile(readMeFileName, fileToReplace);
 	zip->close();
@@ -745,7 +745,7 @@ void ZipTest::test_replaceFile_WhenFileNotExistsInZip(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
 	bool actual = zip->replaceFile(readMeFileName, notExistingFileName);
 	zip->close();
@@ -762,7 +762,7 @@ void ZipTest::test_replaceFile_WhenFileNotExistsOnFileSystem(void){
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
 	bool actual = zip->replaceFile(notExistingFileName, fileToReplace);
 	zip->close();
@@ -784,7 +784,7 @@ void ZipTest::test_replaceFile_Content(void) {
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);
 
-	zip->open(zipFileName, Zip::OpenExisting);
+	zip->open(zipFileName, OpenFlags::OpenExisting);
 	std::string fileToReplace = folderNameInsideZip + "/file2.txt";
 	bool actual = zip->replaceFile(fileToReplace, content);
 	zip->close();
@@ -796,7 +796,7 @@ void ZipTest::test_replaceFile_Content(void) {
 
 void ZipTest::test_addFile_WithPasswordProtection(void) {
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile, Zip::CreateAndOverwrite, "secret");
+	zip->open(tempFolder + "/" + zipFile, OpenFlags::CreateAndOverwrite, "secret");
 	bool actual = zip->addFile("data/test/" + fileInsideZip , false);
 	zip->close();
 
@@ -824,7 +824,7 @@ void ZipTest::test_addFile_Content_WithPasswordProtection(void) {
 	content.push_back('7');
 
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile, Zip::CreateAndOverwrite, "secret");
+	zip->open(tempFolder + "/" + zipFile, OpenFlags::CreateAndOverwrite, "secret");
 	bool actual = zip->addFile(fileInsideZip, content);
 	zip->close();
 
@@ -846,7 +846,7 @@ void ZipTest::test_addFile_Content_FromAString_WithPasswordProtection(void) {
 	content.insert(content.end(), contentAsString.begin(),
 			contentAsString.end());
 	bool expected = true;
-	zip->open(tempFolder + "/" + zipFile, Zip::CreateAndOverwrite, "secret");
+	zip->open(tempFolder + "/" + zipFile, OpenFlags::CreateAndOverwrite, "secret");
 	bool actual = zip->addFile(fileInsideZip, content);
 	zip->close();
 

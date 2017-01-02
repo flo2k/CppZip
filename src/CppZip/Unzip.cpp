@@ -21,7 +21,7 @@
 namespace cppzip {
 
 Unzip::Unzip(void)
-: zipfile_handle(NULL), numFiles(0)
+: p(new UnzipPrivate())
 {
 
 }
@@ -29,6 +29,8 @@ Unzip::Unzip(void)
 Unzip::~Unzip()
 {
 	close();
+	delete p;
+	p = NULL;
 }
 
 bool Unzip::open(const std::string & zipFile, const std::string & password)
@@ -37,8 +39,8 @@ bool Unzip::open(const std::string & zipFile, const std::string & password)
 		return false;
 	}
 
-	zipfile_handle = unzOpen(zipFile.c_str());
-	this->password = password;
+	this->p->zipfile_handle = unzOpen(zipFile.c_str());
+	this->p->password = password;
 
 	if(isOpened()){
 		getGlobalInfo();
@@ -54,7 +56,7 @@ bool Unzip::close(void)
 		return true;
 	}
 
-	if(UNZ_OK == unzClose(zipfile_handle)){
+	if(UNZ_OK == unzClose(this->p->zipfile_handle)){
 		clear();
 		return true;
 	} else{
@@ -64,27 +66,27 @@ bool Unzip::close(void)
 
 void Unzip::clear(void)
 {
-	numFiles = 0;
-	zipfile_handle = NULL;
-	fileInfos.clear();
+	this->p->numFiles = 0;
+	this->p->zipfile_handle = NULL;
+	this->p->fileInfos.clear();
 }
 
 bool Unzip::isOpened(void)
 {
-	return zipfile_handle != NULL;
+	return this->p->zipfile_handle != NULL;
 }
 
 int Unzip::getNumFiles(void)
 {
-	return numFiles;
+	return this->p->numFiles;
 }
 
 void Unzip::getGlobalInfo(void)
 {
 	unz_global_info info;
-	unzGetGlobalInfo(zipfile_handle, &info);
+	unzGetGlobalInfo(this->p->zipfile_handle, &info);
 
-	numFiles = info.number_entry;
+	this->p->numFiles = info.number_entry;
 }
 
 std::list<std::string> Unzip::getFileNames(void)
@@ -92,7 +94,7 @@ std::list<std::string> Unzip::getFileNames(void)
 	std::list<std::string> fileNames;
 
 	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >::const_iterator iter;
-	for(iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
+	for(iter = this->p->fileInfos.cbegin(); iter != this->p->fileInfos.cend(); ++iter){
 		const std::string & fileName = iter->first;
 		fileNames.push_back(fileName);
 	}
@@ -104,7 +106,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 {
 	std::vector<unsigned char> fileContent;
 
-	if(fileInfos.count(fileName) == 0){
+	if(this->p->fileInfos.count(fileName) == 0){
 		return fileContent;
 	}
 
@@ -114,7 +116,10 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 	}
 
 	//open file
-	if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, formatPassword(this->password))){
+	if(UNZ_OK != unzOpenCurrentFile3(this->p->zipfile_handle,
+									 NULL, NULL, 0,
+									 formatPassword(this->p->password)))
+	{
 		return fileContent;
 	}
 
@@ -123,7 +128,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 
 	unsigned int len = 0;
 	while((len = unzReadCurrentFile(
-			zipfile_handle,
+			this->p->zipfile_handle,
 			buffer,
 			CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE))
 	){
@@ -133,7 +138,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
 	}
 
 	//close file
-	if(UNZ_OK != unzCloseCurrentFile(zipfile_handle)){
+	if(UNZ_OK != unzCloseCurrentFile(this->p->zipfile_handle)){
 		return fileContent;
 	}
 
@@ -146,7 +151,7 @@ bool Unzip::goToFile(const std::string & fileName)
 		return false;
 	}
 
-	if(unzLocateFile(zipfile_handle, fileName.c_str(), 0) == UNZ_OK){
+	if(unzLocateFile(this->p->zipfile_handle, fileName.c_str(), 0) == UNZ_OK){
 		return true;
 	} else {
 		return false;
@@ -155,7 +160,7 @@ bool Unzip::goToFile(const std::string & fileName)
 
 bool Unzip::containsFile(const std::string & fileName)
 {
-	if(fileInfos.count(fileName) == 1){
+	if(this->p->fileInfos.count(fileName) == 1){
 		return true;
 	} else {
 		return false;
@@ -212,7 +217,10 @@ bool Unzip::extractFileTo_Internal(
 		}
 
 		//open file
-		if(UNZ_OK != unzOpenCurrentFile3(zipfile_handle, NULL, NULL, 0, formatPassword(this->password))){
+		if(UNZ_OK != unzOpenCurrentFile3(this->p->zipfile_handle,
+										 NULL, NULL, 0,
+										 formatPassword(this->p->password)))
+		{
 			return false;
 		}
 
@@ -224,7 +232,7 @@ bool Unzip::extractFileTo_Internal(
 
 		unsigned int len = 0;
 		while((len = unzReadCurrentFile(
-				zipfile_handle,
+				this->p->zipfile_handle,
 				buffer,
 				CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE))
 		){
@@ -232,7 +240,7 @@ bool Unzip::extractFileTo_Internal(
 		}
 
 		//close file
-		if(UNZ_OK != unzCloseCurrentFile(zipfile_handle)){
+		if(UNZ_OK != unzCloseCurrentFile(this->p->zipfile_handle)){
 			return false;
 		}
 
@@ -267,13 +275,13 @@ bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteEx
 
 	int current = 1;
 	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >::const_iterator iter;
-	for(iter = fileInfos.cbegin(); iter != fileInfos.cend(); ++iter){
+	for(iter = this->p->fileInfos.cbegin(); iter != this->p->fileInfos.cend(); ++iter){
 		const std::string & fileName = iter->first;
 
 		if(isFile(fileName)){
 			bool ok = extractFileTo_Internal(fileName,
 					                         dest_path + fileName,
-					                         fileInfos.size(), current++,
+											 this->p->fileInfos.size(), current++,
 					                         overwriteExistingFile);
 			if(!ok){
 				extraction_ok = false;
@@ -310,7 +318,7 @@ void Unzip::retrieveAllFileInfos(void)
 {
 	do{
 		unz_file_pos pos;
-		if(UNZ_OK != unzGetFilePos(zipfile_handle, &pos)){
+		if(UNZ_OK != unzGetFilePos(this->p->zipfile_handle, &pos)){
 			continue;
 		}
 
@@ -319,7 +327,7 @@ void Unzip::retrieveAllFileInfos(void)
 		char currentExtraField[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
 		char currentComment[CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE];
 
-		unzGetCurrentFileInfo(zipfile_handle, &info,
+		unzGetCurrentFileInfo(this->p->zipfile_handle, &info,
 				currentFileName, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE,
 				currentExtraField, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE,
 				currentComment, CPPZIP_UNZIP_CHAR_ARRAY_BUFFER_SIZE);
@@ -341,15 +349,15 @@ void Unzip::retrieveAllFileInfos(void)
 		innerFileInfo->internal_fileAttributes = info.internal_fa;
 		innerFileInfo->external_fileAttributes = info.external_fa;
 
-		fileInfos.insert(std::make_pair(innerFileInfo->fileName, innerFileInfo));
+		this->p->fileInfos.insert(std::make_pair(innerFileInfo->fileName, innerFileInfo));
 
 
-	} while(UNZ_OK == unzGoToNextFile(zipfile_handle));
+	} while(UNZ_OK == unzGoToNextFile(this->p->zipfile_handle));
 }
 
 std::shared_ptr<InnerZipFileInfo> Unzip::getFileInfoFromLocalFileInfos(	const std::string& fileName)
 {
-	return fileInfos[fileName];
+	return this->p->fileInfos[fileName];
 }
 
 } //cppzip

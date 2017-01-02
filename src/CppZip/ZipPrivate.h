@@ -35,7 +35,9 @@
 #define CPPZIP_ZIPPRIVATE_H_
 
 #include <memory>
+#include <unordered_map>
 
+#include "ZipDefines.h"
 #include "ZipCommon.h"
 #include "minizip/zip.h"
 
@@ -67,6 +69,46 @@ namespace cppzip{
 	 * \param password is the password that shall be formatted.
 	 */
 	const char* formatPassword(const std::string & password);
+
+	class UnzipPrivate
+	{
+	public:
+		UnzipPrivate()
+		: zipfile_handle(NULL)
+	 	, numFiles(0)
+		{}
+
+		typedef void * voidp;
+		typedef voidp unzFile;
+
+		unzFile zipfile_handle;
+		int numFiles;
+
+		typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
+		std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+
+		std::string password;
+	};
+
+	class ZipPrivate
+	{
+	public:
+		ZipPrivate()
+			: zipfile_handle(NULL)
+		    , openFlag(OpenFlags::CreateAndOverwrite)
+	        , compressionLevel(Z_DEFAULT_COMPRESSION)
+		{}
+
+		typedef void * voidp;
+		typedef voidp zipFile;
+		std::string zipFileName;
+		std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+
+		zipFile zipfile_handle;
+		OpenFlags::Flags openFlag;
+		int compressionLevel;
+		std::string password;
+	};
 
 } //cppzip
 

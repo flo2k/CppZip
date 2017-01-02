@@ -38,6 +38,7 @@
 #define CPPZIP_ZIP_H_
 
 #include "CppZip_Global.h"
+#include "ZipDefines.h"
 
 #include <string>
 #include <vector>
@@ -52,6 +53,7 @@ namespace cppzip {
 //forward declaration
 struct InnerZipFileInfo;
 class Unzip;
+class ZipPrivate;
 
 /*!
  * \brief Zip allows creating zip files
@@ -65,23 +67,17 @@ public:
 	Zip(void);
 	virtual ~Zip();
 
-	/*! \brief Open flags */
-	enum OpenFlags {
-		CreateAndOverwrite	//!< \brief Creates an new zip file, if exists overwrites.
-	,	OpenExisting		//!< \brief Opens an existing zip file
-	};
-
 	/*!
 	 * \brief Opens a zip file.
 	 *
 	 * If
-	 *  - flag == \ref CREATE_AND_OVERWRITE then open() opens a new zip given in fileName.
+	 *  - flag == \ref OpenFlags::CREATE_AND_OVERWRITE then open() opens a new zip given in fileName.
 	 *            open() creates the zip file in fileName. If the fileName contains
 	 *            a path and a file name (eg. "path/to/file.zip") then "path/to" will
 	 *            be created first, if necessary. After that "file.zip" will be created.
 	 *
 	 *            If the fileName already exists, open() overrides the existing file.
-	 *  - flag == \ref OPEN_EXISTING it opens an existing file. This is used
+	 *  - flag == \ref OpenFlags::OPEN_EXISTING it opens an existing file. This is used
 	 *            to delete, replace or add files from/to an existing zip file.
 	 *
 	 * \param fileName is the file (incl. path) to open.
@@ -91,7 +87,7 @@ public:
 	 * \return true if the zip file is opened, otherwise false.
 	 */
 	bool open(const std::string & fileName,
-			  const OpenFlags & flag = CreateAndOverwrite,
+			  const OpenFlags::Flags & flag = OpenFlags::CreateAndOverwrite,
 			  const std::string & password = "");
 
 	/*!
@@ -476,18 +472,10 @@ private:
 	/*!
 	 * Restores the old open status, with the zip file was opened.
 	 */
-	void restoreTheOldOpenStatus(OpenFlags oldOpenState);
+	void restoreTheOldOpenStatus(OpenFlags::Flags oldOpenState);
 
 private:
-	typedef void * voidp;
-	typedef voidp zipFile;
-	std::string zipFileName;
-	std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
-
-	zipFile zipfile_handle;
-	OpenFlags openFlag;
-	int compressionLevel;
-	std::string password;
+	ZipPrivate* p;
 };
 
 } //cppzip

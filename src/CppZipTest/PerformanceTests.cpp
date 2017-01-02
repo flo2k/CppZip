@@ -61,7 +61,7 @@ void PerformanceTests::testZip_replaceMidSizedFiles(void)
 {
 	testZip_addMidSizedFiles();
 
-	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::OpenExisting);
+	bool ok = zip->open(tempFolder + "/" + zipFile, OpenFlags::OpenExisting);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 
 	ok = zip->replaceFile(midSizedFilesFolder + "/" + midSizeFile2, midSizedFilesFolder + "/" + midSizeFile2);
@@ -74,7 +74,7 @@ void PerformanceTests::testZip_replaceMidSizedFiles(void)
 void PerformanceTests::testZip_deleteMidSizedFile(void) {
 	testZip_addMidSizedFiles();
 
-	bool ok = zip->open(tempFolder + "/" + zipFile, Zip::OpenExisting);
+	bool ok = zip->open(tempFolder + "/" + zipFile, OpenFlags::OpenExisting);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 
 	ok = zip->deleteFile(midSizedFilesFolder + "/" + midSizeFile2);
