@@ -28,12 +28,12 @@ set(SOURCES
 
 #CppZipTest Executable
 add_executable(cppziptest ${SOURCES})
-add_dependencies(cppziptest cppzip)
+#add_dependencies(cppziptest cppzip)
 
 #addidtional dependencies
 target_link_libraries(cppziptest
-    ${Boost_LIBRARIES}
-    ${CPPUNIT_LIBRARIES}
+    #${Boost_LIBRARIES}
+    #${CPPUNIT_LIBRARIES}
     #cppzip
 )
 
