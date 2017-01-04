@@ -65,7 +65,7 @@ test_script:
     #- copy /y %BOOST_LIBRARYDIR%\*.dll C:\Projects\cppzip\build\bin
     #- copy /y C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.dll C:\Projects\cppzip\build\bin
     #- tree /A /F .
-    #- ctest -V
-    - cd bin
-    - tree /A /F .
-    - cppziptest.exe
+    - ctest -V
+    #- cd bin
+    #- tree /A /F .
+    #- cppziptest.exe
