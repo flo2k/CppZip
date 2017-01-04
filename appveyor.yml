@@ -11,6 +11,7 @@ environment:
     ZLIB_ROOT: C:\projects\zlib
     ZLIB_INCLUDE: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\include
     ZLIB_LIBRARY: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
+    ZLIB_LIBRARY_DIR: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release
     DOXYGEN_ROOT: C:\projects\doxygen
     DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.9.2\tools\doxygen.exe
     CPPUNIT_ROOT: C:\projects\cppunit
@@ -59,12 +60,12 @@ build_script:
 
 test_script:
     - cd build
-    - cmd: set PATH=%PATH%;C:\Libraries\boost_1_62_0\lib32-msvc-14.0
-    #- cmd: set PATH=%PATH%;C:\Libraries\boost_1_62_0\lib32-msvc-14.0
-    - copy /y %BOOST_LIBRARYDIR%\*.dll C:\Projects\cppzip\build\bin
-    - copy /y C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.dll C:\Projects\cppzip\build\bin
+    - cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
+    - cmd: set PATH=%PATH%;%ZLIB_LIBRARY_DIR%
+    #- copy /y %BOOST_LIBRARYDIR%\*.dll C:\Projects\cppzip\build\bin
+    #- copy /y C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.dll C:\Projects\cppzip\build\bin
     #- tree /A /F .
-    - ctest -V
-    #- cd bin
-    #- tree /A /F .
-    #- cppziptest.exe
+    #- ctest -V
+    - cd bin
+    - tree /A /F .
+    - cppziptest.exe
