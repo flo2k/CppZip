@@ -23,7 +23,7 @@ init:
 
 install:
     - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
-    #- tree /A /F "%ZLIB_ROOT%" #for debug
+    - tree /A /F "%ZLIB_ROOT%" #for debug
 
     #- nuget install cppunit -outputdirectory "%CPPUNIT_ROOT%" #there is no VS2015 version
     - md %CPPUNIT_ROOT%
