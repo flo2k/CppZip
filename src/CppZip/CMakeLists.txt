@@ -100,11 +100,12 @@ else()
     )
 endif()
 
-install(FILES CppZip.h  Unzip.h Zip.h ZipCommon.h
+#copy public headers
+install(FILES CppZip.h CppZip_Global.h ZipDefines.h Unzip.h Zip.h
     DESTINATION include/cppzip
 )
 
-#copy to build include dir
+#copy public headers to build include dir
 set(CPPZIP_BUILD_INCLUDE_DIR ${CMAKE_BINARY_DIR}/include/cppzip)
 file(COPY CppZip.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
 file(COPY CppZip_Global.h DESTINATION ${CPPZIP_BUILD_INCLUDE_DIR})
