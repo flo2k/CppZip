@@ -2,7 +2,7 @@
 #include <string>
 #include <stdexcept>
 #include <time.h>
-/*
+
 #include <boost/timer/timer.hpp>
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
@@ -165,11 +165,11 @@ int RunSpecificTests(void){
 	// Return error code 1 if the one of test failed.
 	return wasSucessful ? 0 : 1;
 }
-*/
+
 int main(void) {
 	std::cout << "starting tests..." << std::endl;
 
-	//int ok = RunAllTests();
+	int ok = RunAllTests();
 	//int ok = RunPerformanceTests();
 	//int ok = RunSpecificTests();
 
@@ -180,7 +180,6 @@ int main(void) {
 
 	std::cout << "tests ended." << std::endl;
 
-	//return ok;
-	return 0;
+	return ok;
 }
 
