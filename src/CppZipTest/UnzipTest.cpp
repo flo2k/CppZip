@@ -179,7 +179,10 @@ void UnzipTest::test_containsFileAfterCloseZipFiled(void)
 void UnzipTest::test_getFileNames(void)
 {
 	std::vector<std::string> expectedFileNames;
-	expectedFileNames.push_back("TestFile_ümlaut.txt"); //don't check this on windows, because umlaut problems
+#ifndef _WIN32
+	//don't check this on windows, because there are problems with umlauts
+	expectedFileNames.push_back("TestFile_ümlaut.txt"); 
+#endif
 	expectedFileNames.push_back("TestFile.txt");
 	expectedFileNames.push_back("info/readme.txt");
 	expectedFileNames.push_back("info/");
@@ -188,8 +191,12 @@ void UnzipTest::test_getFileNames(void)
 
 	zip->open(zipFile);
 	std::list<std::string> actualfileNames = zip->getFileNames();
-
-	CPPUNIT_ASSERT_EQUAL(expectedFileNames.size(), actualfileNames.size());
+	
+	size_t expectedNumFiles = expectedFileNames.size();
+#ifdef _WIN32
+	++expectedNumFiles; //because of the missing file with the umlaut
+#endif
+	CPPUNIT_ASSERT_EQUAL(expectedNumFiles, actualfileNames.size());
 
 	//assert the file names..
 	for(size_t i = 0; i < expectedFileNames.size(); ++i){

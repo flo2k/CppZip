@@ -662,7 +662,7 @@ void ZipTest::test_deleteFile_WhenFileNotExists(void) {
 void ZipTest::test_deleteFile_WhenTemparyFileCouldntCreated(void) {
 	bool expected = false;
 	std::string zipFileName = tempFolder + "/" + zipFileFor_deleteAndReplace;
-	std::string tempZipFileName = tempFolder + "/" + ".~" + zipFileFor_deleteAndReplace;
+	std::string tempZipFileName = tempFolder + "/" + "testZips/.~" + "zipFileFor_deleteAndReplaceTests.zip";
 	
 	createFolder(zipFileName);
 	copyFile(zipFileFor_deleteAndReplace, zipFileName);

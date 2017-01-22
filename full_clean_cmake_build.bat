@@ -14,15 +14,16 @@ cmake -H. -Bbuild^
 	-DCPPUNIT_LIBRARY_RELEASE="C:\Libs\cppunit\cppunit-1.12.1\lib\cppunit.lib" ^
 	-DBUILD_TESTS=1
 
+REM to use a already compiled zlib set this variables during configure:
+REM	-DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" ^
+REM	-DZLIB_LIBRARY="%ZLIB_LIBRARY%"
 
-REM	-DZLIB_INCLUDE_DIR="%ZLIB_DIR%" ^
-REM	-DZLIB_LIBRARY="%ZLIB_DIR%"
-
-REM cmake -G "Visual Studio 10 2010" -D BOOST_ROOT="C:\Libs\boost\boost_1_53_0" -D BOOST_LIBRARYDIR="C:\Libs\boost\boost_1_53_0\stage\lib" -H. -Bbuild
-
-REM build
+REM release build
 cmake --build build --config Release --
 cmake --build build --config Release --target doc
+
+REM debug build
+REM cmake --build build --config Debug --
 
 REM start tests
 cd build

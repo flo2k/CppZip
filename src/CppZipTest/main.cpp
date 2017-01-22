@@ -21,9 +21,9 @@
 #include <cppunit/TextTestProgressListener.h>
 #include <cppunit/BriefTestProgressListener.h>
 
-//#include "ZipTest.h"
-//#include "UnzipTest.h"
-//#include "PerformanceTests.h"
+#include "ZipTest.h"
+#include "UnzipTest.h"
+#include "PerformanceTests.h"
 
 class TimingListener: public CppUnit::TestListener {
 public:
@@ -137,7 +137,7 @@ int RunSpecificTests(void){
 
 	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
 
-	//suite->addTest(new CppUnit::TestCaller<cppzip::UnzipTest>("a", &cppzip::UnzipTest::test_getFileContentFromPasswordProtectedZipFile));
+	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("test_addFiles", &cppzip::ZipTest::test_addFiles));
 //	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
 
 
