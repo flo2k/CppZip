@@ -75,8 +75,8 @@ Version 1.0.0.0, 22.01.2017
 CppZip project - (https://github.com/flo2k/CppZip)  
 
 Copyright (C) 2011      Florian Künzner (CppZip)  
-Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
-Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
+Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)  
+Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)  
 
 ---------------------------------------------------------------------------
 
