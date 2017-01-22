@@ -45,19 +45,27 @@ _Florian Künzner_
 Compiles with cmake into the directory "build":
 
 #### Compile on Linux
-
+    #create build dir
     mkdir build
 
+    #configure
     cmake -H. -Bbuild
+    #build
     cmake --build build -- -j
 
 #### Compile on Windows
+    #create build dir
+    mkdir build
 
+    #configure
     cmake -H. -Bbuild
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
         -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
+
+    #build
+    cmake --build build --config Release --
 
 ### License:
 
