@@ -50,6 +50,7 @@ Compiles with cmake into the directory "build":
 
     #configure
     cmake -H. -Bbuild
+
     #build
     cmake --build build -- -j
 
@@ -76,6 +77,7 @@ CppZip project - (https://github.com/flo2k/CppZip)
 Copyright (C) 2011      Florian Künzner (CppZip)  
 Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
 Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
+
 ---------------------------------------------------------------------------
 
 Condition of use and distribution are the same than minizip and zlib :
