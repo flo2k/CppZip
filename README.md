@@ -1,8 +1,8 @@
 CppZip
 ======
 
-[![Build Status](https://travis-ci.org/flo2k/CppZip.svg?branch=cmake)](https://travis-ci.org/flo2k/CppZip)
-[![Build Status](https://ci.appveyor.com/api/projects/status/qlctko1hvennty1h?svg=true)](https://ci.appveyor.com/project/flo2k/cppzip)
+TravisCI (linux): [![Build Status](https://travis-ci.org/flo2k/CppZip.svg?branch=cmake)](https://travis-ci.org/flo2k/CppZip)
+AppVeyor (Windows): [![Build Status](https://ci.appveyor.com/api/projects/status/qlctko1hvennty1h?svg=true)](https://ci.appveyor.com/project/flo2k/cppzip)
 
 CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with
 standard C++ (C++11) and some functions of the boost libraries.
@@ -29,13 +29,13 @@ _Unzip_ uncompresses and unzips zip files.
  - Supports Passwords
 
 ###Author:
-_Florian Künzner_ and _Andreas Bauer_
+_Florian Künzner_
 
 ### Version:
-0.3.0.1 alpha state
+1.0.0.0 release state
 
 ### Date:
-04.05.2013
+22.01.2017
 
 ### Compilation:
 Compiles with cmake into the directory "build":
@@ -49,12 +49,16 @@ Compiles with cmake into the directory "build":
 
 #### Compile on Windows
 
-    xx
+    cmake -H. -Bbuild
+        -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
+        -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
+        -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
+        -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
 
 ### License:
 
 CppZip -- IO on .zip files using minizip and zlib  
-Version 0.3.0.1, 04.05.2013
+Version 1.0.0.0, 22.01.2017
 CppZip project - (https://github.com/flo2k/CppZip)  
 
 Copyright (C) 2011      Florian Künzner (CppZip)  
