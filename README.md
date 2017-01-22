@@ -71,7 +71,7 @@ Compiles with cmake into the directory "build":
 ### License:
 
 CppZip -- IO on .zip files using minizip and zlib  
-Version 1.0.0.0, 22.01.2017
+Version 1.0.0.2, 22.01.2017
 CppZip project - (https://github.com/flo2k/CppZip)  
 
 Copyright (C) 2011      Florian Künzner (CppZip)  
