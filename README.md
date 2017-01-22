@@ -2,6 +2,7 @@ CppZip
 ======
 
 TravisCI (linux): [![Build Status](https://travis-ci.org/flo2k/CppZip.svg?branch=cmake)](https://travis-ci.org/flo2k/CppZip)
+
 AppVeyor (Windows): [![Build Status](https://ci.appveyor.com/api/projects/status/qlctko1hvennty1h?svg=true)](https://ci.appveyor.com/project/flo2k/cppzip)
 
 CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with
