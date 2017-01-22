@@ -32,8 +32,8 @@ void ZipTest::setUp(void) {
 	writeProtectedZipFile = testZipsFolder + "/" + "write_protected_file.zip";
 	tempFolder = "temp";
 	picsFolder = "pics";
-	fileInsideZipWithUmlaut = "Prüfplan.txt";
-	fileInsideZip = "Pruefplan.txt";
+	fileInsideZipWithUmlaut = "TestFile_ümlaut.txt";
+	fileInsideZip = "TestFile.txt";
 	fileInsideZipThatDoesNotExist = "FileDoesNotExist";
 	fileInsideZipJpg = "matrix.jpg";
 	anotherFileName = "x.txt";
@@ -507,8 +507,8 @@ void ZipTest::test_addFolder_recursive(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Pruefplan.txt"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Prüfplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/TestFile.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/TestFile_ümlaut.txt"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test/info"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/info/readme.txt"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test/pics"));
@@ -526,8 +526,8 @@ void ZipTest::test_addFolder_notRecursive(void){
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 3, numFilesInZip(zipFileName));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "data/test"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Pruefplan.txt"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/Prüfplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/TestFile.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "data/test/TestFile_ümlaut.txt"));
 }
 
 void ZipTest::test_addFolder_notPreservesPath(void) {
@@ -541,8 +541,8 @@ void ZipTest::test_addFolder_notPreservesPath(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 7, numFilesInZip(zipFileName));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Pruefplan.txt"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Prüfplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/TestFile.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/TestFile_ümlaut.txt"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test/info"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/info/readme.txt"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test/pics"));
@@ -560,8 +560,8 @@ void ZipTest::test_addFolder_notPreservesPath_and_notRecursive(void) {
 	CPPUNIT_ASSERT_EQUAL(expected, actual);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("count", 3, numFilesInZip(zipFileName));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFolder(zipFileName, "test"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Pruefplan.txt"));
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/Prüfplan.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/TestFile.txt"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("contains", true, containsFile(zipFileName, "test/TestFile_ümlaut.txt"));
 }
 
 void ZipTest::test_deleteFile(void) {
@@ -813,7 +813,7 @@ void ZipTest::test_addFile_WithPasswordProtection(void) {
 	//std::string contentAsString("a\n");
 	//CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", contentAsString, fileContentAsString);
 
-	std::string contentAsString("a");
+	std::string contentAsString("this is a string");
 	CPPUNIT_ASSERT_MESSAGE("file content", boost::algorithm::starts_with(fileContentAsString, contentAsString));
 }
 

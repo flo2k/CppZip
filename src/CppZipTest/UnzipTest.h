@@ -77,7 +77,6 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
 		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux32bit);
 		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux64bit);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win32bit);
 		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip);
 		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar);
 
@@ -131,7 +130,6 @@ public:
 	void test_getFileContentFromANonExistingFile(void);
 	void test_getFileContentFromPasswordProtectedZipFile_linux32bit(void);
 	void test_getFileContentFromPasswordProtectedZipFile_linux64bit(void);
-	void test_getFileContentFromPasswordProtectedZipFile_win32bit(void);
 	void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void);
 	void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void);
 

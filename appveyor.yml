@@ -55,8 +55,8 @@ before_build:
 #-DCPPUNIT_ROOT_DIR="%CPPUNIT_ROOT%\cppunit-1.13.2"
 
 build_script:
-    - cmake --build build --config Release
-#    - cmake --build build --config Release --target doc
+    - cmake --build build --config Release --
+    - cmake --build build --config Release --target doc
 
 test_script:
     - cd build

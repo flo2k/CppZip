@@ -34,9 +34,9 @@ void UnzipTest::setUp(void){
 	passwordProtectedZipFile_win64bit_winrar = testZipsFolder + "/" + "passwordProtected_win_64bit_winrar.zip";
 	tempFolder = "temp";
 	picsFolder = "pics";
-	fileInsideZip = "Pruefplan.txt";
+	fileInsideZip = "TestFile.txt";
 	fileInsideZip_ReadMe = "readme.txt";
-	fileInsideZipWithUmlaut = "Prüfplan.txt";
+	fileInsideZipWithUmlaut = "TestFile_ümlaut.txt";
 	fileInsideZipThatDoesNotExist = "FileDoesNotExist";
 	fileInsideZipJpg = "matrix.jpg";
 	anotherFileName = "x.txt";
@@ -179,8 +179,8 @@ void UnzipTest::test_containsFileAfterCloseZipFiled(void)
 void UnzipTest::test_getFileNames(void)
 {
 	std::vector<std::string> expectedFileNames;
-	//expectedFileNames.push_back("Prüfplan.txt"); //don't check this on windows, because umlaut problems
-	expectedFileNames.push_back("Pruefplan.txt");
+	expectedFileNames.push_back("TestFile_ümlaut.txt"); //don't check this on windows, because umlaut problems
+	expectedFileNames.push_back("TestFile.txt");
 	expectedFileNames.push_back("info/readme.txt");
 	expectedFileNames.push_back("info/");
 	expectedFileNames.push_back("pics/");
@@ -189,7 +189,7 @@ void UnzipTest::test_getFileNames(void)
 	zip->open(zipFile);
 	std::list<std::string> actualfileNames = zip->getFileNames();
 
-	CPPUNIT_ASSERT_EQUAL(expectedFileNames.size() + 1, actualfileNames.size());
+	CPPUNIT_ASSERT_EQUAL(expectedFileNames.size(), actualfileNames.size());
 
 	//assert the file names..
 	for(size_t i = 0; i < expectedFileNames.size(); ++i){
@@ -272,18 +272,6 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux32bit(void)
 void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux64bit(void)
 {
 	bool ok = zip->open(passwordProtectedZipFile_linux64bit, "secret");
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
-	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
-
-	std::string expected = "this is a string";
-	std::string actual(content.begin(), content.end());
-
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
-}
-
-void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win32bit(void)
-{
-	bool ok = zip->open(passwordProtectedZipFile_win32bit, "secret");
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 	std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
 
