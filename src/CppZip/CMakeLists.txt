@@ -38,7 +38,6 @@ set(SOURCES
     Zip.cpp
     ZipCommon.cpp
     ZipPrivate.cpp
-    ExportTester.cpp
 )
 
 if(WIN32)

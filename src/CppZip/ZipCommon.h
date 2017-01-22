@@ -1,11 +1,12 @@
 /*
  * ZipCommon.h -- IO on .zip files using minizip and zlib
- * Version 0.3.0.1, 04.05.2013
+ * Version 1.0.0.2, 22.01.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 06.12.2012, Florian Künzner
  *
  * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *

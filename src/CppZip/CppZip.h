@@ -24,9 +24,9 @@
  *  - Extract to memory
  *  - Supports Passwords
  *
- * \author Florian Künzner and Andreas Bauer
- * \version 0.3.0.1 alpha state
- * \date 04.05.2013
+ * \author Florian Künzner
+ * \version 1.0.0.2 release state
+ * \date 22.01.2017
  *
  * \note At the moment there are problems with special chars (ä, ö, ü, ß, ...):
  * When zipping and unzipping files with special chars inside zip files then
@@ -142,11 +142,12 @@
  * \page license License
  *
  * CppZip -- IO on .zip files using minizip and zlib\n
- * Version 0.3.0.1, 04.05.2013\n
+ * Version 1.0.0.2, 22.01.2017\n
  * part of the CppZip project - (https://github.com/flo2k/CppZip)\n
  *
  * Copyright (C) 2011      Florian Künzner (CppZip)\n
  * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)\n
+ * Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)\n
  *
  * ---------------------------------------------------------------------------
  *

@@ -1,11 +1,12 @@
 /*!
  * ZipTest.h -- Tests Zip.h from CppZip
- * Version 0.1, 12.12.2012
+ * Version 1.0.0.2, 22.01.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
- * Created: 12.12.2011, Florian Künzner
+ * Created: 12.12.2012, Florian Künzner
  *
  * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *

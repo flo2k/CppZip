@@ -1,12 +1,13 @@
 /*!
  * ZipTest.h -- Tests Zip.h from CppZip
- * Version 0.2, 22.09.2012
+ * Version 1.0.0.2, 22.01.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 15.11.2011, Florian Künzner
  *
  * Copyright (C) 2011 Florian Künzner (CppZip)
  * Copyright (C) 2012 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)
+ * Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)
  *
  * ---------------------------------------------------------------------------
  *
@@ -55,7 +56,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_openAExistingWriteProtectedZipFile);
 		CPPUNIT_TEST(test_openAppendToZip);
 		CPPUNIT_TEST(test_openAppendToZipWithFileAlreadyExisting);
-		
+
 		CPPUNIT_TEST(test_closeAZipFile);
 		CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
 
@@ -67,7 +68,7 @@ class ZipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNotExists);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WithFileNameIsEmpty);
 		CPPUNIT_TEST(test_addFile_WithDestinationFile_WhenFileNameAlreadyExists);
-		
+
 		CPPUNIT_TEST(test_addFile_Content);
 		CPPUNIT_TEST(test_addFile_Content_FromAString);
 		CPPUNIT_TEST(test_addFile_Content_WithEmptyContent);
