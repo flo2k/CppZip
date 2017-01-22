@@ -40,7 +40,7 @@ install:
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
 before_build:
-    - md build C:\projects\cppzip\build\doc
+    - md build
     - cmake -H. -Bbuild
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
@@ -48,23 +48,17 @@ before_build:
         -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
         -DBUILD_TESTS=1
 
-#-DCPPUNIT_ROOT_DIR="%CPPUNIT_ROOT%\cppunit-1.13.2"
-
 build_script:
     #build sources
     - cmake --build build --config Release --
 
     #build doc
-    - cmake --build build --config Release --target doc
+    #- cmake --build build --config Release --target doc
 
 test_script:
     - cd build
     - cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
     - cmd: set PATH=%PATH%;%ZLIB_LIBRARY_DIR%
-    #- copy /y %BOOST_LIBRARYDIR%\*.dll C:\Projects\cppzip\build\bin
-    #- copy /y C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.dll C:\Projects\cppzip\build\bin
+
     #- tree /A /F .
-    #- cmd: ctest -V -C Release
-    #- cd bin
-    #- tree /A /F .
-    #- cppziptest.exe
+    - cmd: ctest -V -C Release
