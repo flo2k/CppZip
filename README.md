@@ -1,10 +1,6 @@
 CppZip
 ======
 
-TravisCI (linux): [![Build Status](https://travis-ci.org/flo2k/CppZip.svg?branch=cmake)](https://travis-ci.org/flo2k/CppZip)
-
-AppVeyor (Windows): [![Build Status](https://ci.appveyor.com/api/projects/status/qlctko1hvennty1h?svg=true)](https://ci.appveyor.com/project/flo2k/cppzip)
-
 CppZip is an open source c++ zip library and is based on minizip and zlib. CppZip is implemented with
 standard C++ (C++11) and some functions of the boost libraries.
 
@@ -12,6 +8,13 @@ It's implementation focus is
  - on easy to use - a clear and well documented API,
  - to run on multiple platforms (Windows, Linux, ...),
  - and well tested.
+
+
+### Build status:
+
+ - [![Build Status](https://travis-ci.org/flo2k/CppZip.svg?branch=cmake)](https://travis-ci.org/flo2k/CppZip) TravisCI (linux)
+
+ - [![Build Status](https://ci.appveyor.com/api/projects/status/qlctko1hvennty1h?svg=true)](https://ci.appveyor.com/project/flo2k/cppzip) AppVeyor (Windows)
 
 ### There are two classes in the library:
 
