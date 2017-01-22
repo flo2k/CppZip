@@ -36,7 +36,7 @@ _Unzip_ uncompresses and unzips zip files.
 _Florian Künzner_
 
 ### Version:
-1.0.0.0 release state
+1.0.0.2 release state
 
 ### Date:
 22.01.2017
