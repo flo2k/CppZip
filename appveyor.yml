@@ -40,7 +40,7 @@ install:
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
 before_build:
-    - md build
+    - md build build\doc
     - cmake -H. -Bbuild
         -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
@@ -51,7 +51,10 @@ before_build:
 #-DCPPUNIT_ROOT_DIR="%CPPUNIT_ROOT%\cppunit-1.13.2"
 
 build_script:
-    #- cmake --build build --config Release --
+    #build sources
+    - cmake --build build --config Release --
+
+    #build doc
     - cmake --build build --config Release --target doc
 
 test_script:
