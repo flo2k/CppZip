@@ -36,8 +36,36 @@ set(SOURCES
     #cppzip
     Unzip.cpp
     Zip.cpp
-    ZipCommon.cpp
-    ZipPrivate.cpp
+
+    UnzipStrategy.cpp
+    ZipStrategy.cpp
+
+    #zlib
+    zlibStrategy/ZipCommon.cpp
+    zlibStrategy/ZipPrivate.cpp
+    zlibStrategy/ZlibUnzipStrategy.cpp
+    zlibStrategy/ZlibZipStrategy.cpp
+
+    #chmlib
+)
+
+#Headers
+set(HEADERS
+    #cppzip
+    CppZip.h
+    CppZip_Global.h
+    Unzip.h
+    Zip.h
+    ZipDefines.h
+
+    UnzipStrategy.h
+    ZipStrategy.h
+
+    #zlib
+    zlibStrategy/ZipCommon.h
+    zlibStrategy/ZipPrivate.h
+    zlibStrategy/ZlibUnzipStrategy.h
+    zlibStrategy/ZlibZipStrategy.h
 )
 
 if(WIN32)
@@ -57,7 +85,7 @@ endif()
 link_directories(${Boost_LIBRARY_DIRS})
 
 #shared version
-add_library(cppzip SHARED ${SOURCES})
+add_library(cppzip SHARED ${SOURCES} ${HEADERS})
 
 if(TARGET zlib)
     add_dependencies(cppzip zlib)

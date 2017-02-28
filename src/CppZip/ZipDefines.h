@@ -42,11 +42,20 @@ namespace cppzip {
 
 class CPPZIP_SHARED_EXPORT OpenFlags {
 public:
-	/*! \brief Open flags */
-	enum Flags {
-		CreateAndOverwrite	//!< \brief Creates an new zip file, if exists overwrites.
-	   ,OpenExisting		//!< \brief Opens an existing zip file
-	};
+    /*! \brief Open flags */
+    enum Flags {
+        CreateAndOverwrite	//!< \brief Creates an new zip file, if exists overwrites.
+       ,OpenExisting		//!< \brief Opens an existing zip file
+    };
+};
+
+class CPPZIP_SHARED_EXPORT Strategy {
+public:
+    /*! \brief Open flags */
+    enum Strategies {
+        Zlib	//!< \brief Use zlib and minizip
+       ,ChmLib //!< \brief Use CHMLib
+    };
 };
 
 } //cppzip

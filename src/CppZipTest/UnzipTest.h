@@ -96,9 +96,9 @@ class UnzipTest : public CppUnit::TestFixture {
 		CPPUNIT_TEST(test_extractAllFiles_WithOverwriteAExistingFile);
 		CPPUNIT_TEST(test_extractAllFiles_WithNotOverwriteAExistingFile);
 
-		CPPUNIT_TEST(test_signalFileExtracted);
-		CPPUNIT_TEST(test_signalBeforeFileExtracted);
-		CPPUNIT_TEST(test_signalBeforeFileExtractedWithChangingFileName);
+        //CPPUNIT_TEST(test_signalFileExtracted);
+        //CPPUNIT_TEST(test_signalBeforeFileExtracted);
+        //CPPUNIT_TEST(test_signalBeforeFileExtractedWithChangingFileName);
 	CPPUNIT_TEST_SUITE_END();
 
 public:
