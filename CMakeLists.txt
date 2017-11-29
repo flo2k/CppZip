@@ -6,9 +6,10 @@ cmake_minimum_required(VERSION 2.8)
 project(CppZip)
 
 #Version informations
-set (CPPZIP_VERSION_MAJOR 0)
-set (CPPZIP_VERSION_MINOR 3)
-set (CPPZIP_VERSION_PATCH 1)
+set (CPPZIP_VERSION_MAJOR 1)
+set (CPPZIP_VERSION_MINOR 0)
+set (CPPZIP_VERSION_PATCH 2)
+set (CPPZIP_VERSION_BUILD 3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(LIB_DIR lib${LIB_SUFFIX})

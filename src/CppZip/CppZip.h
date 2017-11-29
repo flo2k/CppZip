@@ -25,8 +25,8 @@
  *  - Supports Passwords
  *
  * \author Florian Künzner
- * \version 1.0.0.2 release state
- * \date 22.01.2017
+ * \version 1.0.1.3 release state
+ * \date 29.11.2017
  *
  * \note At the moment there are problems with special chars (ä, ö, ü, ß, ...):
  * When zipping and unzipping files with special chars inside zip files then
@@ -141,35 +141,5 @@
 /*!
  * \page license License
  *
- * CppZip -- IO on .zip files using minizip and zlib\n
- * Version 1.0.0.2, 22.01.2017\n
- * part of the CppZip project - (https://github.com/flo2k/CppZip)\n
- *
- * Copyright (C) 2011      Florian Künzner (CppZip)\n
- * Copyright (C) 2012-2013 Florian Künzner and Andreas Bauer (CppZip) (https://github.com/flo2k/CppZip)\n
- * Copyright (C) 2014-2017 Florian Künzner (CppZip) (https://github.com/flo2k/CppZip)\n
- *
- * ---------------------------------------------------------------------------
- *
- * Condition of use and distribution are the same than minizip and zlib :\n
- *
- * This software is provided 'as-is', without any express or implied\n
- * warranty. In no event will the authors be held liable for any damages\n
- * arising from the use of this software.\n
- *
- * Permission is granted to anyone to use this software for any purpose,\n
- * including commercial applications, and to alter it and redistribute it\n
- * freely, subject to the following restrictions:
- *
- * 1. The origin of this software must not be misrepresented; you must not\n
- *    claim that you wrote the original software. If you use this software\n
- *    in a product, an acknowledgment in the product documentation would be\n
- *    appreciated but is not required.\n
- * 2. Altered source versions must be plainly marked as such, and must not be\n
- *    misrepresented as being the original software.\n
- * 3. This notice may not be removed or altered from any source distribution.\n
- *
- *
- * ---------------------------------------------------------------------------
- *
+ * \include ../../LICENSE.txt
  */
