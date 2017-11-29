@@ -53,7 +53,7 @@ MESSAGE(STATUS "CMAKE_LIBRARY_PATH: " ${CMAKE_LIBRARY_PATH})
 #####################################
 
 #zlib
-find_package(ZLIB 1.2.8)
+#find_package(ZLIB 1.2.8)
 
 if(NOT ZLIB_FOUND)
     MESSAGE(STATUS "Use zlib provided by cppzip, because it is not found on the system.")
@@ -83,20 +83,20 @@ add_subdirectory(src/CppZip)
 #####################################
 
 if(BUILD_TESTS)
-	#Boost
-	find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
+    #Boost
+    find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
 
     MESSAGE(STATUS "CPPUNIT_INCLUDE_DIR: " ${CPPUNIT_INCLUDE_DIR})
     MESSAGE(STATUS "CPPUNIT_LIBRARY: " ${CPPUNIT_LIBRARY})
 
-	#CppUnit
-	find_package(CppUnit REQUIRED)
+    #CppUnit
+    find_package(CppUnit REQUIRED)
 
-	enable_testing()
-	option(BUILD_TESTS "Build unit tests" ON)
+    enable_testing()
+    option(BUILD_TESTS "Build unit tests" ON)
 
-	#CppZipTest
-	add_subdirectory(src/CppZipTest)
+    #CppZipTest
+    add_subdirectory(src/CppZipTest)
 endif()
 #####################################
 # Installing files: output

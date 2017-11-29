@@ -4,6 +4,8 @@
 #include <time.h>
 
 #include <boost/timer/timer.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/TestResult.h>
@@ -107,6 +109,8 @@ int RunPerformanceTests(void) {
 //	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));
 	//suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("c", &cppzip::ZipTest::test_addFile_Content_WithPasswordProtection));
 
+    suite->addTest(cppzip::PerformanceTests::suite());
+
 	CppUnit::TestResult result;
 
 	// Add a listener that colllects test result
@@ -137,7 +141,8 @@ int RunSpecificTests(void){
 
 	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
 
-	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("test_addFiles", &cppzip::ZipTest::test_addFiles));
+    suite->addTest(cppzip::UnzipTest::suite());
+    //suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("test_addFiles", &cppzip::ZipTest::test_addFiles));
 //	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
 
 
@@ -169,17 +174,22 @@ int RunSpecificTests(void){
 int main(void) {
 	std::cout << "starting tests..." << std::endl;
 
-	int ok = RunAllTests();
-	//int ok = RunPerformanceTests();
-	//int ok = RunSpecificTests();
+    //change the work directory to the cpp zip test data working path
+    boost::filesystem::current_path(CPPZIP_TEST_WORKING_DIR);
+
+    int ok = RunAllTests();
+    //int ok = RunPerformanceTests();
+    //int ok = RunSpecificTests();
 
 //#ifdef WIN32
 //	std::string x;
 //	std::cin >> x;
 //#endif
 
+
+
 	std::cout << "tests ended." << std::endl;
 
-	return ok;
+    return 0;
 }
 
