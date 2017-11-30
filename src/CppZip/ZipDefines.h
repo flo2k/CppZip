@@ -43,11 +43,11 @@ namespace cppzip {
 /*! \brief Open flags */
 class CPPZIP_SHARED_EXPORT OpenFlags {
 public:
-	/*! \brief Open flags */
-	enum Flags {
-		CreateAndOverwrite	//!< \brief Creates an new zip file, if exists overwrites.
-	   ,OpenExisting		//!< \brief Opens an existing zip file
-	};
+    /*! \brief Open flags */
+    enum Flags {
+        CreateAndOverwrite    //!< \brief Creates an new zip file, if exists overwrites.
+       ,OpenExisting        //!< \brief Opens an existing zip file
+    };
 };
 
 } //cppzip

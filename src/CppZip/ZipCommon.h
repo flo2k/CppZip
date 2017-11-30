@@ -39,8 +39,8 @@
 
 /* Defined already in minizip's zip.c. Placed here to use as default parameter in Zip and Unzip*/
 #ifndef VERSIONMADEBY
-	/*! brief This version is used bye minizip (zip.c) to create files inside the zip */
-	#define VERSIONMADEBY   (0x0) /* platform dependent */
+    /*! brief This version is used bye minizip (zip.c) to create files inside the zip */
+    #define VERSIONMADEBY   (0x0) /* platform dependent */
 #endif
 
 namespace cppzip {
@@ -50,24 +50,24 @@ namespace cppzip {
  */
 struct InnerZipFileInfo
 {
-	InnerZipFileInfo(void);
+    InnerZipFileInfo(void);
 
-	std::string fileName;
-	std::string extraField;
-	std::string comment;
-	unsigned int time_sec;                    /* seconds after the minute - [0,59] */
-	unsigned int time_min;                    /* minutes after the hour - [0,59] */
-	unsigned int time_hour;                   /* hours since midnight - [0,23] */
-	unsigned int time_day_of_month;           /* day of the month - [1,31] */
-	unsigned int time_month;                  /* months since January - [0,11] */
-	unsigned int time_year;                   /* years - [1980..2044] */
-	unsigned long dosDate;                    /* if dos_date == 0, tmu_date is used */
-	unsigned long crc;                        /* crc-32 */
-	unsigned long compressed_size;            /* compressed size */
-	unsigned long uncompressed_size;          /* uncompressed size */
+    std::string fileName;
+    std::string extraField;
+    std::string comment;
+    unsigned int time_sec;                    /* seconds after the minute - [0,59] */
+    unsigned int time_min;                    /* minutes after the hour - [0,59] */
+    unsigned int time_hour;                   /* hours since midnight - [0,23] */
+    unsigned int time_day_of_month;           /* day of the month - [1,31] */
+    unsigned int time_month;                  /* months since January - [0,11] */
+    unsigned int time_year;                   /* years - [1980..2044] */
+    unsigned long dosDate;                    /* if dos_date == 0, tmu_date is used */
+    unsigned long crc;                        /* crc-32 */
+    unsigned long compressed_size;            /* compressed size */
+    unsigned long uncompressed_size;          /* uncompressed size */
 
-	unsigned long internal_fileAttributes;
-	unsigned long external_fileAttributes;
+    unsigned long internal_fileAttributes;
+    unsigned long external_fileAttributes;
 };
 
 } //cppzip
