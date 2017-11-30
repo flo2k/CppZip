@@ -72,14 +72,14 @@ public:
 	 * \brief Opens a zip file.
 	 *
 	 * If
-	 *  - flag == \ref OpenFlags::CREATE_AND_OVERWRITE then open() opens a new zip given in fileName.
-	 *            open() creates the zip file in fileName. If the fileName contains
-	 *            a path and a file name (eg. "path/to/file.zip") then "path/to" will
-	 *            be created first, if necessary. After that "file.zip" will be created.
-	 *
-	 *            If the fileName already exists, open() overrides the existing file.
-	 *  - flag == \ref OpenFlags::OPEN_EXISTING it opens an existing file. This is used
-	 *            to delete, replace or add files from/to an existing zip file.
+     * - flag == \ref OpenFlags::Flags "OpenFlags::CREATE_AND_OVERWRITE" then open() opens a new
+     *           zip given in fileName.
+     *           open() creates the zip file in fileName. If the fileName contains
+     *           a path and a file name (eg. "path/to/file.zip") then "path/to" will
+     *           be created first, if necessary. After that "file.zip" will be created.
+     *           If the fileName already exists, open() overrides the existing file.
+     * - flag == \ref OpenFlags::Flags "OpenFlags::OPEN_EXISTING" it opens an existing file.
+     *           This is used to delete, replace or add files from/to an existing zip file.
 	 *
 	 * \param fileName is the file (incl. path) to open.
 	 * \param flag     is the flag that controls, how the zip class works.

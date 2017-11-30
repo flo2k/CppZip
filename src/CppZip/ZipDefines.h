@@ -40,6 +40,7 @@
 
 namespace cppzip {
 
+/*! \brief Open flags */
 class CPPZIP_SHARED_EXPORT OpenFlags {
 public:
 	/*! \brief Open flags */
