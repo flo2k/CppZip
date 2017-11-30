@@ -48,9 +48,9 @@ Zip::~Zip()
     p = NULL;
 }
 
-bool Zip::open(const std::string & fileName,
-               const OpenFlags::Flags & flag,
-               const std::string & password)
+bool Zip::open(const std::string& fileName,
+               const OpenFlags::Flags& flag,
+               const std::string& password)
 {
     if(isOpened()){ //if already opened, don't open a file
         return false;
@@ -85,13 +85,13 @@ bool Zip::open(const std::string & fileName,
     return isOpened();
 }
 
-bool Zip::isOpened(void)
+bool Zip::isOpened()
 {
     return this->p->zipfile_handle != NULL;
 }
 
 std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
-    Zip::retrieveFileInfos(const std::string & fileName)
+    Zip::retrieveFileInfos(const std::string& fileName)
 {
     std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos_;
 
@@ -108,7 +108,7 @@ std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
     return fileInfos_;
 }
 
-bool Zip::addFile(const std::string & fileName, const std::vector<unsigned char> & content)
+bool Zip::addFile(const std::string& fileName, const std::vector<unsigned char>& content)
 {
     std::shared_ptr<InnerZipFileInfo> info = getFileInfoForANewFile(fileName);
 
@@ -116,7 +116,7 @@ bool Zip::addFile(const std::string & fileName, const std::vector<unsigned char>
 }
 
 bool Zip::addFile_internal(
-        std::shared_ptr<InnerZipFileInfo> info, const std::vector<unsigned char> & content)
+        std::shared_ptr<InnerZipFileInfo> info, const std::vector<unsigned char>& content)
 {
     if(containsFile(info->fileName) || info->fileName.length() == 0){
         return false;
@@ -165,13 +165,13 @@ bool Zip::addFile_internal(
     return true;
 }
 
-bool Zip::containsFile(const std::string & fileName)
+bool Zip::containsFile(const std::string& fileName)
 {
     int count = this->p->fileInfos.count(fileName);
     return count == 1;
 }
 
-bool Zip::addFile(const std::string & fileName, bool preservePath)
+bool Zip::addFile(const std::string& fileName, bool preservePath)
 {
     if(! preservePath){
         boost::filesystem::path fileToAdd(fileName);
@@ -183,7 +183,7 @@ bool Zip::addFile(const std::string & fileName, bool preservePath)
 
     try{
         info = getFileInfoForAExistingFile(fileName);
-    } catch(std::exception & e){
+    } catch(std::exception& e){
         return false;
     }
 
@@ -257,9 +257,9 @@ bool Zip::addFile_internal(std::shared_ptr<InnerZipFileInfo> info, const std::st
     return true;
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForANewFile(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForANewFile(const std::string& fileName)
 {
-    std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
+    std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo());
 
     info->fileName = fileName;
     info->dosDate = 0;
@@ -285,9 +285,9 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForANewFile(const std::string 
     return info;
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::string& fileName)
 {
-    std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo);
+    std::shared_ptr<InnerZipFileInfo> info(new InnerZipFileInfo());
 
     info->fileName = fileName;
     info->dosDate = 0;
@@ -313,7 +313,7 @@ std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoForAExistingFile(const std::st
     return info;
 }
 
-std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromLocalFileInfos(const std::string & fileName)
+std::shared_ptr<InnerZipFileInfo> Zip::getFileInfoFromLocalFileInfos(const std::string& fileName)
 {
     return this->p->fileInfos[fileName];
 }
@@ -337,13 +337,11 @@ unsigned long Zip::getExternalFileAttributesFromExistingFile(
     return externalAttributes;
 }
 
-bool Zip::addFiles(const std::list<std::string> & fileNames, bool preservePath)
+bool Zip::addFiles(const std::list<std::string>& fileNames, bool preservePath)
 {
     bool ok = true;
 
-    std::list<std::string>::const_iterator fileNameIter;
-    for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
-        const std::string & fileName = *fileNameIter;
+    for(const auto& fileName : fileNames){
         if(! addFile(fileName, preservePath)){
             ok = false;
         }
@@ -352,7 +350,7 @@ bool Zip::addFiles(const std::list<std::string> & fileNames, bool preservePath)
     return ok;
 }
 
-bool Zip::addFile(const std::string & fileName, const std::string & destFileName)
+bool Zip::addFile(const std::string& fileName, const std::string& destFileName)
 {
     if(destFileName.length() == 0){
         return false;
@@ -363,21 +361,21 @@ bool Zip::addFile(const std::string & fileName, const std::string & destFileName
     try{
         info = getFileInfoForAExistingFile(fileName);
         info->fileName = destFileName;
-    } catch(std::exception & e){
+    } catch(std::exception& e){
         return false;
     }
 
     return addFile_internal(info, fileName);
 }
 
-bool Zip::addFolder(const std::string & folderName, bool preservePath, bool recursive)
+bool Zip::addFolder(const std::string& folderName, bool preservePath, bool recursive)
 {
     std::string relativeFolderName = boost::filesystem::path(folderName).filename().string();
     return addFolder(folderName, relativeFolderName, preservePath, recursive);
 }
 
 bool Zip::addFolder(
-            const std::string & realFolderName, const std::string & relativeFolderName,
+            const std::string& realFolderName, const std::string& relativeFolderName,
             bool preservePath, bool recursive)
 {
     std::string folderNameToAdd;
@@ -406,7 +404,7 @@ bool Zip::addFolder(
 }
 
 bool Zip::addFolderChilds(
-                const std::string & realFolderName, const std::string & folderNameToAdd,
+                const std::string& realFolderName, const std::string& folderNameToAdd,
                 bool preservePath, bool recursive)
 {
     boost::filesystem::directory_iterator iter(realFolderName);
@@ -440,7 +438,7 @@ bool Zip::addFolderChilds(
     return true;
 }
 
-bool Zip::addEmptyFolder(const std::string & folderName)
+bool Zip::addEmptyFolder(const std::string& folderName)
 {
     std::string folderNameToAdd = boost::algorithm::replace_all_copy(folderName, "\\", "/");
     if(! boost::algorithm::ends_with(folderNameToAdd, "/")){
@@ -462,7 +460,7 @@ bool Zip::addFolder_internal(std::shared_ptr<InnerZipFileInfo> info)
     return addFile_internal(info, emptyData);
 }
 
-bool Zip::deleteFile(const std::string & fileName)
+bool Zip::deleteFile(const std::string& fileName)
 {
     std::list<std::string> fileNames;
     fileNames.push_back(fileName);
@@ -470,7 +468,7 @@ bool Zip::deleteFile(const std::string & fileName)
     return deleteFiles(fileNames);
 }
 
-bool Zip::deleteFiles(const std::list<std::string> & fileNames)
+bool Zip::deleteFiles(const std::list<std::string>& fileNames)
 {
     if(! isOpened()){
         return false;
@@ -505,21 +503,14 @@ bool Zip::deleteFiles(const std::list<std::string> & fileNames)
     return ok;
 }
 
-bool Zip::containsAnyFile(const std::list<std::string> & fileNames)
+bool Zip::containsAnyFile(const std::list<std::string>& fileNames)
 {
-    std::list<std::string>::const_iterator fileNameIter;
-    for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
-        const std::string & fileName = *fileNameIter;
-
-        if(containsFile(fileName)){
-            return true;
-        }
-    }
-
-    return false;
+    return std::any_of(fileNames.cbegin(), fileNames.cend(), [&](const std::string& fileName){
+        return containsFile(fileName);
+    });
 }
 
-std::string Zip::moveTheCurrentZipToAnTempZip(void)
+std::string Zip::moveTheCurrentZipToAnTempZip()
 {
     boost::filesystem::path p(this->p->zipFileName);
     std::string folderName = p.parent_path().string();
@@ -529,7 +520,7 @@ std::string Zip::moveTheCurrentZipToAnTempZip(void)
 
     try {
         boost::filesystem::rename(this->p->zipFileName, tempZipFileName);
-    } catch (boost::filesystem::filesystem_error & e) {
+    } catch (boost::filesystem::filesystem_error& e) {
         std::string emptyString;
         return emptyString;
     }
@@ -538,8 +529,8 @@ std::string Zip::moveTheCurrentZipToAnTempZip(void)
 }
 
 bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
-        const std::string & tempZipFile,
-        const std::list<std::string> & fileNames,
+        const std::string& tempZipFile,
+        const std::list<std::string>& fileNames,
         bool areFileNamesFolders)
 {
     Unzip unzip;
@@ -550,17 +541,11 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
     open(this->p->zipFileName, OpenFlags::CreateAndOverwrite);
 
     std::list<std::string> zipFileNames = unzip.getFileNames();
-    std::list<std::string>::const_iterator zipFileIter;
-    for(zipFileIter = zipFileNames.cbegin(); zipFileIter != zipFileNames.cend(); ++zipFileIter){
-        const std::string & zipFileName = *zipFileIter;
-
+    for(const auto& zipFileName: zipFileNames){
         if(areFileNamesFolders){
             //copy all files except the folder and the files in the folder
             bool equals = false;
-            std::list<std::string>::const_iterator fileNameIter;
-            for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
-                const std::string & fileName = *fileNameIter;
-
+            for(const auto& fileName: fileNames){
                 if(boost::algorithm::starts_with(zipFileName, fileName)){
                     equals = true;
                     break;
@@ -571,10 +556,7 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
             }
         } else{
             bool equals = false;
-            std::list<std::string>::const_iterator fileNameIter;
-            for(fileNameIter = fileNames.cbegin(); fileNameIter != fileNames.cend(); ++fileNameIter){
-                const std::string & fileName = *fileNameIter;
-
+            for(const auto& fileName: fileNames){
                 if(zipFileName == fileName){
                     equals = true;
                     break;
@@ -599,7 +581,7 @@ bool Zip::copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(
     return unzip.close();
 }
 
-bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
+bool Zip::copyFile(Unzip& unzip, const std::string& fileName)
 {
     bool ok;
 
@@ -655,7 +637,7 @@ bool Zip::copyFile(Unzip & unzip, const std::string & fileName)
     return ok;
 }
 
-bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
+bool Zip::cleanUpAfterCopying(bool ok, const std::string& tempZipFile)
 {
     if(! ok){
         close();
@@ -663,20 +645,20 @@ bool Zip::cleanUpAfterCopying(bool ok, const std::string & tempZipFile)
         //remove the corrupt copy
         try{
             boost::filesystem::remove(this->p->zipFileName);
-        } catch(boost::filesystem::filesystem_error & e){
+        } catch(boost::filesystem::filesystem_error& e){
             //nothing todo..
         }
 
         try{
             boost::filesystem::rename(tempZipFile, this->p->zipFileName);
-        } catch(boost::filesystem::filesystem_error & e){
+        } catch(boost::filesystem::filesystem_error& e){
             //nothing todo..
         }
     } else {
         //cleanup
         try{
             boost::filesystem::remove(tempZipFile);
-        } catch(boost::filesystem::filesystem_error & e){
+        } catch(boost::filesystem::filesystem_error& e){
             //nothing todo...
         }
     }
@@ -700,14 +682,11 @@ bool Zip::deleteFolder(const std::string& folderName)
     return deleteFolders(folderNames);
 }
 
-bool Zip::deleteFolders(const std::list<std::string> & folderNames)
+bool Zip::deleteFolders(const std::list<std::string>& folderNames)
 {
     std::list<std::string> folderNamesToDelete;
 
-    std::list<std::string>::const_iterator folderNameIter;
-    for(folderNameIter = folderNames.cbegin(); folderNameIter != folderNames.cend(); ++folderNameIter){
-        std::string folderName = *folderNameIter;
-
+    for(auto folderName: folderNames){
         if(! boost::algorithm::ends_with(folderName, "/")){
             folderName += "/";
         }
@@ -745,7 +724,7 @@ bool Zip::deleteFolders(const std::list<std::string> & folderNames)
     return ok;
 }
 
-bool Zip::replaceFile(const std::string & fileName, std::vector<unsigned char> & content)
+bool Zip::replaceFile(const std::string& fileName, std::vector<unsigned char>& content)
 {
     bool ok = false;
 
@@ -759,7 +738,7 @@ bool Zip::replaceFile(const std::string & fileName, std::vector<unsigned char> &
     return ok;
 }
 
-bool Zip::replaceFile(const std::string & fileName, const std::string & destFileName)
+bool Zip::replaceFile(const std::string& fileName, const std::string& destFileName)
 {
     bool ok = false;
 
@@ -779,7 +758,7 @@ bool Zip::replaceFile(const std::string & fileName, const std::string & destFile
 //    return false;
 //}
 
-bool Zip::close(void)
+bool Zip::close()
 {
     if(! isOpened()){
         return true;
@@ -793,7 +772,7 @@ bool Zip::close(void)
     }
 }
 
-void Zip::clear(void)
+void Zip::clear()
 {
     this->p->zipfile_handle = NULL;
     this->p->fileInfos.clear();
@@ -810,12 +789,12 @@ bool Zip::setCompressionLevel(int compressionLevel)
     return true;
 }
 
-size_t Zip::getCompressionLevel(void)
+size_t Zip::getCompressionLevel()
 {
     return this->p->compressionLevel;
 }
 
-bool Zip::createFolderIfNotExists(const std::string & path)
+bool Zip::createFolderIfNotExists(const std::string& path)
 {
     std::string pathToCreate = path;
 

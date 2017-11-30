@@ -69,7 +69,7 @@ namespace cppzip{
      *
      * \param password is the password that shall be formatted.
      */
-    const char* formatPassword(const std::string & password);
+    const char* formatPassword(const std::string& password);
 
     class UnzipPrivate
     {
@@ -86,7 +86,7 @@ namespace cppzip{
         int numFiles;
 
         typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
-        std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+        std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo>> fileInfos;
 
         std::string password;
     };
@@ -103,7 +103,7 @@ namespace cppzip{
         typedef void * voidp;
         typedef voidp zipFile;
         std::string zipFileName;
-        std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+        std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo>> fileInfos;
 
         zipFile zipfile_handle;
         OpenFlags::Flags openFlag;

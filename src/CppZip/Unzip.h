@@ -63,7 +63,7 @@ class UnzipPrivate;
  */
 class CPPZIP_SHARED_EXPORT Unzip {
 public:
-    Unzip(void);
+    Unzip();
     ~Unzip();
 
     /*!
@@ -78,7 +78,7 @@ public:
      *
      * \return true if the zip file is opened, otherwise false.
      */
-    bool open(const std::string & zipFile, const std::string & password = "");
+    bool open(const std::string& zipFile, const std::string& password = "");
 
     /*!
      * \brief Closes a zip file.
@@ -88,7 +88,7 @@ public:
      *
      * \return true if the close() was successful, otherwise false.
      */
-    bool close(void);
+    bool close();
 
     /*!
      * \brief Gets the opened status.
@@ -98,7 +98,7 @@ public:
      *
      * \return true if a zip file is opened
      */
-    bool isOpened(void);
+    bool isOpened();
 
     /*!
      * \brief Returns the number of files (files, folders) inside the zip file.
@@ -109,7 +109,7 @@ public:
      *
      * \return number of elements in the zip file
      */
-    int getNumFiles(void);
+    int getNumFiles();
 
     /*!
      * \brief Returns if a file is inside the zip file.
@@ -120,7 +120,7 @@ public:
      *
      * \return true if the file is inside the zip
      */
-    bool containsFile(const std::string & fileName);
+    bool containsFile(const std::string& fileName);
 
     /*!
      * \brief Checks if path is a file.
@@ -129,7 +129,7 @@ public:
      *
      * \return true if path is a file, otherwise false.
      */
-    bool isFile(const std::string & path);
+    bool isFile(const std::string& path);
 
     /*!
      * \brief Checks if path is a folder.
@@ -140,7 +140,7 @@ public:
      *
      * \return true if path is a folder, otherwise false.
      */
-    bool isFolder(const std::string & path);
+    bool isFolder(const std::string& path);
 
     /*!
      * \brief Returns the containing file names (files, folders) in the zip file.
@@ -152,7 +152,7 @@ public:
      *
      * \return list of file names
      */
-    std::list<std::string> getFileNames(void);
+    std::list<std::string> getFileNames();
 
     /*!
      * \brief Get the file content.
@@ -180,7 +180,7 @@ public:
      *
      * \return the content of a file as vector of unsigned char
      */
-    std::vector<unsigned char> getFileContent(const std::string & fileName);
+    std::vector<unsigned char> getFileContent(const std::string& fileName);
 
     /*!
      * \brief Extracts the file in fileName to the path.
@@ -210,9 +210,9 @@ public:
      *
      * \return true if extraction was successful, otherwise false.
      */
-    bool extractFileTo(const std::string & fileName,
-                       const std::string & path,
-                       const bool & overwriteExistingFile = true);
+    bool extractFileTo(const std::string& fileName,
+                       const std::string& path,
+                       const bool& overwriteExistingFile = true);
 
     /*!
      * \brief Extracts the contents of zip file to the given path.
@@ -230,8 +230,8 @@ public:
      *
      * \return true if all is extracted, otherwise false
      */
-    bool extractAllFilesTo(const std::string & path,
-                           const bool & overwriteExistingFile = true);
+    bool extractAllFilesTo(const std::string& path,
+                           const bool& overwriteExistingFile = true);
 
 public:
     /*!
@@ -242,7 +242,7 @@ public:
      *
      * \param   destination is the destination.
      */
-    boost::signals2::signal<void (std::string & destination)> beforeFileExtraction;
+    boost::signals2::signal<void (std::string& destination)> beforeFileExtraction;
 
     /*!
      * \brief   This signal is emitted, after a file is extracted.
@@ -254,21 +254,21 @@ public:
      * \param   maxFiles    is the maximum number of files to extract.
      * \param   currentFile is the current file that is extracted (counting begins with 1).
      */
-    boost::signals2::signal<void (const std::string & destination,
-                        const unsigned int & maxFiles,
-                        const unsigned int & currentFile)> fileExtracted;
+    boost::signals2::signal<void (const std::string& destination,
+                            const unsigned int& maxFiles,
+                            const unsigned int& currentFile)> fileExtracted;
 
 private:
     /*!
      * Clears the internal members.
      */
-    void clear(void);
+    void clear();
 
     /*!
      * Get's the global info of the zip file
      * - sets the numFiles
      */
-    void getGlobalInfo(void);
+    void getGlobalInfo();
 
     /*!
      * Makes the file given in fileName to the current file.
@@ -276,12 +276,12 @@ private:
      * \param fileName to make to current file
      * \return true if operation was ok, otherwise false.
      */
-    bool goToFile(const std::string & fileName);
+    bool goToFile(const std::string& fileName);
 
     /*!
      * Reads all elements in the zip file
      */
-    void retrieveAllFileInfos(void);
+    void retrieveAllFileInfos();
 
     /*!
      * Creates a folder with all subdirs if not exists
@@ -289,7 +289,7 @@ private:
      * \param path to create
      * \return true if path exists or created, otherwise false.
      */
-    bool createFolderIfNotExists(const std::string & path);
+    bool createFolderIfNotExists(const std::string& path);
 
     /*!
      * Extracts the file to the given path. Bevor a file is extracted
@@ -307,15 +307,15 @@ private:
      * \return true if extraction was successful, otherwise false.
      */
     bool extractFileTo_Internal(
-            const std::string & fileName,
-            const std::string & path,
+            const std::string& fileName,
+            const std::string& path,
             int max,
             int current,
-            const bool & overwriteExistingFile);
+            const bool& overwriteExistingFile);
 
-    std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
+    std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string& fileName);
 
-    bool doesFileExistOnFileSystem(const std::string & fileName);
+    bool doesFileExistOnFileSystem(const std::string& fileName);
 
 private:
     UnzipPrivate* p;

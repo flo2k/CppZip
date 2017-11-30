@@ -21,7 +21,7 @@ namespace cppzip {
 
 CPPUNIT_TEST_SUITE_REGISTRATION(UnzipTest);
 
-void UnzipTest::setUp(void){
+void UnzipTest::setUp(){
     testZipsFolder = "testZips";
     zipFile = testZipsFolder + "/" + "test.zip";
     zipFileWithUmlaut = testZipsFolder + "/" + "täst.zip";
@@ -45,19 +45,19 @@ void UnzipTest::setUp(void){
     boost::filesystem::remove_all(tempFolder);
 }
 
-void UnzipTest::tearDown(void){
+void UnzipTest::tearDown(){
     zip->close();
     boost::filesystem::remove_all(tempFolder);
 }
 
-void UnzipTest::test_isOpenedWithNonOpenedZipFile(void){
+void UnzipTest::test_isOpenedWithNonOpenedZipFile(){
     bool expected = false;
     bool actual = zip->isOpened();
 
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_openExistingZipFile(void)
+void UnzipTest::test_openExistingZipFile()
 {
     bool expected = true;
     bool openOk = zip->open(zipFile);
@@ -67,7 +67,7 @@ void UnzipTest::test_openExistingZipFile(void)
     CPPUNIT_ASSERT_EQUAL(expected, isOpened);
 }
 
-void UnzipTest::test_openZipFileWhileAnotherIsAlreadyOpened(void)
+void UnzipTest::test_openZipFileWhileAnotherIsAlreadyOpened()
 {
     bool actual = zip->open(zipFile);
     CPPUNIT_ASSERT_EQUAL(true, actual);
@@ -79,7 +79,7 @@ void UnzipTest::test_openZipFileWhileAnotherIsAlreadyOpened(void)
     CPPUNIT_ASSERT_EQUAL(true, actual);
 }
 
-void UnzipTest::test_openANonExistingZipFile(void)
+void UnzipTest::test_openANonExistingZipFile()
 {
     bool expected = false;
     bool actual = zip->open(notExistingZipFile);
@@ -87,7 +87,7 @@ void UnzipTest::test_openANonExistingZipFile(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_closeAZipFile(void)
+void UnzipTest::test_closeAZipFile()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -96,7 +96,7 @@ void UnzipTest::test_closeAZipFile(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_closeWhenNoZipFileIsOpened(void)
+void UnzipTest::test_closeWhenNoZipFileIsOpened()
 {
     bool expected = true;
     bool actual = zip->close();
@@ -104,7 +104,7 @@ void UnzipTest::test_closeWhenNoZipFileIsOpened(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getNumFiles(void)
+void UnzipTest::test_getNumFiles()
 {
     int expected = 6;
     zip->open(zipFile);
@@ -113,7 +113,7 @@ void UnzipTest::test_getNumFiles(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getNumFilesWithNoZipFileIsOpened(void)
+void UnzipTest::test_getNumFilesWithNoZipFileIsOpened()
 {
     int expected = 0;
     int actual = zip->getNumFiles();
@@ -121,7 +121,7 @@ void UnzipTest::test_getNumFilesWithNoZipFileIsOpened(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getNumFilesAfterCloseZipFiled(void)
+void UnzipTest::test_getNumFilesAfterCloseZipFiled()
 {
     int expected = 0;
     zip->open(zipFile);
@@ -131,7 +131,7 @@ void UnzipTest::test_getNumFilesAfterCloseZipFiled(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_containsFile(void)
+void UnzipTest::test_containsFile()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -140,7 +140,7 @@ void UnzipTest::test_containsFile(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_containsFileWithUmlautInFileName(void)
+void UnzipTest::test_containsFileWithUmlautInFileName()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -149,7 +149,7 @@ void UnzipTest::test_containsFileWithUmlautInFileName(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_containsFileWithANonExistingFile(void)
+void UnzipTest::test_containsFileWithANonExistingFile()
 {
     bool expected = false;
     zip->open(zipFile);
@@ -158,7 +158,7 @@ void UnzipTest::test_containsFileWithANonExistingFile(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_containsFileWithNoZipFileIsOpened(void)
+void UnzipTest::test_containsFileWithNoZipFileIsOpened()
 {
     bool expected = false;
     bool actual = zip->containsFile(fileInsideZipWithUmlaut);
@@ -166,7 +166,7 @@ void UnzipTest::test_containsFileWithNoZipFileIsOpened(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_containsFileAfterCloseZipFiled(void)
+void UnzipTest::test_containsFileAfterCloseZipFiled()
 {
     bool expected = false;
     zip->open(zipFile);
@@ -176,7 +176,7 @@ void UnzipTest::test_containsFileAfterCloseZipFiled(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getFileNames(void)
+void UnzipTest::test_getFileNames()
 {
     std::vector<std::string> expectedFileNames;
 #ifndef _WIN32
@@ -206,7 +206,7 @@ void UnzipTest::test_getFileNames(void)
     }
 }
 
-void UnzipTest::test_getFileNamesWithNoZipFileIsOpened(void)
+void UnzipTest::test_getFileNamesWithNoZipFileIsOpened()
 {
     std::vector<std::string> expected;
     std::list<std::string> actual = zip->getFileNames();
@@ -214,7 +214,7 @@ void UnzipTest::test_getFileNamesWithNoZipFileIsOpened(void)
     CPPUNIT_ASSERT_EQUAL(expected.size(), actual.size());
 }
 
-void UnzipTest::test_getFileNamesAfterCloseZipFiled(void)
+void UnzipTest::test_getFileNamesAfterCloseZipFiled()
 {
     std::vector<std::string> expected;
     zip->open(zipFile);
@@ -224,7 +224,7 @@ void UnzipTest::test_getFileNamesAfterCloseZipFiled(void)
     CPPUNIT_ASSERT_EQUAL(expected.size(), actual.size());
 }
 
-void UnzipTest::test_getFileContent(void)
+void UnzipTest::test_getFileContent()
 {
     int expected = 2;
     zip->open(zipFile);
@@ -234,7 +234,7 @@ void UnzipTest::test_getFileContent(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getFileContentWithNoZipFileIsOpened(void)
+void UnzipTest::test_getFileContentWithNoZipFileIsOpened()
 {
     int expected = 0;
     std::vector<unsigned char> content = zip->getFileContent(fileInsideZip);
@@ -243,7 +243,7 @@ void UnzipTest::test_getFileContentWithNoZipFileIsOpened(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getFileContentAfterCloseZipFiled(void)
+void UnzipTest::test_getFileContentAfterCloseZipFiled()
 {
     int expected = 0;
     zip->open(zipFile);
@@ -254,7 +254,7 @@ void UnzipTest::test_getFileContentAfterCloseZipFiled(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getFileContentFromANonExistingFile(void)
+void UnzipTest::test_getFileContentFromANonExistingFile()
 {
     int expected = 0;
     zip->open(zipFile);
@@ -264,7 +264,7 @@ void UnzipTest::test_getFileContentFromANonExistingFile(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux32bit(void)
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux32bit()
 {
     bool ok = zip->open(passwordProtectedZipFile_linux32bit, "secret");
     CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
@@ -276,7 +276,7 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux32bit(void)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
-void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux64bit(void)
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux64bit()
 {
     bool ok = zip->open(passwordProtectedZipFile_linux64bit, "secret");
     CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
@@ -288,7 +288,7 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_linux64bit(void)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
-void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void)
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip()
 {
     bool ok = zip->open(passwordProtectedZipFile_win64bit_7zip, "secret");
     CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
@@ -300,7 +300,7 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(vo
     CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
-void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void)
+void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar()
 {
     bool ok = zip->open(passwordProtectedZipFile_win64bit_winrar, "secret");
     CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
@@ -312,7 +312,7 @@ void UnzipTest::test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(
     CPPUNIT_ASSERT_EQUAL_MESSAGE("file content", expected, actual);
 }
 
-void UnzipTest::test_extractFile(void)
+void UnzipTest::test_extractFile()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -346,7 +346,7 @@ void UnzipTest::test_extractFileWithUmlautInFileName( void )
     CPPUNIT_ASSERT_EQUAL(expectedFileSizeInBytes, actualFileSizeInBytes);
 }
 
-void UnzipTest::test_extractFile_AJpg(void)
+void UnzipTest::test_extractFile_AJpg()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -361,7 +361,7 @@ void UnzipTest::test_extractFile_AJpg(void)
     CPPUNIT_ASSERT_EQUAL(expectedFileSizeInBytes, actualFileSizeInBytes);
 }
 
-void UnzipTest::test_extractFile_WithOverwriteAExistingFile(void)
+void UnzipTest::test_extractFile_WithOverwriteAExistingFile()
 {
     zip->open(zipFile);
 
@@ -377,7 +377,7 @@ void UnzipTest::test_extractFile_WithOverwriteAExistingFile(void)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", true, actual);
 }
 
-void UnzipTest::test_extractFile_WithNotOverwriteAExistingFile(void)
+void UnzipTest::test_extractFile_WithNotOverwriteAExistingFile()
 {
     zip->open(zipFile);
 
@@ -393,7 +393,7 @@ void UnzipTest::test_extractFile_WithNotOverwriteAExistingFile(void)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", false, actual);
 }
 
-void UnzipTest::test_extractAllFilesTo(void)
+void UnzipTest::test_extractAllFilesTo()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -403,7 +403,7 @@ void UnzipTest::test_extractAllFilesTo(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_extractAllFilesToWithUmlaut(void)
+void UnzipTest::test_extractAllFilesToWithUmlaut()
 {
     bool expected = true;
     zip->open(zipFile);
@@ -413,7 +413,7 @@ void UnzipTest::test_extractAllFilesToWithUmlaut(void)
     CPPUNIT_ASSERT_EQUAL(expected, actual);
 }
 
-void UnzipTest::test_extractAllFiles_WithOverwriteAExistingFile(void)
+void UnzipTest::test_extractAllFiles_WithOverwriteAExistingFile()
 {
     zip->open(zipFile);
     std::string path = tempFolder;
@@ -425,7 +425,7 @@ void UnzipTest::test_extractAllFiles_WithOverwriteAExistingFile(void)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("extract and overwrite existing", true, actual);
 }
 
-void UnzipTest::test_extractAllFiles_WithNotOverwriteAExistingFile(void)
+void UnzipTest::test_extractAllFiles_WithNotOverwriteAExistingFile()
 {
     zip->open(zipFile);
     std::string path = tempFolder;
@@ -448,7 +448,7 @@ void fileExtractedSignalHandler(const std::string fileName, unsigned int max, un
     actualCurrent = current;
 }
 
-void UnzipTest::test_signalFileExtracted(void)
+void UnzipTest::test_signalFileExtracted()
 {
     actualFileExtracted = false;
     actualFileName = "";
@@ -465,11 +465,11 @@ void UnzipTest::test_signalFileExtracted(void)
     CPPUNIT_ASSERT_EQUAL(1, actualCurrent);
 }
 
-void beforeFileExtractedSignalHandler(const std::string & fileName){
+void beforeFileExtractedSignalHandler(const std::string& fileName){
     actualFileName = fileName;
 }
 
-void UnzipTest::test_signalBeforeFileExtracted(void)
+void UnzipTest::test_signalBeforeFileExtracted()
 {
     actualFileName = "";
 
@@ -480,11 +480,11 @@ void UnzipTest::test_signalBeforeFileExtracted(void)
     CPPUNIT_ASSERT_EQUAL(tempFolder + "/" + fileInsideZip, actualFileName);
 }
 
-void UnzipTest::beforeFileExtractedSignalHandler_ChangeFileName(std::string & fileName){
+void UnzipTest::beforeFileExtractedSignalHandler_ChangeFileName(std::string& fileName){
     fileName = tempFolder + "/" + anotherFileName;
 }
 
-void UnzipTest::test_signalBeforeFileExtractedWithChangingFileName(void)
+void UnzipTest::test_signalBeforeFileExtractedWithChangingFileName()
 {
     bool expected = true;
 

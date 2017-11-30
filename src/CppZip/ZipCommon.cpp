@@ -2,7 +2,7 @@
 
 namespace cppzip {
 
-InnerZipFileInfo::InnerZipFileInfo(void)
+InnerZipFileInfo::InnerZipFileInfo()
 {
     time_sec = 0;
     time_min = 0;

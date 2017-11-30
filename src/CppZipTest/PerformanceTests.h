@@ -55,13 +55,13 @@ class PerformanceTests : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    void setUp(void);
-    void tearDown(void);
+    void setUp();
+    void tearDown();
 
 public:
-    void testZip_addMidSizedFiles(void);
-    void testZip_replaceMidSizedFiles(void);
-    void testZip_deleteMidSizedFile(void);
+    void testZip_addMidSizedFiles();
+    void testZip_replaceMidSizedFiles();
+    void testZip_deleteMidSizedFile();
 
 private:
     std::shared_ptr<Zip> zip;

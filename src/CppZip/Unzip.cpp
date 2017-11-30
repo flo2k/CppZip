@@ -20,7 +20,7 @@
 
 namespace cppzip {
 
-Unzip::Unzip(void)
+Unzip::Unzip()
 : p(new UnzipPrivate())
 {
 
@@ -33,7 +33,7 @@ Unzip::~Unzip()
     p = NULL;
 }
 
-bool Unzip::open(const std::string & zipFile, const std::string & password)
+bool Unzip::open(const std::string& zipFile, const std::string& password)
 {
     if(isOpened()){ //if already opened, don't open a file
         return false;
@@ -50,7 +50,7 @@ bool Unzip::open(const std::string & zipFile, const std::string & password)
     return isOpened();
 }
 
-bool Unzip::close(void)
+bool Unzip::close()
 {
     if(! isOpened()){
         return true;
@@ -64,24 +64,24 @@ bool Unzip::close(void)
     }
 }
 
-void Unzip::clear(void)
+void Unzip::clear()
 {
     this->p->numFiles = 0;
     this->p->zipfile_handle = NULL;
     this->p->fileInfos.clear();
 }
 
-bool Unzip::isOpened(void)
+bool Unzip::isOpened()
 {
     return this->p->zipfile_handle != NULL;
 }
 
-int Unzip::getNumFiles(void)
+int Unzip::getNumFiles()
 {
     return this->p->numFiles;
 }
 
-void Unzip::getGlobalInfo(void)
+void Unzip::getGlobalInfo()
 {
     unz_global_info info;
     unzGetGlobalInfo(this->p->zipfile_handle, &info);
@@ -89,20 +89,19 @@ void Unzip::getGlobalInfo(void)
     this->p->numFiles = info.number_entry;
 }
 
-std::list<std::string> Unzip::getFileNames(void)
+std::list<std::string> Unzip::getFileNames()
 {
     std::list<std::string> fileNames;
 
-    std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >::const_iterator iter;
-    for(iter = this->p->fileInfos.cbegin(); iter != this->p->fileInfos.cend(); ++iter){
-        const std::string & fileName = iter->first;
+    for(const auto& iter : this->p->fileInfos) {
+        const std::string& fileName = iter.first;
         fileNames.push_back(fileName);
     }
 
     return fileNames;
 }
 
-std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
+std::vector<unsigned char> Unzip::getFileContent(const std::string& fileName)
 {
     std::vector<unsigned char> fileContent;
 
@@ -145,7 +144,7 @@ std::vector<unsigned char> Unzip::getFileContent(const std::string & fileName)
     return fileContent;
 }
 
-bool Unzip::goToFile(const std::string & fileName)
+bool Unzip::goToFile(const std::string& fileName)
 {
     if(containsFile(fileName) == false){
         return false;
@@ -158,7 +157,7 @@ bool Unzip::goToFile(const std::string & fileName)
     }
 }
 
-bool Unzip::containsFile(const std::string & fileName)
+bool Unzip::containsFile(const std::string& fileName)
 {
     if(this->p->fileInfos.count(fileName) == 1){
         return true;
@@ -167,30 +166,30 @@ bool Unzip::containsFile(const std::string & fileName)
     }
 }
 
-bool Unzip::isFile(const std::string & path)
+bool Unzip::isFile(const std::string& path)
 {
     return isFolder(path) == false;
 }
 
-bool Unzip::isFolder(const std::string & path)
+bool Unzip::isFolder(const std::string& path)
 {
     return boost::algorithm::ends_with(path, "/");
 }
 
 bool Unzip::extractFileTo(
-        const std::string & fileName,
-        const std::string & path,
-        const bool & overwriteExistingFile)
+        const std::string& fileName,
+        const std::string& path,
+        const bool& overwriteExistingFile)
 {
     return extractFileTo_Internal(fileName, path, 1, 1, overwriteExistingFile);
 }
 
 bool Unzip::extractFileTo_Internal(
-        const std::string & fileName,
-        const std::string & path,
+        const std::string& fileName,
+        const std::string& path,
         int max,
         int current,
-        const bool & overwriteExistingFile)
+        const bool& overwriteExistingFile)
 {
     if(! containsFile(fileName)){
         return false;
@@ -264,7 +263,7 @@ bool Unzip::doesFileExistOnFileSystem(const std::string& fileName) {
     return boost::filesystem::exists(fileName);
 }
 
-bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteExistingFile)
+bool Unzip::extractAllFilesTo(const std::string& path, const bool& overwriteExistingFile)
 {
     std::string dest_path = path;
     bool extraction_ok = true;
@@ -274,9 +273,8 @@ bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteEx
     }
 
     int current = 1;
-    std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >::const_iterator iter;
-    for(iter = this->p->fileInfos.cbegin(); iter != this->p->fileInfos.cend(); ++iter){
-        const std::string & fileName = iter->first;
+    for(const auto& iter: this->p->fileInfos){
+        const std::string& fileName = iter.first;
 
         if(isFile(fileName)){
             bool ok = extractFileTo_Internal(fileName,
@@ -296,7 +294,7 @@ bool Unzip::extractAllFilesTo(const std::string & path, const bool & overwriteEx
     return extraction_ok;
 }
 
-bool Unzip::createFolderIfNotExists(const std::string & path)
+bool Unzip::createFolderIfNotExists(const std::string& path)
 {
     std::string pathToCreate = path;
     if(isFolder(pathToCreate)){
@@ -314,7 +312,7 @@ bool Unzip::createFolderIfNotExists(const std::string & path)
     return ok;
 }
 
-void Unzip::retrieveAllFileInfos(void)
+void Unzip::retrieveAllFileInfos()
 {
     do{
         unz_file_pos pos;

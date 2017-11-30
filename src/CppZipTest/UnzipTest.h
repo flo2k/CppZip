@@ -102,59 +102,59 @@ class UnzipTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    void setUp(void);
-    void tearDown(void);
+    void setUp();
+    void tearDown();
 
 public:
-    void test_isOpenedWithNonOpenedZipFile(void);
+    void test_isOpenedWithNonOpenedZipFile();
 
-    void test_openExistingZipFile(void);
-    void test_openZipFileWhileAnotherIsAlreadyOpened(void);
-    void test_openANonExistingZipFile(void);
+    void test_openExistingZipFile();
+    void test_openZipFileWhileAnotherIsAlreadyOpened();
+    void test_openANonExistingZipFile();
 
-    void test_closeAZipFile(void);
-    void test_closeWhenNoZipFileIsOpened(void);
+    void test_closeAZipFile();
+    void test_closeWhenNoZipFileIsOpened();
 
-    void test_getNumFiles(void);
-    void test_getNumFilesWithNoZipFileIsOpened(void);
-    void test_getNumFilesAfterCloseZipFiled(void);
+    void test_getNumFiles();
+    void test_getNumFilesWithNoZipFileIsOpened();
+    void test_getNumFilesAfterCloseZipFiled();
 
-    void test_containsFile(void);
-    void test_containsFileWithUmlautInFileName(void);
-    void test_containsFileWithANonExistingFile(void);
-    void test_containsFileWithNoZipFileIsOpened(void);
-    void test_containsFileAfterCloseZipFiled(void);
+    void test_containsFile();
+    void test_containsFileWithUmlautInFileName();
+    void test_containsFileWithANonExistingFile();
+    void test_containsFileWithNoZipFileIsOpened();
+    void test_containsFileAfterCloseZipFiled();
 
-    void test_getFileNames(void);
-    void test_getFileNamesWithNoZipFileIsOpened(void);
-    void test_getFileNamesAfterCloseZipFiled(void);
+    void test_getFileNames();
+    void test_getFileNamesWithNoZipFileIsOpened();
+    void test_getFileNamesAfterCloseZipFiled();
 
-    void test_getFileContent(void);
-    void test_getFileContentWithNoZipFileIsOpened(void);
-    void test_getFileContentAfterCloseZipFiled(void);
-    void test_getFileContentFromANonExistingFile(void);
-    void test_getFileContentFromPasswordProtectedZipFile_linux32bit(void);
-    void test_getFileContentFromPasswordProtectedZipFile_linux64bit(void);
-    void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void);
-    void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void);
+    void test_getFileContent();
+    void test_getFileContentWithNoZipFileIsOpened();
+    void test_getFileContentAfterCloseZipFiled();
+    void test_getFileContentFromANonExistingFile();
+    void test_getFileContentFromPasswordProtectedZipFile_linux32bit();
+    void test_getFileContentFromPasswordProtectedZipFile_linux64bit();
+    void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip();
+    void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar();
 
-    void test_extractFile(void);
-    void test_extractFileWithUmlautInFileName(void);
-    void test_extractFile_AJpg(void);
-    void test_extractFile_WithOverwriteAExistingFile(void);
-    void test_extractFile_WithNotOverwriteAExistingFile(void);
+    void test_extractFile();
+    void test_extractFileWithUmlautInFileName();
+    void test_extractFile_AJpg();
+    void test_extractFile_WithOverwriteAExistingFile();
+    void test_extractFile_WithNotOverwriteAExistingFile();
 
-    void test_extractAllFilesTo(void);
-    void test_extractAllFilesToWithUmlaut(void);
-    void test_extractAllFiles_WithOverwriteAExistingFile(void);
-    void test_extractAllFiles_WithNotOverwriteAExistingFile(void);
+    void test_extractAllFilesTo();
+    void test_extractAllFilesToWithUmlaut();
+    void test_extractAllFiles_WithOverwriteAExistingFile();
+    void test_extractAllFiles_WithNotOverwriteAExistingFile();
 
-    void test_signalFileExtracted(void);
-    void test_signalBeforeFileExtracted(void);
-    void test_signalBeforeFileExtractedWithChangingFileName(void);
+    void test_signalFileExtracted();
+    void test_signalBeforeFileExtracted();
+    void test_signalBeforeFileExtractedWithChangingFileName();
 
 private:
-    void beforeFileExtractedSignalHandler_ChangeFileName(std::string & fileName);
+    void beforeFileExtractedSignalHandler_ChangeFileName(std::string& fileName);
 
 private:
     std::shared_ptr<Unzip> zip;

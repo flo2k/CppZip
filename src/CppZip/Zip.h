@@ -65,8 +65,8 @@ class ZipPrivate;
 class CPPZIP_SHARED_EXPORT Zip
 {
 public:
-    Zip(void);
-    virtual ~Zip();
+    Zip();
+    ~Zip();
 
     /*!
      * \brief Opens a zip file.
@@ -87,16 +87,16 @@ public:
      *
      * \return true if the zip file is opened, otherwise false.
      */
-    bool open(const std::string & fileName,
-              const OpenFlags::Flags & flag = OpenFlags::CreateAndOverwrite,
-              const std::string & password = "");
+    bool open(const std::string& fileName,
+              const OpenFlags::Flags& flag = OpenFlags::CreateAndOverwrite,
+              const std::string& password = "");
 
     /*!
      * \brief Gets the opened status.
      *
      * \return true if a zip file is opened, otherwise false.
      */
-    bool isOpened(void);
+    bool isOpened();
 
     /*!
      * \brief Adds the content into a fileName inside the zip.
@@ -136,7 +136,7 @@ public:
      * \return true if the content could be added to the spezified fileName,
      *         otherwise false.
      */
-    bool addFile(const std::string & fileName, const std::vector<unsigned char> & content);
+    bool addFile(const std::string& fileName, const std::vector<unsigned char>& content);
 
     /*!
      * \brief Adds a file from fileName into the zip.
@@ -168,7 +168,7 @@ public:
      * \return true if the content of fileName could be added to the specified destFileName,
      *         otherwise false.
      */
-    bool addFile(const std::string & fileName, bool preservePath = true);
+    bool addFile(const std::string& fileName, bool preservePath = true);
 
     /*!
      * \brief Adds a list of files from the file system into the zip.
@@ -188,7 +188,7 @@ public:
      * \return true if the content of fileName could be added to the specified destFileName,
      *         otherwise false.
      */
-    bool addFiles(const std::list<std::string> & fileNames, bool preservePath = true);
+    bool addFiles(const std::list<std::string>& fileNames, bool preservePath = true);
 
     /*!
      * \brief Adds a file from fileName into the zip.
@@ -207,7 +207,7 @@ public:
      * \return true if the content of fileName could be added to the specified destFileName,
      *         otherwise false.
      */
-    bool addFile(const std::string & fileName, const std::string & destFileName);
+    bool addFile(const std::string& fileName, const std::string& destFileName);
 
     /*!
      * \brief Adds a folder from the file system to the zip.
@@ -229,7 +229,7 @@ public:
      *                   - if recursive == false: only the files of the folder will be added.
      * \return true if folder and the content of the folder could be added, otherwise false.
      */
-    bool addFolder(const std::string & folderName, bool preservePath = true, bool recursive = true);
+    bool addFolder(const std::string& folderName, bool preservePath = true, bool recursive = true);
 
     /*!
      * \brief Adds a new empty folder inside the zip.
@@ -250,7 +250,7 @@ public:
      * \param folderName is the folder to add inside the zip file.
      * \return true if folder could be added, otherwise false.
      */
-    bool addEmptyFolder(const std::string & folderName);
+    bool addEmptyFolder(const std::string& folderName);
 
     /*!
      * \brief     Deletes a file inside the zip.
@@ -261,7 +261,7 @@ public:
      *
      * \return    true if the file is deleted, otherwise false.
      */
-    bool deleteFile(const std::string & fileName);
+    bool deleteFile(const std::string& fileName);
 
     /*!
      * \brief     Deletes all files specified in fileNames inside the zip.
@@ -272,7 +272,7 @@ public:
      *
      * \return    true if the files are deleted, otherwise false.
      */
-    bool deleteFiles(const std::list<std::string> & fileNames);
+    bool deleteFiles(const std::list<std::string>& fileNames);
 
 
     /*!
@@ -284,7 +284,7 @@ public:
      *
      * \return    true if the folder is deleted, otherwise false.
      */
-    bool deleteFolder(const std::string & folderName);
+    bool deleteFolder(const std::string& folderName);
 
     /*!
      * \brief     Deletes a folders incl. file inside the zip.
@@ -295,7 +295,7 @@ public:
      *
      * \return    true if the folders are deleted, otherwise false.
      */
-    bool deleteFolders(const std::list<std::string> & folderNames);
+    bool deleteFolders(const std::list<std::string>& folderNames);
 
     /*!
      * \brief Replaces the existing file inside the zip file with given the content.
@@ -311,7 +311,7 @@ public:
      *
      * \return true if the file could be replaced or added, otherwise false.
      */
-    bool replaceFile(const std::string & fileName, std::vector<unsigned char> & content);
+    bool replaceFile(const std::string& fileName, std::vector<unsigned char>& content);
 
     /*!
      * \brief Replaces the existing file inside the zip file with the content of the file.
@@ -327,7 +327,7 @@ public:
      *
      * \return true if the file could be replaced or added, otherwise false.
      */
-    bool replaceFile(const std::string & fileName, const std::string & destFileName);
+    bool replaceFile(const std::string& fileName, const std::string& destFileName);
 
     //bool addFilter(std::string filter); //??
 
@@ -352,7 +352,7 @@ public:
      * \return the compression level.
      * \see setCompressionLevel()
      */
-    size_t getCompressionLevel(void);
+    size_t getCompressionLevel();
 
     /*!
      * \brief Closes the zip file.
@@ -362,7 +362,7 @@ public:
      *
      * \return true if the zip file is successfully closed, otherwise false.
      */
-    bool close(void);
+    bool close();
 
 public:
     /*!
@@ -373,7 +373,7 @@ public:
      *
      * \param   destination is the destination inside the zip file.
      */
-    //boost::signals2::signal<void (std::string & destination)> beforeFileZipping;
+    //boost::signals2::signal<void (std::string& destination)> beforeFileZipping;
 
     /*!
      * \brief   This signal is emitted, after a file is zipped.
@@ -386,8 +386,8 @@ public:
      * \param   currentFile is is the current file that is extracted (counting begins with 1).
      */
     //boost::signals2::signal<void (const std::string destination,
-    //                    const unsigned int & maxFiles,
-    //                    const unsigned int & currentFile)> fileZipped;
+    //                    const unsigned int& maxFiles,
+    //                    const unsigned int& currentFile)> fileZipped;
 
 private:
     /*!
@@ -398,12 +398,12 @@ private:
      * \return the zip file infos.
      */
     std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> >
-        retrieveFileInfos(const std::string & fileName);
+        retrieveFileInfos(const std::string& fileName);
 
     /*!
      * Clears the internal members.
      */
-    void clear(void);
+    void clear();
 
     // Helpers for adding file/folder
     /*!
@@ -412,35 +412,35 @@ private:
      * \param path to create
      * \return true if path exists or created, otherwise false.
      */
-    bool createFolderIfNotExists(const std::string & path);
+    bool createFolderIfNotExists(const std::string& path);
 
-    std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string & fileName);
-    std::shared_ptr<InnerZipFileInfo> getFileInfoForAExistingFile(const std::string & fileName);
-    std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string & fileName);
+    std::shared_ptr<InnerZipFileInfo> getFileInfoForANewFile(const std::string& fileName);
+    std::shared_ptr<InnerZipFileInfo> getFileInfoForAExistingFile(const std::string& fileName);
+    std::shared_ptr<InnerZipFileInfo> getFileInfoFromLocalFileInfos(const std::string& fileName);
 
     /*!
      * Gets the platform depended file attributes from an exiting file on the file system.
      *
      * \return The file attributes.
      */
-    unsigned long getExternalFileAttributesFromExistingFile(const std::string &fileName);
+    unsigned long getExternalFileAttributesFromExistingFile(const std::string&fileName);
 
     bool addFile_internal(
             std::shared_ptr<InnerZipFileInfo> info,
-            const std::vector<unsigned char> & content);
+            const std::vector<unsigned char>& content);
 
     bool addFile_internal(
-                std::shared_ptr<InnerZipFileInfo> info,
-                const std::string & fileName);
+            std::shared_ptr<InnerZipFileInfo> info,
+            const std::string& fileName);
 
-    bool containsFile(const std::string & fileName);
-    bool containsAnyFile(const std::list<std::string> & fileNames);
+    bool containsFile(const std::string& fileName);
+    bool containsAnyFile(const std::list<std::string>& fileNames);
 
     bool addFolder(
-            const std::string & realFolderName, const std::string & relativeFolderName,
+            const std::string& realFolderName, const std::string& relativeFolderName,
             bool preservePath = true, bool recursive = true);
     bool addFolderChilds(
-                const std::string & realFolderName, const std::string & folderNameToAdd,
+                const std::string& realFolderName, const std::string& folderNameToAdd,
                 bool preservePath = true, bool recursive = true);
     bool addFolder_internal(std::shared_ptr<InnerZipFileInfo> info);
 
@@ -450,25 +450,25 @@ private:
      *
      * \return the name of the file name if successfully moved, otherwise an empty string.
      */
-    std::string moveTheCurrentZipToAnTempZip(void);
+    std::string moveTheCurrentZipToAnTempZip();
 
     /*!
      * Copies all files and folders into a new zip, except the files in fileNames.
      *
      * \return true if all is ok, otherwise false.
      */
-    bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(const std::string & tempZipFile,
-                                                                 const std::list<std::string> & fileNames,
+    bool copyAllFilesAndFoldersIntoANewZipFileExceptTheFileNames(const std::string& tempZipFile,
+                                                                 const std::list<std::string>& fileNames,
                                                                  bool areFileNamesFolders);
 
-    bool copyFile(Unzip & unzip, const std::string & fileName);
+    bool copyFile(Unzip& unzip, const std::string& fileName);
 
     /*!
      * Cleans up the temporary files and tries to restore the original zip file.
      *
      * \return true if the cleanup was successful, otherwise false.
      */
-    bool cleanUpAfterCopying(bool ok, const std::string & tempZipFile);
+    bool cleanUpAfterCopying(bool ok, const std::string& tempZipFile);
 
     /*!
      * Restores the old open status, with the zip file was opened.

@@ -29,13 +29,9 @@ zip_fileinfo convertInnerZipFileInfo_to_zipFileInfo(std::shared_ptr<InnerZipFile
 //    return innerZipFileInfo;
 //}
 
-const char* formatPassword(const std::string & password)
+const char* formatPassword(const std::string& password)
 {
-    if(password.empty()){
-        return NULL;
-    }else{
-        return password.c_str();
-    }
+    return password.empty() ? nullptr : password.c_str();
 }
 
 } //cppzip

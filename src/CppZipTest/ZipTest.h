@@ -110,78 +110,78 @@ class ZipTest : public CppUnit::TestFixture {
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    void setUp(void);
-    void tearDown(void);
+    void setUp();
+    void tearDown();
 
 public:
-    void test_isOpenedWithNonOpenedZipFile(void);
+    void test_isOpenedWithNonOpenedZipFile();
 
-    void test_openANonExistingZipFile(void);
-    void test_openAExistingZipFile(void);
-    void test_openAExistingWriteProtectedZipFile(void);
-    void test_openAppendToZip(void);
-    void test_openAppendToZipWithFileAlreadyExisting(void);
+    void test_openANonExistingZipFile();
+    void test_openAExistingZipFile();
+    void test_openAExistingWriteProtectedZipFile();
+    void test_openAppendToZip();
+    void test_openAppendToZipWithFileAlreadyExisting();
 
-    void test_closeAZipFile(void);
-    void test_closeWhenNoZipFileIsOpened(void);
+    void test_closeAZipFile();
+    void test_closeWhenNoZipFileIsOpened();
 
-    void test_addFile(void);
-    void test_addFile_WhenFileNotExists(void);
-    void test_addFile_WhenFileNameAlreadyExists(void);
-    void test_addFile_WithNotPreservePath(void);
-    void test_addFile_WithDestinationFile(void);
-    void test_addFile_WithDestinationFile_WhenFileNotExists(void);
-    void test_addFile_WithDestinationFile_WithFileNameIsEmpty(void);
-    void test_addFile_WithDestinationFile_WhenFileNameAlreadyExists(void);
+    void test_addFile();
+    void test_addFile_WhenFileNotExists();
+    void test_addFile_WhenFileNameAlreadyExists();
+    void test_addFile_WithNotPreservePath();
+    void test_addFile_WithDestinationFile();
+    void test_addFile_WithDestinationFile_WhenFileNotExists();
+    void test_addFile_WithDestinationFile_WithFileNameIsEmpty();
+    void test_addFile_WithDestinationFile_WhenFileNameAlreadyExists();
 
-    void test_addFile_Content(void);
-    void test_addFile_Content_FromAString(void);
-    void test_addFile_Content_WithEmptyContent(void);
-    void test_addFile_Content_WithSubFoldersFileName(void);
-    void test_addFile_Content_IfZipIsNotOpened(void);
+    void test_addFile_Content();
+    void test_addFile_Content_FromAString();
+    void test_addFile_Content_WithEmptyContent();
+    void test_addFile_Content_WithSubFoldersFileName();
+    void test_addFile_Content_IfZipIsNotOpened();
 
-    void test_addFiles(void);
-    void test_addFiles_WithNotPreservePath(void);
-    void test_addFiles_WhenOneFileNotExists(void);
+    void test_addFiles();
+    void test_addFiles_WithNotPreservePath();
+    void test_addFiles_WhenOneFileNotExists();
 
-    void test_addEmptyFolder(void);
-    void test_addEmptyFolder_WithUmlaut(void);
-    void test_addEmptyFolder_WhenFolderAlreadyExists(void);
-    void test_addEmptyFolder_WithSubFolders(void);
-    void test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists(void);
-    void test_addEmptyFolder_WithSubFolders_WindowsStyle(void);
+    void test_addEmptyFolder();
+    void test_addEmptyFolder_WithUmlaut();
+    void test_addEmptyFolder_WhenFolderAlreadyExists();
+    void test_addEmptyFolder_WithSubFolders();
+    void test_addEmptyFolder_WithSubFolders_WhenAFolderPartAlreadyExists();
+    void test_addEmptyFolder_WithSubFolders_WindowsStyle();
 
-    void test_addFolder_recursive(void);
-    void test_addFolder_notRecursive(void);
-    void test_addFolder_notPreservesPath(void);
-    void test_addFolder_notPreservesPath_and_notRecursive(void);
+    void test_addFolder_recursive();
+    void test_addFolder_notRecursive();
+    void test_addFolder_notPreservesPath();
+    void test_addFolder_notPreservesPath_and_notRecursive();
 
-    void test_deleteFile(void);
-    void test_deleteFiles(void);
-    void test_deleteFolder(void);
-    void test_deleteFolders(void);
-    void test_deleteFile_WhenFileNotExists(void);
-    void test_deleteFile_WhenTemparyFileCouldntCreated(void);
-    void test_deleteFile_CheckOtherFileContent(void);
+    void test_deleteFile();
+    void test_deleteFiles();
+    void test_deleteFolder();
+    void test_deleteFolders();
+    void test_deleteFile_WhenFileNotExists();
+    void test_deleteFile_WhenTemparyFileCouldntCreated();
+    void test_deleteFile_CheckOtherFileContent();
 
-    void test_replaceFile(void);
-    void test_replaceFile_WhenFileNotExistsInZip(void);
-    void test_replaceFile_WhenFileNotExistsOnFileSystem(void);
-    void test_replaceFile_Content(void);
+    void test_replaceFile();
+    void test_replaceFile_WhenFileNotExistsInZip();
+    void test_replaceFile_WhenFileNotExistsOnFileSystem();
+    void test_replaceFile_Content();
 
-    void test_addFile_WithPasswordProtection(void);
-    void test_addFile_Content_WithPasswordProtection(void);
-    void test_addFile_Content_FromAString_WithPasswordProtection(void);
+    void test_addFile_WithPasswordProtection();
+    void test_addFile_Content_WithPasswordProtection();
+    void test_addFile_Content_FromAString_WithPasswordProtection();
 
 private:
-    bool containsFile(const std::string & zipFileName, const std::string & fileName);
-    bool containsFolder(const std::string & zipFileName, const std::string & folderName);
-    int numFilesInZip(const std::string & zipFileName);
-    void createFolder(const std::string & fileName);
-    void createFile(const std::string & fileName, const std::string & content);
-    void copyFile(const std::string & src, const std::string & dest);
-    std::vector<unsigned char> getFileContent(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
-    std::string getFileContentAsString(const std::string & zipFile, const std::string & fileName, const std::string & password = "");
+    bool containsFile(const std::string& zipFileName, const std::string& fileName);
+    bool containsFolder(const std::string& zipFileName, const std::string& folderName);
+    int numFilesInZip(const std::string& zipFileName);
+    void createFolder(const std::string& fileName);
+    void createFile(const std::string& fileName, const std::string& content);
+    void copyFile(const std::string& src, const std::string& dest);
+    std::vector<unsigned char> getFileContent(const std::string& zipFile, const std::string& fileName, const std::string& password = "");
+    std::string getFileContentAsString(const std::string& zipFile, const std::string& fileName, const std::string& password = "");
 
 private:
     std::shared_ptr<Zip> zip;

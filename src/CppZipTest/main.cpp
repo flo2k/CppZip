@@ -59,7 +59,7 @@ public:
         std::cout << " : " << resultAsString << " (" << ellapsedMilliSeconds << " ms)" << std::endl;
     }
 
-    virtual void addFailure(const CppUnit::TestFailure & failure) {
+    virtual void addFailure(const CppUnit::TestFailure& failure) {
         wasTestOk = false;
     }
 
@@ -70,7 +70,7 @@ private:
     bool wasTestOk;
 };
 
-int RunAllTests(void) {
+int RunAllTests() {
     // Get the top level suite from the registry
     CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
 
@@ -99,7 +99,7 @@ int RunAllTests(void) {
     return wasSucessful ? 0 : 1;
 }
 
-int RunPerformanceTests(void) {
+int RunPerformanceTests() {
     // Get the top level suite from the registry
 
     CppUnit::TestSuite * suite = new CppUnit::TestSuite();
@@ -136,7 +136,7 @@ int RunPerformanceTests(void) {
     return wasSucessful ? 0 : 1;
 }
 
-int RunSpecificTests(void){
+int RunSpecificTests(){
     // Get the top level suite from the registry
 
     CppUnit::TestSuite * suite = new CppUnit::TestSuite();
@@ -171,7 +171,7 @@ int RunSpecificTests(void){
     return wasSucessful ? 0 : 1;
 }
 
-int main(void) {
+int main() {
     std::cout << "starting tests..." << std::endl;
 
     //change the work directory to the cpp zip test data working path

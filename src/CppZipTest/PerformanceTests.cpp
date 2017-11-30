@@ -16,7 +16,7 @@ namespace cppzip {
 
 CPPUNIT_TEST_SUITE_REGISTRATION(PerformanceTests);
 
-void PerformanceTests::setUp(void) {
+void PerformanceTests::setUp() {
     testZipsFolder = "testZips";
     zipFile = testZipsFolder + "/" + "test.zip";
     zipFileWithMidSizedFiles = testZipsFolder + "/" + "zipWithMidSizedFiles.zip";
@@ -34,14 +34,14 @@ void PerformanceTests::setUp(void) {
     boost::filesystem::remove_all(tempFolder);
 }
 
-void PerformanceTests::tearDown(void)
+void PerformanceTests::tearDown()
 {
     zip->close();
     unzip->close();
     boost::filesystem::remove_all(tempFolder);
 }
 
-void PerformanceTests::testZip_addMidSizedFiles(void) {
+void PerformanceTests::testZip_addMidSizedFiles() {
     bool ok = zip->open(tempFolder + "/" + zipFile);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("open", true, ok);
 
@@ -57,7 +57,7 @@ void PerformanceTests::testZip_addMidSizedFiles(void) {
     CPPUNIT_ASSERT_EQUAL_MESSAGE("close", true, ok);
 }
 
-void PerformanceTests::testZip_replaceMidSizedFiles(void)
+void PerformanceTests::testZip_replaceMidSizedFiles()
 {
     testZip_addMidSizedFiles();
 
@@ -71,7 +71,7 @@ void PerformanceTests::testZip_replaceMidSizedFiles(void)
     CPPUNIT_ASSERT_EQUAL_MESSAGE("close", true, ok);
 }
 
-void PerformanceTests::testZip_deleteMidSizedFile(void) {
+void PerformanceTests::testZip_deleteMidSizedFile() {
     testZip_addMidSizedFiles();
 
     bool ok = zip->open(tempFolder + "/" + zipFile, OpenFlags::OpenExisting);

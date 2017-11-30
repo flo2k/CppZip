@@ -50,7 +50,7 @@ namespace cppzip {
  */
 struct InnerZipFileInfo
 {
-    InnerZipFileInfo(void);
+    InnerZipFileInfo();
 
     std::string fileName;
     std::string extraField;
