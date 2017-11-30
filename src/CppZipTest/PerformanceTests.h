@@ -48,37 +48,37 @@ class Unzip;
 
 class PerformanceTests : public CppUnit::TestFixture {
 
-	CPPUNIT_TEST_SUITE(PerformanceTests);
-		CPPUNIT_TEST(testZip_addMidSizedFiles);
-		CPPUNIT_TEST(testZip_replaceMidSizedFiles);
-		CPPUNIT_TEST(testZip_deleteMidSizedFile);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(PerformanceTests);
+        CPPUNIT_TEST(testZip_addMidSizedFiles);
+        CPPUNIT_TEST(testZip_replaceMidSizedFiles);
+        CPPUNIT_TEST(testZip_deleteMidSizedFile);
+    CPPUNIT_TEST_SUITE_END();
 
 public:
-	void setUp(void);
-	void tearDown(void);
+    void setUp(void);
+    void tearDown(void);
 
 public:
-	void testZip_addMidSizedFiles(void);
-	void testZip_replaceMidSizedFiles(void);
-	void testZip_deleteMidSizedFile(void);
+    void testZip_addMidSizedFiles(void);
+    void testZip_replaceMidSizedFiles(void);
+    void testZip_deleteMidSizedFile(void);
 
 private:
-	std::shared_ptr<Zip> zip;
-	std::shared_ptr<Unzip> unzip;
+    std::shared_ptr<Zip> zip;
+    std::shared_ptr<Unzip> unzip;
 
-	std::string testZipsFolder;
+    std::string testZipsFolder;
 
-	std::string midSizeFile1;
-	std::string midSizeFile2;
-	std::string midSizeFile3;
-	std::string midSizeFile4;
+    std::string midSizeFile1;
+    std::string midSizeFile2;
+    std::string midSizeFile3;
+    std::string midSizeFile4;
 
-	std::string dataFolder;
-	std::string midSizedFilesFolder;
-	std::string tempFolder;
-	std::string zipFile;
-	std::string zipFileWithMidSizedFiles;
+    std::string dataFolder;
+    std::string midSizedFilesFolder;
+    std::string tempFolder;
+    std::string zipFile;
+    std::string zipFileWithMidSizedFiles;
 };
 
 } //cppzip

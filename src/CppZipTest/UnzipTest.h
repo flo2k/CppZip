@@ -48,135 +48,135 @@ class Unzip;
 
 class UnzipTest : public CppUnit::TestFixture {
 
-	CPPUNIT_TEST_SUITE(UnzipTest);
-		CPPUNIT_TEST(test_isOpenedWithNonOpenedZipFile);
+    CPPUNIT_TEST_SUITE(UnzipTest);
+        CPPUNIT_TEST(test_isOpenedWithNonOpenedZipFile);
 
-		CPPUNIT_TEST(test_openExistingZipFile);
-		CPPUNIT_TEST(test_openZipFileWhileAnotherIsAlreadyOpened);
-		CPPUNIT_TEST(test_openANonExistingZipFile);
+        CPPUNIT_TEST(test_openExistingZipFile);
+        CPPUNIT_TEST(test_openZipFileWhileAnotherIsAlreadyOpened);
+        CPPUNIT_TEST(test_openANonExistingZipFile);
 
-		CPPUNIT_TEST(test_closeAZipFile);
-		CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
+        CPPUNIT_TEST(test_closeAZipFile);
+        CPPUNIT_TEST(test_closeWhenNoZipFileIsOpened);
 
-		CPPUNIT_TEST(test_getNumFiles);
-		CPPUNIT_TEST(test_getNumFilesWithNoZipFileIsOpened);
-		CPPUNIT_TEST(test_getNumFilesAfterCloseZipFiled);
+        CPPUNIT_TEST(test_getNumFiles);
+        CPPUNIT_TEST(test_getNumFilesWithNoZipFileIsOpened);
+        CPPUNIT_TEST(test_getNumFilesAfterCloseZipFiled);
 
-		CPPUNIT_TEST(test_containsFile);
-	#ifndef _WIN32 //don't run this on windows, because there are problems with umlauts
-		CPPUNIT_TEST(test_containsFileWithUmlautInFileName);
-	#endif
-		CPPUNIT_TEST(test_containsFileWithANonExistingFile);
-		CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
-		CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
+        CPPUNIT_TEST(test_containsFile);
+    #ifndef _WIN32 //don't run this on windows, because there are problems with umlauts
+        CPPUNIT_TEST(test_containsFileWithUmlautInFileName);
+    #endif
+        CPPUNIT_TEST(test_containsFileWithANonExistingFile);
+        CPPUNIT_TEST(test_containsFileWithNoZipFileIsOpened);
+        CPPUNIT_TEST(test_containsFileAfterCloseZipFiled);
 
-		CPPUNIT_TEST(test_getFileNames);
-		CPPUNIT_TEST(test_getFileNamesWithNoZipFileIsOpened);
-		CPPUNIT_TEST(test_getFileNamesAfterCloseZipFiled);
+        CPPUNIT_TEST(test_getFileNames);
+        CPPUNIT_TEST(test_getFileNamesWithNoZipFileIsOpened);
+        CPPUNIT_TEST(test_getFileNamesAfterCloseZipFiled);
 
-		CPPUNIT_TEST(test_getFileContent);
-		CPPUNIT_TEST(test_getFileContentWithNoZipFileIsOpened);
-		CPPUNIT_TEST(test_getFileContentAfterCloseZipFiled);
-		CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux32bit);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux64bit);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip);
-		CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar);
+        CPPUNIT_TEST(test_getFileContent);
+        CPPUNIT_TEST(test_getFileContentWithNoZipFileIsOpened);
+        CPPUNIT_TEST(test_getFileContentAfterCloseZipFiled);
+        CPPUNIT_TEST(test_getFileContentFromANonExistingFile);
+        CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux32bit);
+        CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_linux64bit);
+        CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip);
+        CPPUNIT_TEST(test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar);
 
-		CPPUNIT_TEST(test_extractFile);
-	#ifndef _WIN32 //don't run this on windows, because there are problems with umlauts
-		CPPUNIT_TEST(test_extractFileWithUmlautInFileName);
-	#endif
-		CPPUNIT_TEST(test_extractFile_AJpg);
-		CPPUNIT_TEST(test_extractFile_WithOverwriteAExistingFile);
-		CPPUNIT_TEST(test_extractFile_WithNotOverwriteAExistingFile);
+        CPPUNIT_TEST(test_extractFile);
+    #ifndef _WIN32 //don't run this on windows, because there are problems with umlauts
+        CPPUNIT_TEST(test_extractFileWithUmlautInFileName);
+    #endif
+        CPPUNIT_TEST(test_extractFile_AJpg);
+        CPPUNIT_TEST(test_extractFile_WithOverwriteAExistingFile);
+        CPPUNIT_TEST(test_extractFile_WithNotOverwriteAExistingFile);
 
-		CPPUNIT_TEST(test_extractAllFilesTo);
-		CPPUNIT_TEST(test_extractAllFilesToWithUmlaut);
-		CPPUNIT_TEST(test_extractAllFiles_WithOverwriteAExistingFile);
-		CPPUNIT_TEST(test_extractAllFiles_WithNotOverwriteAExistingFile);
+        CPPUNIT_TEST(test_extractAllFilesTo);
+        CPPUNIT_TEST(test_extractAllFilesToWithUmlaut);
+        CPPUNIT_TEST(test_extractAllFiles_WithOverwriteAExistingFile);
+        CPPUNIT_TEST(test_extractAllFiles_WithNotOverwriteAExistingFile);
 
-		CPPUNIT_TEST(test_signalFileExtracted);
-		CPPUNIT_TEST(test_signalBeforeFileExtracted);
-		CPPUNIT_TEST(test_signalBeforeFileExtractedWithChangingFileName);
-	CPPUNIT_TEST_SUITE_END();
-
-public:
-	void setUp(void);
-	void tearDown(void);
+        CPPUNIT_TEST(test_signalFileExtracted);
+        CPPUNIT_TEST(test_signalBeforeFileExtracted);
+        CPPUNIT_TEST(test_signalBeforeFileExtractedWithChangingFileName);
+    CPPUNIT_TEST_SUITE_END();
 
 public:
-	void test_isOpenedWithNonOpenedZipFile(void);
+    void setUp(void);
+    void tearDown(void);
 
-	void test_openExistingZipFile(void);
-	void test_openZipFileWhileAnotherIsAlreadyOpened(void);
-	void test_openANonExistingZipFile(void);
+public:
+    void test_isOpenedWithNonOpenedZipFile(void);
 
-	void test_closeAZipFile(void);
-	void test_closeWhenNoZipFileIsOpened(void);
+    void test_openExistingZipFile(void);
+    void test_openZipFileWhileAnotherIsAlreadyOpened(void);
+    void test_openANonExistingZipFile(void);
 
-	void test_getNumFiles(void);
-	void test_getNumFilesWithNoZipFileIsOpened(void);
-	void test_getNumFilesAfterCloseZipFiled(void);
+    void test_closeAZipFile(void);
+    void test_closeWhenNoZipFileIsOpened(void);
 
-	void test_containsFile(void);
-	void test_containsFileWithUmlautInFileName(void);
-	void test_containsFileWithANonExistingFile(void);
-	void test_containsFileWithNoZipFileIsOpened(void);
-	void test_containsFileAfterCloseZipFiled(void);
+    void test_getNumFiles(void);
+    void test_getNumFilesWithNoZipFileIsOpened(void);
+    void test_getNumFilesAfterCloseZipFiled(void);
 
-	void test_getFileNames(void);
-	void test_getFileNamesWithNoZipFileIsOpened(void);
-	void test_getFileNamesAfterCloseZipFiled(void);
+    void test_containsFile(void);
+    void test_containsFileWithUmlautInFileName(void);
+    void test_containsFileWithANonExistingFile(void);
+    void test_containsFileWithNoZipFileIsOpened(void);
+    void test_containsFileAfterCloseZipFiled(void);
 
-	void test_getFileContent(void);
-	void test_getFileContentWithNoZipFileIsOpened(void);
-	void test_getFileContentAfterCloseZipFiled(void);
-	void test_getFileContentFromANonExistingFile(void);
-	void test_getFileContentFromPasswordProtectedZipFile_linux32bit(void);
-	void test_getFileContentFromPasswordProtectedZipFile_linux64bit(void);
-	void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void);
-	void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void);
+    void test_getFileNames(void);
+    void test_getFileNamesWithNoZipFileIsOpened(void);
+    void test_getFileNamesAfterCloseZipFiled(void);
 
-	void test_extractFile(void);
-	void test_extractFileWithUmlautInFileName(void);
-	void test_extractFile_AJpg(void);
-	void test_extractFile_WithOverwriteAExistingFile(void);
-	void test_extractFile_WithNotOverwriteAExistingFile(void);
+    void test_getFileContent(void);
+    void test_getFileContentWithNoZipFileIsOpened(void);
+    void test_getFileContentAfterCloseZipFiled(void);
+    void test_getFileContentFromANonExistingFile(void);
+    void test_getFileContentFromPasswordProtectedZipFile_linux32bit(void);
+    void test_getFileContentFromPasswordProtectedZipFile_linux64bit(void);
+    void test_getFileContentFromPasswordProtectedZipFile_win64bit_7zip(void);
+    void test_getFileContentFromPasswordProtectedZipFile_win64bit_winrar(void);
 
-	void test_extractAllFilesTo(void);
-	void test_extractAllFilesToWithUmlaut(void);
-	void test_extractAllFiles_WithOverwriteAExistingFile(void);
-	void test_extractAllFiles_WithNotOverwriteAExistingFile(void);
+    void test_extractFile(void);
+    void test_extractFileWithUmlautInFileName(void);
+    void test_extractFile_AJpg(void);
+    void test_extractFile_WithOverwriteAExistingFile(void);
+    void test_extractFile_WithNotOverwriteAExistingFile(void);
 
-	void test_signalFileExtracted(void);
-	void test_signalBeforeFileExtracted(void);
-	void test_signalBeforeFileExtractedWithChangingFileName(void);
+    void test_extractAllFilesTo(void);
+    void test_extractAllFilesToWithUmlaut(void);
+    void test_extractAllFiles_WithOverwriteAExistingFile(void);
+    void test_extractAllFiles_WithNotOverwriteAExistingFile(void);
+
+    void test_signalFileExtracted(void);
+    void test_signalBeforeFileExtracted(void);
+    void test_signalBeforeFileExtractedWithChangingFileName(void);
 
 private:
-	void beforeFileExtractedSignalHandler_ChangeFileName(std::string & fileName);
+    void beforeFileExtractedSignalHandler_ChangeFileName(std::string & fileName);
 
 private:
-	std::shared_ptr<Unzip> zip;
+    std::shared_ptr<Unzip> zip;
 
-	std::string testZipsFolder;
-	std::string zipFile;
-	std::string zipFileWithUmlaut;
-	std::string anotherZipFile;
-	std::string notExistingZipFile;
-	std::string passwordProtectedZipFile_linux32bit;
-	std::string passwordProtectedZipFile_linux64bit;
-	std::string passwordProtectedZipFile_win32bit;
-	std::string passwordProtectedZipFile_win64bit_7zip;
-	std::string passwordProtectedZipFile_win64bit_winrar;
-	std::string tempFolder;
-	std::string picsFolder;
-	std::string fileInsideZip;
-	std::string fileInsideZip_ReadMe;
-	std::string fileInsideZipWithUmlaut;
-	std::string fileInsideZipThatDoesNotExist;
-	std::string fileInsideZipJpg;
-	std::string anotherFileName;
+    std::string testZipsFolder;
+    std::string zipFile;
+    std::string zipFileWithUmlaut;
+    std::string anotherZipFile;
+    std::string notExistingZipFile;
+    std::string passwordProtectedZipFile_linux32bit;
+    std::string passwordProtectedZipFile_linux64bit;
+    std::string passwordProtectedZipFile_win32bit;
+    std::string passwordProtectedZipFile_win64bit_7zip;
+    std::string passwordProtectedZipFile_win64bit_winrar;
+    std::string tempFolder;
+    std::string picsFolder;
+    std::string fileInsideZip;
+    std::string fileInsideZip_ReadMe;
+    std::string fileInsideZipWithUmlaut;
+    std::string fileInsideZipThatDoesNotExist;
+    std::string fileInsideZipJpg;
+    std::string anotherFileName;
 };
 
 } //cppzip
