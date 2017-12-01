@@ -31,6 +31,10 @@ environment:
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
+    - cmd: vcpkg cache
+
+cache:
+- C:\tools\vcpkg\installed\
 
 install:
     - vcpkg install zlib
