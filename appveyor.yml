@@ -33,9 +33,9 @@ cache:
 
 install:
     #enable this to rebuild the dependencies with vcpgk
-    #- vcpkg install boost
-    #- vcpkg install zlib
-    #- vcpkg install cppunit
+    - vcpkg install boost
+    - vcpkg install zlib
+    - vcpkg install cppunit
 
 #    #install zlib
 #    - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
@@ -53,25 +53,26 @@ install:
     #install doxygen
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
-before_build:
-    - md build
-    - cmake -H. -Bbuild
-        -DBOOST_INCLUDEDIR=%BOOST_INCLUDE_DIR% -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
-        -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
-        -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
-        -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
-        -DBUILD_TESTS=1
-
-build_script:
-    #build sources
-    - cmake --build build --config Release --
-
-    #build doc
-    #- cmake --build build --config Release --target doc
-
-test_script:
-    - cd build
-    - cmd: set PATH=%PATH%;%VCPKG_BIN%
-
-    #- tree /A /F .
-    - cmd: ctest -V -C Release
+#before_build:
+#    - md build
+#    - cmake -H. -Bbuild
+#        -DBOOST_INCLUDEDIR=%BOOST_INCLUDE_DIR% -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
+#        -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
+#        -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
+#        -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
+#        -DBUILD_TESTS=1
+#
+#build_script:
+#    #build sources
+#    - cmake --build build --config Release --
+#
+#    #build doc
+#    #- cmake --build build --config Release --target doc
+#
+#test_script:
+#    - cd build
+#    - cmd: set PATH=%PATH%;%VCPKG_BIN%
+#
+#    #- tree /A /F .
+#    - cmd: ctest -V -C Release
+#
