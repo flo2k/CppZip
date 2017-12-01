@@ -29,7 +29,7 @@
 
 class TimingListener: public CppUnit::TestListener {
 public:
-    void startTest(CppUnit::Test *test) {
+    void startTest(CppUnit::Test* test) {
         wasTestOk = true;
 
         //Output
@@ -39,9 +39,9 @@ public:
         timer.start();
     }
 
-    void endTest(CppUnit::Test *test) {
-
+    void endTest(CppUnit::Test* test) {
         timer.stop();
+
         boost::timer::cpu_times ellapsed = timer.elapsed();
         double ellapsedMilliSeconds = ellapsed.wall;
         //double ellapsedMilliSeconds = ellapsed.system + ellapsed.user;
@@ -72,7 +72,7 @@ private:
 
 int RunAllTests() {
     // Get the top level suite from the registry
-    CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+    CppUnit::Test* suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
 
     CppUnit::TestResult result;
 
@@ -102,7 +102,7 @@ int RunAllTests() {
 int RunPerformanceTests() {
     // Get the top level suite from the registry
 
-    CppUnit::TestSuite * suite = new CppUnit::TestSuite();
+    CppUnit::TestSuite* suite = new CppUnit::TestSuite();
 
 //    suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
 //    suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("b", &cppzip::PerformanceTests::testZip_replaceMidSizedFiles));
@@ -139,7 +139,7 @@ int RunPerformanceTests() {
 int RunSpecificTests(){
     // Get the top level suite from the registry
 
-    CppUnit::TestSuite * suite = new CppUnit::TestSuite();
+    CppUnit::TestSuite* suite = new CppUnit::TestSuite();
 
     suite->addTest(cppzip::UnzipTest::suite());
     //suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("test_addFiles", &cppzip::ZipTest::test_addFiles));
