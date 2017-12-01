@@ -79,6 +79,7 @@ build_script:
 
 test_script:
     - cd build
+    - cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
     - cmd: set PATH=%PATH%;%VCPKG_BIN%
 
     #- tree /A /F .
