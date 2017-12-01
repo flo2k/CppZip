@@ -7,20 +7,24 @@ image:
 
 # specify custom environment variables
 environment:
-    MSVC_DEFAULT_OPTIONS: ON
-    VCPKG_BIN: C:\tools\vcpkg\installed\x86-windows\bin
-    #BOOST_ROOT: C:\tools\vcpkg\installed\x86-windows
-    BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
-    BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
-    #ZLIB_ROOT: C:\projects\zlib
-    ZLIB_INCLUDE: C:\tools\vcpkg\installed\x86-windows\include
-    ZLIB_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\zlib.lib
-    ZLIB_LIBRARY_DIR: C:\tools\vcpkg\installed\x86-windows\lib\
-    DOXYGEN_ROOT: C:\projects\doxygen
-    DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.13\tools\doxygen.exe
-    #CPPUNIT_ROOT: C:\projects\cppunit
-    CPPUNIT_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
-    CPPUNIT_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\cppunit_dll.lib
+    - MSVC_DEFAULT_OPTIONS: ON
+    - VCPKG_BIN: C:\tools\vcpkg\installed\x86-windows\bin
+    - #BOOST_ROOT: C:\tools\vcpkg\installed\x86-windows
+    - BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+    - BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      MY_TEST: VS2015
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      MY_TEST: VS2017
+    - #ZLIB_ROOT: C:\projects\zlib
+    - ZLIB_INCLUDE: C:\tools\vcpkg\installed\x86-windows\include
+    - ZLIB_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\zlib.lib
+    - ZLIB_LIBRARY_DIR: C:\tools\vcpkg\installed\x86-windows\lib\
+    - DOXYGEN_ROOT: C:\projects\doxygen
+    - DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.13\tools\doxygen.exe
+    - #CPPUNIT_ROOT: C:\projects\cppunit
+    - CPPUNIT_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+    - CPPUNIT_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\cppunit_dll.lib
 
 cache:
     - C:\tools\vcpkg\installed\
@@ -30,6 +34,7 @@ init:
     - cmd: msbuild /version
     - cmd: vcpkg cache
     - cmd: tree /A /F C:\tools\vcpkg\installed #for debug
+    - cmd: echo
 
 install:
     #enable this to rebuild the dependencies with vcpgk
