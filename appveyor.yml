@@ -22,14 +22,14 @@ environment:
     CPPUNIT_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
     CPPUNIT_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\cppunit_dll.lib
 
+cache:
+    - C:\tools\vcpkg\installed\
+
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
     - cmd: vcpkg cache
     - cmd: tree /A /F C:\tools\vcpkg\installed #for debug
-
-cache:
-    - C:\tools\vcpkg\installed\
 
 install:
     #enable this to rebuild the dependencies with vcpgk
