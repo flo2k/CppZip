@@ -18,7 +18,7 @@ REM to use a already compiled zlib set this variables during configure:
 REM	-DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" ^
 REM	-DZLIB_LIBRARY="%ZLIB_LIBRARY%"
 
-REM release build
+REM release build 
 cmake --build build --config Release --
 cmake --build build --config Release --target doc
 
