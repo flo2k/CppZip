@@ -70,18 +70,16 @@ before_build:
         -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
         -DBUILD_TESTS=1
 
-##build_script:
-##    #build sources
-##    - cmake --build build --config Release --
-##
-##    #build doc
-##    #- cmake --build build --config Release --target doc
-##
-##test_script:
-##    - cd build
-##    - cmd: set PATH=%PATH%;%VCPKG_BIN%
-##
-##    #- tree /A /F .
-##    - cmd: ctest -V -C Release
-##
-#
+build_script:
+    #build sources
+    - cmake --build build --config Release --
+
+    #build doc
+    #- cmake --build build --config Release --target doc
+
+test_script:
+    - cd build
+    - cmd: set PATH=%PATH%;%VCPKG_BIN%
+
+    #- tree /A /F .
+    - cmd: ctest -V -C Release
