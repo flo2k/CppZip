@@ -54,7 +54,7 @@ MESSAGE(STATUS "CMAKE_LIBRARY_PATH: " ${CMAKE_LIBRARY_PATH})
 #####################################
 
 #zlib
-#find_package(ZLIB 1.2.8)
+find_package(ZLIB 1.2.8)
 
 if(NOT ZLIB_FOUND)
     MESSAGE(STATUS "Use zlib provided by cppzip, because it is not found on the system.")
