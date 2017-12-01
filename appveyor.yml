@@ -10,6 +10,7 @@ environment:
     MSVC_DEFAULT_OPTIONS: ON
     VCPKG_BIN: C:\tools\vcpkg\installed\x86-windows\bin
     BOOST_ROOT: C:\tools\vcpkg\installed\x86-windows
+    BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
     BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
     #ZLIB_ROOT: C:\projects\zlib
     ZLIB_INCLUDE: C:\tools\vcpkg\installed\x86-windows\include
@@ -24,6 +25,7 @@ environment:
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
+    - cmd: vcpkg cache
 
 cache:
     - C:\tools\vcpkg\installed\
@@ -53,7 +55,7 @@ install:
 before_build:
     - md build
     - cmake -H. -Bbuild
-        -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
+        -DBOOST_INCLUDEDIR=%BOOST_INCLUDE_DIR% -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
         -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
