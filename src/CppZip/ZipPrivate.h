@@ -79,7 +79,7 @@ namespace cppzip{
          , numFiles(0)
         {}
 
-        typedef void * voidp;
+        typedef void* voidp;
         typedef voidp unzFile;
 
         unzFile zipfile_handle;
@@ -100,7 +100,7 @@ namespace cppzip{
             , compressionLevel(Z_DEFAULT_COMPRESSION)
         {}
 
-        typedef void * voidp;
+        typedef void* voidp;
         typedef voidp zipFile;
         std::string zipFileName;
         std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo>> fileInfos;
