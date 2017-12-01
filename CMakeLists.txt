@@ -24,6 +24,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 
 if(MSVC)
     add_definitions(/DBOOST_ALL_DYN_LINK)
+    add_definitions(/DBOOST_LIB_DIAGNOSTIC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif(MSVC)
 
