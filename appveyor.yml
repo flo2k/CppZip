@@ -33,9 +33,9 @@ cache:
 
 install:
     #enable this to rebuild the dependencies with vcpgk
-    - vcpkg install boost
+    #- vcpkg install boost
     - vcpkg install zlib
-    - vcpkg install cppunit
+    #- vcpkg install cppunit
 
 #    #install zlib
 #    - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
