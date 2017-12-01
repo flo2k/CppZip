@@ -25,12 +25,14 @@ init:
     - cmd: cmake --version
     - cmd: msbuild /version
 
-cache: c:\tools\vcpkg\installed\
+cache:
+    - C:\tools\vcpkg\installed\
 
 install:
-    - vcpkg install boost
-    - vcpkg install zlib
-    - vcpkg install cppunit
+    #enable this to rebuild the dependencies with vcpgk
+    #- vcpkg install boost
+    #- vcpkg install zlib
+    #- vcpkg install cppunit
 
 #    #install zlib
 #    - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
