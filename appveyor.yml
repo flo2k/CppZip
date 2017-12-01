@@ -34,7 +34,7 @@ init:
     - cmd: vcpkg cache
 
 cache:
-- C:\tools\vcpkg\installed\
+    - C:\tools\vcpkg\installed\
 
 install:
     - vcpkg install zlib
