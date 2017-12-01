@@ -10,7 +10,7 @@ environment:
     MSVC_DEFAULT_OPTIONS: ON
     VCPKG_BIN: C:\tools\vcpkg\installed\x86-windows\bin
     BOOST_ROOT: C:\tools\vcpkg\installed\x86-windows
-    BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+    BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include\boost
     BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
     #ZLIB_ROOT: C:\projects\zlib
     ZLIB_INCLUDE: C:\tools\vcpkg\installed\x86-windows\include
