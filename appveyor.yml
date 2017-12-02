@@ -43,7 +43,7 @@ cache:
 install:
     - vcpkg install zlib
     - vcpkg install cppunit
-    #- vcpkg install boost #This is also possible, but way to slow. Instead we use the preinstalled boost.
+    #- vcpkg install boost
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
 before_build:
