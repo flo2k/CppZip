@@ -18,7 +18,7 @@ It's implementation focus is
 
 ### There are two classes in the library:
 
-_Zip_ compresses and zips files and folders.
+[_Zip_](src/CppZip/Zip.h) compresses and zips files and folders.
  - Adding files from memory
  - Adding files from file system
  - Adding complete (and recursive) folders from file system
