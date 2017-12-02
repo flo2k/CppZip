@@ -54,6 +54,9 @@ Compiles with cmake into the directory "build":
     #build
     cmake --build build -- -j
 
+    #build doc
+    cmake --build build -- doc
+
 #### Compile on Windows
     #create build dir
     mkdir build
@@ -67,6 +70,9 @@ Compiles with cmake into the directory "build":
 
     #build
     cmake --build build --config Release --
+
+    #build doc
+    cmake --build build --config Release --target doc
 
 ### License:
 
