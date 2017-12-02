@@ -26,7 +26,7 @@ It's implementation focus is
  - Replace files
  - Supports Passwords
 
-_Unzip_ uncompresses and unzips zip files.
+[_Unzip_](src/CppZip/Zip.h) uncompresses and unzips zip files.
  - Inspect files inside a zip (e.g. file list)
  - Extract to file system
  - Extract to memory
