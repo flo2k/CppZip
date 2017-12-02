@@ -21,12 +21,16 @@ environment:
 
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-          BOOST_ROOT: C:\Libraries\boost_1_63_0
-          BOOST_LIBRARYDIR: C:\Libraries\boost_1_63_0\lib32-msvc-14.0
+          #BOOST_ROOT: C:\Libraries\boost_1_63_0
+          #BOOST_LIBRARYDIR: C:\Libraries\boost_1_63_0\lib32-msvc-14.0
+          BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+          BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
 
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          BOOST_ROOT: C:\Libraries\boost_1_65_1
-          BOOST_LIBRARYDIR: C:\Libraries\boost_1_65_1\lib32-msvc-14.1
+          #BOOST_ROOT: C:\Libraries\boost_1_65_1
+          #BOOST_LIBRARYDIR: C:\Libraries\boost_1_65_1\lib32-msvc-14.1
+          BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+          BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
 
 init:
     - cmd: cmake --version
@@ -59,7 +63,7 @@ build_script:
     #- cmake --build build --config Release --target doc
 
 test_script:
-    - cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
+    #- cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
     - cmd: set PATH=%PATH%;%VCPKG_BIN%
 
     - cmd: cd build
