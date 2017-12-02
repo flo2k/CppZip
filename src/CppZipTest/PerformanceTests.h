@@ -1,6 +1,6 @@
 /*!
  * ZipTest.h -- Tests Zip.h from CppZip
- * Version 1.0.1.3, 29.11.2017
+ * Version 1.0.1.3, 02.12.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 12.12.2012, Florian Künzner

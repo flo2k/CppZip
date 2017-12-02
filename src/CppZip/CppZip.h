@@ -26,7 +26,7 @@
  *
  * \author Florian Künzner
  * \version 1.0.1.3 release state
- * \date 29.11.2017
+ * \date 02.12.2017
  *
  * \note At the moment there are problems with special chars (ä, ö, ü, ß, ...):
  * When zipping and unzipping files with special chars inside zip files then

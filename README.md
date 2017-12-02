@@ -39,7 +39,7 @@ _Florian Künzner_
 1.0.1.3 release state
 
 ### Date:
-29.11.2017
+02.12.2017
 
 ### Compilation:
 Compiles with cmake into the directory "build":
@@ -71,7 +71,7 @@ Compiles with cmake into the directory "build":
 ### License:
 
 CppZip -- IO on .zip files using minizip and zlib
-Version 1.0.1.3, 29.11.2017
+Version 1.0.1.3, 02.12.2017
 CppZip project - (https://github.com/flo2k/CppZip)
 
 Copyright (C) 2011      Florian Künzner (CppZip)
