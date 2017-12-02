@@ -63,7 +63,7 @@ build_script:
     #- cmake --build build --config Release --target doc
 
 test_script:
-    #- cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
+    - cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
     - cmd: set PATH=%PATH%;%VCPKG_BIN%
 
     - cmd: cd build
