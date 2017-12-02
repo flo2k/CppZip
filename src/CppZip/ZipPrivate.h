@@ -1,6 +1,6 @@
 /*
  * ZipPrivate.h -- IO on .zip files using minizip and zlib
- * Version 1.0.0.2, 22.01.2017
+ * Version 1.0.1.3, 02.12.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 12.12.2012, Florian Künzner
@@ -44,72 +44,72 @@
 
 namespace cppzip{
 
-	/*!
-	 * \brief  Converts a InnerZipFileInfo to a zip_fileinfo.
-	 *
-	 * \param  innerZipFileInfo is the element to convert.
-	 *
-	 * \return the zip_fileinfo.
-	 */
-	zip_fileinfo convertInnerZipFileInfo_to_zipFileInfo(
-			std::shared_ptr<InnerZipFileInfo> innerZipFileInfo);
+    /*!
+     * \brief  Converts a InnerZipFileInfo to a zip_fileinfo.
+     *
+     * \param  innerZipFileInfo is the element to convert.
+     *
+     * \return the zip_fileinfo.
+     */
+    zip_fileinfo convertInnerZipFileInfo_to_zipFileInfo(
+            std::shared_ptr<InnerZipFileInfo> innerZipFileInfo);
 
-	/*!
-	 * \brief  Converts a zip_fileinfo to a zip_fileinfo.
-	 *
-	 * \param  zipInfo is the element to convert.
-	 *
-	 * \return the InnerZipFileInfo.
-	 */
-	std::shared_ptr<InnerZipFileInfo> convertInnerZipFileInfo_to_zipFileInfo(
-			zip_fileinfo zipInfo);
+    /*!
+     * \brief  Converts a zip_fileinfo to a zip_fileinfo.
+     *
+     * \param  zipInfo is the element to convert.
+     *
+     * \return the InnerZipFileInfo.
+     */
+    std::shared_ptr<InnerZipFileInfo> convertInnerZipFileInfo_to_zipFileInfo(
+            zip_fileinfo zipInfo);
 
-	/*!
-	 * \brief Formats the password for the use with the minizip api.
-	 *
-	 * \param password is the password that shall be formatted.
-	 */
-	const char* formatPassword(const std::string & password);
+    /*!
+     * \brief Formats the password for the use with the minizip api.
+     *
+     * \param password is the password that shall be formatted.
+     */
+    const char* formatPassword(const std::string& password);
 
-	class UnzipPrivate
-	{
-	public:
-		UnzipPrivate()
-		: zipfile_handle(NULL)
-	 	, numFiles(0)
-		{}
+    class UnzipPrivate
+    {
+    public:
+        UnzipPrivate()
+        : zipfile_handle(NULL)
+         , numFiles(0)
+        {}
 
-		typedef void * voidp;
-		typedef voidp unzFile;
+        typedef void* voidp;
+        typedef voidp unzFile;
 
-		unzFile zipfile_handle;
-		int numFiles;
+        unzFile zipfile_handle;
+        int numFiles;
 
-		typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
-		std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+        typedef std::pair<std::string, InnerZipFileInfo> FileInfoPair;
+        std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo>> fileInfos;
 
-		std::string password;
-	};
+        std::string password;
+    };
 
-	class ZipPrivate
-	{
-	public:
-		ZipPrivate()
-			: zipfile_handle(NULL)
-		    , openFlag(OpenFlags::CreateAndOverwrite)
-	        , compressionLevel(Z_DEFAULT_COMPRESSION)
-		{}
+    class ZipPrivate
+    {
+    public:
+        ZipPrivate()
+            : zipfile_handle(NULL)
+            , openFlag(OpenFlags::CreateAndOverwrite)
+            , compressionLevel(Z_DEFAULT_COMPRESSION)
+        {}
 
-		typedef void * voidp;
-		typedef voidp zipFile;
-		std::string zipFileName;
-		std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo> > fileInfos;
+        typedef void* voidp;
+        typedef voidp zipFile;
+        std::string zipFileName;
+        std::unordered_map<std::string, std::shared_ptr<InnerZipFileInfo>> fileInfos;
 
-		zipFile zipfile_handle;
-		OpenFlags::Flags openFlag;
-		int compressionLevel;
-		std::string password;
-	};
+        zipFile zipfile_handle;
+        OpenFlags::Flags openFlag;
+        int compressionLevel;
+        std::string password;
+    };
 
 } //cppzip
 

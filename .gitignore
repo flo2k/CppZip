@@ -2,4 +2,5 @@
 build/
 .kdev4
 CppZip.kdev4
+CMakeLists.txt.user
 *~

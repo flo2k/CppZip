@@ -10,6 +10,7 @@ mkdir build
 # for options details see: http://stackoverflow.com/questions/31090821/what-does-the-h-option-means-for-cmake
 # -H set source dir
 # -B set binary dir
+#cmake -H. -Bbuild -DBUILD_TESTS=1 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
 cmake -H. -Bbuild -DBUILD_TESTS=1
 
 ##start build

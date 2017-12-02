@@ -1,48 +1,55 @@
 version: '{build}'
 
 # Build worker image (VM template)
-os: Visual Studio 2015
+#image:
+#    - Visual Studio 2015
+#    - Visual Studio 2017
 
 # specify custom environment variables
 environment:
     MSVC_DEFAULT_OPTIONS: ON
-    BOOST_ROOT: C:\Libraries\boost_1_62_0
-    BOOST_LIBRARYDIR: C:\Libraries\boost_1_62_0\lib32-msvc-14.0
-    ZLIB_ROOT: C:\projects\zlib
-    ZLIB_INCLUDE: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\build\native\include
-    ZLIB_LIBRARY: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release\zlib.lib
-    ZLIB_LIBRARY_DIR: C:\projects\zlib\zlib.v140.windesktop.msvcstl.dyn.rt-dyn.1.2.8.8\lib\native\v140\windesktop\msvcstl\dyn\rt-dyn\Win32\Release
+    VCPKG_BIN: C:\tools\vcpkg\installed\x86-windows\bin
+
+    ZLIB_INCLUDE: C:\tools\vcpkg\installed\x86-windows\include
+    ZLIB_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\zlib.lib
+
     DOXYGEN_ROOT: C:\projects\doxygen
-    DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.9.2\tools\doxygen.exe
-    CPPUNIT_ROOT: C:\projects\cppunit
-    CPPUNIT_INCLUDE_DIR: C:\projects\cppunit\cppunit-1.13.2\include
-    CPPUNIT_LIBRARY: C:\projects\cppunit\cppunit-1.13.2\lib\cppunit.lib
+    DOXYGEN_EXE: C:\projects\doxygen\Doxygen.1.8.13\tools\doxygen.exe
+
+    CPPUNIT_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+    CPPUNIT_LIBRARY: C:\tools\vcpkg\installed\x86-windows\lib\cppunit_dll.lib
+
+    matrix:
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+          BOOST_ROOT: C:\Libraries\boost_1_63_0
+          BOOST_LIBRARYDIR: C:\Libraries\boost_1_63_0\lib32-msvc-14.0
+          #BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+          #BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
+
+        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+          BOOST_ROOT: C:\Libraries\boost_1_65_1
+          BOOST_LIBRARYDIR: C:\Libraries\boost_1_65_1\lib32-msvc-14.1
+          #BOOST_INCLUDE_DIR: C:\tools\vcpkg\installed\x86-windows\include
+          #BOOST_LIBRARYDIR: C:\tools\vcpkg\installed\x86-windows\lib
 
 init:
     - cmd: cmake --version
     - cmd: msbuild /version
+    - cmd: vcpkg cache
+
+cache:
+    - C:\tools\vcpkg\installed\
 
 install:
-    #install zlib
-    - nuget install zlib -outputdirectory "%ZLIB_ROOT%"
-    #- tree /A /F "%ZLIB_ROOT%" #for debug
-
-    #install cppunit
-    #- nuget install cppunit -outputdirectory "%CPPUNIT_ROOT%" #there is no VS2015 version
-    - md %CPPUNIT_ROOT%
-    - curl -o %CPPUNIT_ROOT%\cppunit.tar.gz http://dev-www.libreoffice.org/src/cppunit-1.13.2.tar.gz
-    - 7z x %CPPUNIT_ROOT%\cppunit.tar.gz -so | 7z x -si -ttar -o%CPPUNIT_ROOT%
-    #- cmd: set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
-    - cmd: '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\devenv.exe" /upgrade %CPPUNIT_ROOT%\cppunit-1.13.2\src\CppUnitLibraries2010.sln'
-    - msbuild %CPPUNIT_ROOT%\cppunit-1.13.2\src\CppUnitLibraries2010.sln /m /p:Configuration=Release /target:cppunit
-
-    #install doxygen
+    - vcpkg install zlib
+    - vcpkg install cppunit
+    #- vcpkg install boost
     - nuget install Doxygen -outputdirectory "%DOXYGEN_ROOT%"
 
 before_build:
     - md build
     - cmake -H. -Bbuild
-        -DBOOST_ROOT="%BOOST_ROOT%" -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
+        -DBOOST_ROOT=%BOOST_ROOT% -DBOOST_LIBRARYDIR="%BOOST_LIBRARYDIR%"
         -DDOXYGEN_EXECUTABLE="%DOXYGEN_EXE%"
         -DZLIB_INCLUDE_DIR="%ZLIB_INCLUDE%" -DZLIB_LIBRARY="%ZLIB_LIBRARY%"
         -DCPPUNIT_INCLUDE_DIR="%CPPUNIT_INCLUDE_DIR%" -DCPPUNIT_LIBRARY_RELEASE="%CPPUNIT_LIBRARY%"
@@ -56,9 +63,9 @@ build_script:
     #- cmake --build build --config Release --target doc
 
 test_script:
-    - cd build
     - cmd: set PATH=%PATH%;%BOOST_LIBRARYDIR%
-    - cmd: set PATH=%PATH%;%ZLIB_LIBRARY_DIR%
+    - cmd: set PATH=%PATH%;%VCPKG_BIN%
 
+    - cmd: cd build
     #- tree /A /F .
     - cmd: ctest -V -C Release

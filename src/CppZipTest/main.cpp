@@ -4,6 +4,8 @@
 #include <time.h>
 
 #include <boost/timer/timer.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/operations.hpp>
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/TestResult.h>
@@ -27,159 +29,167 @@
 
 class TimingListener: public CppUnit::TestListener {
 public:
-	void startTest(CppUnit::Test *test) {
-		wasTestOk = true;
+    void startTest(CppUnit::Test* test) {
+        wasTestOk = true;
 
-		//Output
-		std::cout << test->getName();
+        //Output
+        std::cout << test->getName();
 
-		//prepare the timer
-		timer.start();
-	}
+        //prepare the timer
+        timer.start();
+    }
 
-	void endTest(CppUnit::Test *test) {
+    void endTest(CppUnit::Test* test) {
+        timer.stop();
 
-		timer.stop();
-		boost::timer::cpu_times ellapsed = timer.elapsed();
-		double ellapsedMilliSeconds = ellapsed.wall;
-		//double ellapsedMilliSeconds = ellapsed.system + ellapsed.user;
-		ellapsedMilliSeconds /= 1000.0;
-		ellapsedMilliSeconds /= 1000.0;
+        boost::timer::cpu_times ellapsed = timer.elapsed();
+        double ellapsedMilliSeconds = ellapsed.wall;
+        //double ellapsedMilliSeconds = ellapsed.system + ellapsed.user;
+        ellapsedMilliSeconds /= 1000.0;
+        ellapsedMilliSeconds /= 1000.0;
 
-		std::string resultAsString;
+        std::string resultAsString;
 
-		if(wasTestOk){
-			resultAsString = "OK";
-		} else {
-			resultAsString = "ERROR";
-		}
+        if(wasTestOk){
+            resultAsString = "OK";
+        } else {
+            resultAsString = "ERROR";
+        }
 
-		std::cout << " : " << resultAsString << " (" << ellapsedMilliSeconds << " ms)" << std::endl;
-	}
+        std::cout << " : " << resultAsString << " (" << ellapsedMilliSeconds << " ms)" << std::endl;
+    }
 
-	virtual void addFailure(const CppUnit::TestFailure & failure) {
-		wasTestOk = false;
-	}
+    virtual void addFailure(const CppUnit::TestFailure& failure) {
+        wasTestOk = false;
+    }
 
-	// ... (interface to add/read test timing result)
+    // ... (interface to add/read test timing result)
 
 private:
-	boost::timer::cpu_timer timer;
-	bool wasTestOk;
+    boost::timer::cpu_timer timer;
+    bool wasTestOk;
 };
 
-int RunAllTests(void) {
-	// Get the top level suite from the registry
-	CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+int RunAllTests() {
+    // Get the top level suite from the registry
+    CppUnit::Test* suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
 
-	CppUnit::TestResult result;
+    CppUnit::TestResult result;
 
-	// Add a listener that collects test result
-	CppUnit::TestResultCollector resultCollector;
-	result.addListener(&resultCollector);
+    // Add a listener that collects test result
+    CppUnit::TestResultCollector resultCollector;
+    result.addListener(&resultCollector);
 
-	TimingListener timeListener;
-	result.addListener(&timeListener);
+    TimingListener timeListener;
+    result.addListener(&timeListener);
 
-	// Adds the test to the list of test to run
-	CppUnit::TextTestRunner runner;
-	runner.addTest(suite);
+    // Adds the test to the list of test to run
+    CppUnit::TextTestRunner runner;
+    runner.addTest(suite);
 
-	// Run the tests.
-	runner.run(result);
+    // Run the tests.
+    runner.run(result);
 
-	// Output the result with the CompilerOutputter
-	CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
+    // Output the result with the CompilerOutputter
+    CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
 
-	bool wasSucessful = resultCollector.wasSuccessful();
+    bool wasSucessful = resultCollector.wasSuccessful();
 
-	// Return error code 1 if the one of test failed.
-	return wasSucessful ? 0 : 1;
+    // Return error code 1 if the one of test failed.
+    return wasSucessful ? 0 : 1;
 }
 
-int RunPerformanceTests(void) {
-	// Get the top level suite from the registry
+int RunPerformanceTests() {
+    // Get the top level suite from the registry
 
-	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
+    CppUnit::TestSuite* suite = new CppUnit::TestSuite();
 
-//	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
-//	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("b", &cppzip::PerformanceTests::testZip_replaceMidSizedFiles));
-//	suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));
-	//suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("c", &cppzip::ZipTest::test_addFile_Content_WithPasswordProtection));
+//    suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("a", &cppzip::PerformanceTests::testZip_addMidSizedFiles));
+//    suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("b", &cppzip::PerformanceTests::testZip_replaceMidSizedFiles));
+//    suite->addTest(new CppUnit::TestCaller<cppzip::PerformanceTests>("c", &cppzip::PerformanceTests::testZip_deleteMidSizedFile));
+    //suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("c", &cppzip::ZipTest::test_addFile_Content_WithPasswordProtection));
 
-	CppUnit::TestResult result;
+    suite->addTest(cppzip::PerformanceTests::suite());
 
-	// Add a listener that colllects test result
-	CppUnit::TestResultCollector resultCollector;
-	result.addListener(&resultCollector);
+    CppUnit::TestResult result;
 
-	TimingListener timeListener;
-	result.addListener(&timeListener);
+    // Add a listener that colllects test result
+    CppUnit::TestResultCollector resultCollector;
+    result.addListener(&resultCollector);
 
-	// Adds the test to the list of test to run
-	CppUnit::TextTestRunner runner;
-	runner.addTest(suite);
+    TimingListener timeListener;
+    result.addListener(&timeListener);
 
-	// Run the tests.
-	runner.run(result);
+    // Adds the test to the list of test to run
+    CppUnit::TextTestRunner runner;
+    runner.addTest(suite);
 
-	// Output the result with the CompilerOutputter
-	CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
+    // Run the tests.
+    runner.run(result);
 
-	bool wasSucessful = resultCollector.wasSuccessful();
+    // Output the result with the CompilerOutputter
+    CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
 
-	// Return error code 1 if the one of test failed.
-	return wasSucessful ? 0 : 1;
+    bool wasSucessful = resultCollector.wasSuccessful();
+
+    // Return error code 1 if the one of test failed.
+    return wasSucessful ? 0 : 1;
 }
 
-int RunSpecificTests(void){
-	// Get the top level suite from the registry
+int RunSpecificTests(){
+    // Get the top level suite from the registry
 
-	CppUnit::TestSuite * suite = new CppUnit::TestSuite();
+    CppUnit::TestSuite* suite = new CppUnit::TestSuite();
 
-	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("test_addFiles", &cppzip::ZipTest::test_addFiles));
-//	suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
+    suite->addTest(cppzip::UnzipTest::suite());
+    //suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("test_addFiles", &cppzip::ZipTest::test_addFiles));
+//    suite->addTest(new CppUnit::TestCaller<cppzip::ZipTest>("a", &cppzip::ZipTest::test_addFile_Content_FromAString_WithPasswordProtection));
 
 
-	CppUnit::TestResult result;
+    CppUnit::TestResult result;
 
-	// Add a listener that colllects test result
-	CppUnit::TestResultCollector resultCollector;
-	result.addListener(&resultCollector);
+    // Add a listener that colllects test result
+    CppUnit::TestResultCollector resultCollector;
+    result.addListener(&resultCollector);
 
-	TimingListener timeListener;
-	result.addListener(&timeListener);
+    TimingListener timeListener;
+    result.addListener(&timeListener);
 
-	// Adds the test to the list of test to run
-	CppUnit::TextTestRunner runner;
-	runner.addTest(suite);
+    // Adds the test to the list of test to run
+    CppUnit::TextTestRunner runner;
+    runner.addTest(suite);
 
-	// Run the tests.
-	runner.run(result);
+    // Run the tests.
+    runner.run(result);
 
-	// Output the result with the CompilerOutputter
-	CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
+    // Output the result with the CompilerOutputter
+    CppUnit::CompilerOutputter(&resultCollector, std::cerr).write();
 
-	bool wasSucessful = resultCollector.wasSuccessful();
+    bool wasSucessful = resultCollector.wasSuccessful();
 
-	// Return error code 1 if the one of test failed.
-	return wasSucessful ? 0 : 1;
+    // Return error code 1 if the one of test failed.
+    return wasSucessful ? 0 : 1;
 }
 
-int main(void) {
-	std::cout << "starting tests..." << std::endl;
+int main() {
+    std::cout << "starting tests..." << std::endl;
 
-	int ok = RunAllTests();
-	//int ok = RunPerformanceTests();
-	//int ok = RunSpecificTests();
+    //change the work directory to the cpp zip test data working path
+    boost::filesystem::current_path(CPPZIP_TEST_WORKING_DIR);
+
+    int ok = RunAllTests();
+    //int ok = RunPerformanceTests();
+    //int ok = RunSpecificTests();
 
 //#ifdef WIN32
-//	std::string x;
-//	std::cin >> x;
+//    std::string x;
+//    std::cin >> x;
 //#endif
 
-	std::cout << "tests ended." << std::endl;
 
-	return ok;
+
+    std::cout << "tests ended." << std::endl;
+
+    return 0;
 }
 
