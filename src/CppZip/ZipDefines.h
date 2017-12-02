@@ -2,7 +2,7 @@
  * \file ZipDefines.h
  *
  * Zip.h -- IO on .zip files using minizip and zlib
- * Version 1.0.0.2, 22.01.2017
+ * Version 1.0.1.3, 02.12.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 02.01.2017, Florian Künzner
@@ -40,13 +40,14 @@
 
 namespace cppzip {
 
+/*! \brief Open flags */
 class CPPZIP_SHARED_EXPORT OpenFlags {
 public:
-	/*! \brief Open flags */
-	enum Flags {
-		CreateAndOverwrite	//!< \brief Creates an new zip file, if exists overwrites.
-	   ,OpenExisting		//!< \brief Opens an existing zip file
-	};
+    /*! \brief Open flags */
+    enum Flags {
+        CreateAndOverwrite    //!< \brief Creates an new zip file, if exists overwrites.
+       ,OpenExisting        //!< \brief Opens an existing zip file
+    };
 };
 
 } //cppzip

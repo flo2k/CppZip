@@ -37,6 +37,8 @@ target_link_libraries(cppziptest
 )
 
 #Resources for executing the tests
+#add dir for testdata as a define
+add_definitions(-DCPPZIP_TEST_WORKING_DIR="${CPPZIP_TEST_WORKING_DIR}")
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/data DESTINATION ${CPPZIP_TEST_WORKING_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/testZips DESTINATION ${CPPZIP_TEST_WORKING_DIR})

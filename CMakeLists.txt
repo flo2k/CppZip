@@ -6,9 +6,10 @@ cmake_minimum_required(VERSION 2.8)
 project(CppZip)
 
 #Version informations
-set (CPPZIP_VERSION_MAJOR 0)
-set (CPPZIP_VERSION_MINOR 3)
-set (CPPZIP_VERSION_PATCH 1)
+set (CPPZIP_VERSION_MAJOR 1)
+set (CPPZIP_VERSION_MINOR 0)
+set (CPPZIP_VERSION_PATCH 2)
+set (CPPZIP_VERSION_BUILD 3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 set(LIB_DIR lib${LIB_SUFFIX})
@@ -23,6 +24,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 
 if(MSVC)
     add_definitions(/DBOOST_ALL_DYN_LINK)
+    add_definitions(/DBOOST_LIB_DIAGNOSTIC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif(MSVC)
 
@@ -83,20 +85,20 @@ add_subdirectory(src/CppZip)
 #####################################
 
 if(BUILD_TESTS)
-	#Boost
-	find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
+    #Boost
+    find_package(Boost 1.53.0 COMPONENTS system filesystem signals timer)
 
     MESSAGE(STATUS "CPPUNIT_INCLUDE_DIR: " ${CPPUNIT_INCLUDE_DIR})
     MESSAGE(STATUS "CPPUNIT_LIBRARY: " ${CPPUNIT_LIBRARY})
 
-	#CppUnit
-	find_package(CppUnit REQUIRED)
+    #CppUnit
+    find_package(CppUnit REQUIRED)
 
-	enable_testing()
-	option(BUILD_TESTS "Build unit tests" ON)
+    enable_testing()
+    option(BUILD_TESTS "Build unit tests" ON)
 
-	#CppZipTest
-	add_subdirectory(src/CppZipTest)
+    #CppZipTest
+    add_subdirectory(src/CppZipTest)
 endif()
 #####################################
 # Installing files: output
