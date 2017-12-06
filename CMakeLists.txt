@@ -64,6 +64,8 @@ if(NOT ZLIB_FOUND)
     set(ZLIB_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/external/zlib)
     set(ZLIB_LIBRARY zlib)
     find_package(ZLIB 1.2.8 REQUIRED)
+
+    set(USE_BUILD_IN_ZLIB 1)
 endif()
 
 #minizip: currently, minizip sources are included in CppZip lib directly
