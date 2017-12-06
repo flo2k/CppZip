@@ -1,5 +1,14 @@
 # CppZip release notes
 
+## Version 1.0.1.4, 06.12.2017
+
+Bugfix release
+
+### Bugfixes:
+- Only add the internal zlib headers if the build-in zlib was build. This is to prevent compile
+  errors while using a different zlib version as the build-in one.
+
+
 ## Version 1.0.1.3, 02.12.2017
 
 Service release

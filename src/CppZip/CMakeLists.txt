@@ -13,8 +13,13 @@ include_directories(
     ${Boost_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
     ../external
-    ${CMAKE_BINARY_DIR}/src/external/zlib #if build in zlib was build
+
 )
+
+if(USE_BUILD_IN_ZLIB)
+    #only add the internal zlib headers if the build-in zlib was build
+    include_directories(${CMAKE_BINARY_DIR}/src/external/zlib)
+endif()
 
 MESSAGE(STATUS "cppzip lib: ZLIB_INCLUDE_DIRS: " ${ZLIB_INCLUDE_DIRS})
 
