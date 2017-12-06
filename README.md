@@ -36,10 +36,10 @@ It's implementation focus is
 _Florian Künzner_
 
 ### Version:
-1.0.1.3 release state
+1.0.1.4 release state
 
 ### Date:
-02.12.2017
+06.12.2017
 
 ### Compilation:
 Compiles with cmake into the directory "build":

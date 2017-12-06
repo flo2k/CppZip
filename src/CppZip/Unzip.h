@@ -2,7 +2,7 @@
  * \file Unzip.h
  *
  * Unzip.h -- IO on .zip files using minizip and zlib
- * Version 1.0.1.3, 02.12.2017
+ * Version 1.0.1.4, 06.12.2017
  * part of the CppZip project - (https://github.com/flo2k/CppZip)
  *
  * Created: 05.11.2011, Florian Künzner
